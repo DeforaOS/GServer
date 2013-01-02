@@ -3,6 +3,7 @@ TARGETS	= ../data/GServer.h GServer
 PREFIX	= /usr/local
 DESTDIR	=
 BINDIR	= $(PREFIX)/bin
+SBINDIR	= $(PREFIX)/sbin
 CC	?= cc
 CPPFLAGSF= -I ../include
 CPPFLAGS= -I $(PREFIX)/include
@@ -22,7 +23,7 @@ subdirs:
 	@for i in $(SUBDIRS); do (cd $$i && $(MAKE)) || exit; done
 
 ../data/GServer.h: ../data/GServer.interface
-	./appbroker.sh -P "$(PREFIX)" -- "../data/GServer.h"
+	../data/appbroker.sh -P "$(PREFIX)" -- "../data/GServer.h"
 
 GServer_OBJS = gserver.o main.o
 GServer_CFLAGS = $(CPPFLAGSF) $(CPPFLAGS) $(CFLAGSF) $(CFLAGS) `pkg-config --cflags gl`

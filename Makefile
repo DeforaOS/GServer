@@ -23,6 +23,7 @@ dist:
 	@$(TAR) $(PACKAGE)-$(VERSION).tar.gz -- \
 		$(PACKAGE)-$(VERSION)/data/Makefile \
 		$(PACKAGE)-$(VERSION)/data/GServer.interface \
+		$(PACKAGE)-$(VERSION)/data/appbroker.sh \
 		$(PACKAGE)-$(VERSION)/data/project.conf \
 		$(PACKAGE)-$(VERSION)/include/GServer.h \
 		$(PACKAGE)-$(VERSION)/include/Makefile \
@@ -34,7 +35,6 @@ dist:
 		$(PACKAGE)-$(VERSION)/src/gserver.c \
 		$(PACKAGE)-$(VERSION)/src/main.c \
 		$(PACKAGE)-$(VERSION)/src/Makefile \
-		$(PACKAGE)-$(VERSION)/src/appbroker.sh \
 		$(PACKAGE)-$(VERSION)/src/gserver.h \
 		$(PACKAGE)-$(VERSION)/src/project.conf \
 		$(PACKAGE)-$(VERSION)/src/video/glut.c \
