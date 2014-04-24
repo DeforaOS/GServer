@@ -15,9 +15,9 @@ distclean: clean
 
 install:
 	$(MKDIR) $(DESTDIR)$(PREFIX)/include/Graphics/GServer
-	$(INSTALL) -m 0644 -- gserver.h $(DESTDIR)$(PREFIX)/include/Graphics/GServer/gserver.h
+	$(INSTALL) -m 0644 gserver.h $(DESTDIR)$(PREFIX)/include/Graphics/GServer/gserver.h
 	$(MKDIR) $(DESTDIR)$(PREFIX)/include/Graphics/GServer
-	$(INSTALL) -m 0644 -- video.h $(DESTDIR)$(PREFIX)/include/Graphics/GServer/video.h
+	$(INSTALL) -m 0644 video.h $(DESTDIR)$(PREFIX)/include/Graphics/GServer/video.h
 
 uninstall:
 	$(RM) -- $(DESTDIR)$(PREFIX)/include/Graphics/GServer/gserver.h

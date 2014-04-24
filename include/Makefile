@@ -22,7 +22,7 @@ distclean:
 install:
 	@for i in $(SUBDIRS); do (cd "$$i" && $(MAKE) install) || exit; done
 	$(MKDIR) $(DESTDIR)$(PREFIX)/include/Graphics
-	$(INSTALL) -m 0644 -- GServer.h $(DESTDIR)$(PREFIX)/include/Graphics/GServer.h
+	$(INSTALL) -m 0644 GServer.h $(DESTDIR)$(PREFIX)/include/Graphics/GServer.h
 
 uninstall:
 	@for i in $(SUBDIRS); do (cd "$$i" && $(MAKE) uninstall) || exit; done

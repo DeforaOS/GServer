@@ -60,11 +60,11 @@ distclean: clean
 
 install: $(TARGETS)
 	$(MKDIR) $(DESTDIR)$(PREFIX)/lib/GServer/video
-	$(INSTALL) -m 0644 -- glut.so $(DESTDIR)$(PREFIX)/lib/GServer/video/glut.so
+	$(INSTALL) -m 0644 glut.so $(DESTDIR)$(PREFIX)/lib/GServer/video/glut.so
 	$(MKDIR) $(DESTDIR)$(PREFIX)/lib/GServer/video
-	$(INSTALL) -m 0644 -- glx.so $(DESTDIR)$(PREFIX)/lib/GServer/video/glx.so
+	$(INSTALL) -m 0644 glx.so $(DESTDIR)$(PREFIX)/lib/GServer/video/glx.so
 	$(MKDIR) $(DESTDIR)$(PREFIX)/lib/GServer/video
-	$(INSTALL) -m 0644 -- vesa.so $(DESTDIR)$(PREFIX)/lib/GServer/video/vesa.so
+	$(INSTALL) -m 0644 vesa.so $(DESTDIR)$(PREFIX)/lib/GServer/video/vesa.so
 
 uninstall:
 	$(RM) -- $(DESTDIR)$(PREFIX)/lib/GServer/video/glut.so
