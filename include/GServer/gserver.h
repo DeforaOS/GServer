@@ -9,6 +9,6 @@
 /* GServer */
 /* protected */
 /* types */
-typedef struct _GServer GServer;
+typedef struct _App GServer;
 
 #endif /* !GRAPHICS_GSERVER_GSERVER_H */

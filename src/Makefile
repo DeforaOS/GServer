@@ -35,7 +35,7 @@ GServer: $(GServer_OBJS)
 gserver.o: gserver.c gserver.h ../data/GServer.h ../config.h
 	$(CC) $(GServer_CFLAGS) -c gserver.c
 
-main.o: main.c gserver.h
+main.o: main.c gserver.h ../config.h
 	$(CC) $(GServer_CFLAGS) -c main.c
 
 clean:

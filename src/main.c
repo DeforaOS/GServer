@@ -1,5 +1,5 @@
 /* $Id$ */
-/* Copyright (c) 2010 Pierre Pronchery <khorben@defora.org> */
+/* Copyright (c) 2010-2014 Pierre Pronchery <khorben@defora.org> */
 /* This file is part of DeforaOS Graphics GServer */
 /* This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,13 +19,18 @@
 #include <stdio.h>
 #include <System.h>
 #include "gserver.h"
+#include "../config.h"
+
+#ifndef PROGNAME
+# define PROGNAME PACKAGE
+#endif
 
 
 /* functions */
 /* usage */
 static int _usage(void)
 {
-	fputs("Usage: GServer [-L|-R]\n", stderr);
+	fputs("Usage: " PROGNAME " [-R]\n", stderr);
 	return 1;
 }
 
@@ -34,17 +39,14 @@ static int _usage(void)
 int main(int argc, char * argv[])
 {
 	int o;
-	AppServerOptions options = ASO_LOCAL;
+	AppServerOptions options = 0;
 	GServer * gserver;
 
-	while((o = getopt(argc, argv, "LR")) != -1)
+	while((o = getopt(argc, argv, "R")) != -1)
 		switch(o)
 		{
-			case 'L':
-				options = ASO_LOCAL;
-				break;
 			case 'R':
-				options = ASO_REMOTE;
+				options = ASO_REGISTER;
 				break;
 			default:
 				return _usage();
