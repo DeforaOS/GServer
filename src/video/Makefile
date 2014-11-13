@@ -1,4 +1,5 @@
-TARGETS	= glut.so glx.so vesa.so
+TARGETS	= $(OBJDIR)glut.so $(OBJDIR)glx.so $(OBJDIR)vesa.so
+OBJDIR	=
 PREFIX	= /usr/local
 DESTDIR	=
 LIBDIR	= $(PREFIX)/lib
@@ -19,38 +20,38 @@ INSTALL	= install
 
 all: $(TARGETS)
 
-glut_OBJS = glut.o
+glut_OBJS = $(OBJDIR)glut.o
 glut_CFLAGS = $(CPPFLAGSF) $(CPPFLAGS) $(CFLAGSF) $(CFLAGS)
 glut_LDFLAGS = $(LDFLAGSF) $(LDFLAGS) `pkg-config --libs glut`
 
-glut.so: $(glut_OBJS)
-	$(CCSHARED) -o glut.so $(glut_OBJS) $(glut_LDFLAGS)
+$(OBJDIR)glut.so: $(glut_OBJS)
+	$(CCSHARED) -o $(OBJDIR)glut.so $(glut_OBJS) $(glut_LDFLAGS)
 
-glx_OBJS = glx.o
+glx_OBJS = $(OBJDIR)glx.o
 glx_CFLAGS = $(CPPFLAGSF) $(CPPFLAGS) $(CFLAGSF) $(CFLAGS)
 glx_LDFLAGS = $(LDFLAGSF) $(LDFLAGS) `pkg-config --libs glu`
 
-glx.so: $(glx_OBJS)
-	$(CCSHARED) -o glx.so $(glx_OBJS) $(glx_LDFLAGS)
+$(OBJDIR)glx.so: $(glx_OBJS)
+	$(CCSHARED) -o $(OBJDIR)glx.so $(glx_OBJS) $(glx_LDFLAGS)
 
-vesa_OBJS = vbe.o vesa.o
+vesa_OBJS = $(OBJDIR)vbe.o $(OBJDIR)vesa.o
 vesa_CFLAGS = $(CPPFLAGSF) $(CPPFLAGS) $(CFLAGSF) $(CFLAGS)
 vesa_LDFLAGS = $(LDFLAGSF) $(LDFLAGS)
 
-vesa.so: $(vesa_OBJS)
-	$(CCSHARED) -o vesa.so $(vesa_OBJS) $(vesa_LDFLAGS)
+$(OBJDIR)vesa.so: $(vesa_OBJS)
+	$(CCSHARED) -o $(OBJDIR)vesa.so $(vesa_OBJS) $(vesa_LDFLAGS)
 
-glut.o: glut.c
-	$(CC) $(glut_CFLAGS) `pkg-config --cflags glut` -c glut.c
+$(OBJDIR)glut.o: glut.c
+	$(CC) $(glut_CFLAGS) `pkg-config --cflags glut` -o $(OBJDIR)glut.o -c glut.c
 
-glx.o: glx.c
-	$(CC) $(glx_CFLAGS) `pkg-config --cflags glu` -c glx.c
+$(OBJDIR)glx.o: glx.c
+	$(CC) $(glx_CFLAGS) `pkg-config --cflags glu` -o $(OBJDIR)glx.o -c glx.c
 
-vbe.o: vbe.c
-	$(CC) $(vesa_CFLAGS) -c vbe.c
+$(OBJDIR)vbe.o: vbe.c
+	$(CC) $(vesa_CFLAGS) -o $(OBJDIR)vbe.o -c vbe.c
 
-vesa.o: vesa.c
-	$(CC) $(vesa_CFLAGS) -c vesa.c
+$(OBJDIR)vesa.o: vesa.c
+	$(CC) $(vesa_CFLAGS) -o $(OBJDIR)vesa.o -c vesa.c
 
 clean:
 	$(RM) -- $(glut_OBJS) $(glx_OBJS) $(vesa_OBJS)
@@ -60,11 +61,11 @@ distclean: clean
 
 install: $(TARGETS)
 	$(MKDIR) $(DESTDIR)$(PREFIX)/lib/GServer/video
-	$(INSTALL) -m 0644 glut.so $(DESTDIR)$(PREFIX)/lib/GServer/video/glut.so
+	$(INSTALL) -m 0755 $(OBJDIR)glut.so $(DESTDIR)$(PREFIX)/lib/GServer/video/glut.so
 	$(MKDIR) $(DESTDIR)$(PREFIX)/lib/GServer/video
-	$(INSTALL) -m 0644 glx.so $(DESTDIR)$(PREFIX)/lib/GServer/video/glx.so
+	$(INSTALL) -m 0755 $(OBJDIR)glx.so $(DESTDIR)$(PREFIX)/lib/GServer/video/glx.so
 	$(MKDIR) $(DESTDIR)$(PREFIX)/lib/GServer/video
-	$(INSTALL) -m 0644 vesa.so $(DESTDIR)$(PREFIX)/lib/GServer/video/vesa.so
+	$(INSTALL) -m 0755 $(OBJDIR)vesa.so $(DESTDIR)$(PREFIX)/lib/GServer/video/vesa.so
 
 uninstall:
 	$(RM) -- $(DESTDIR)$(PREFIX)/lib/GServer/video/glut.so
