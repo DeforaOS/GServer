@@ -436,8 +436,8 @@ static GServerCall * _gserver_queue(GServer * gserver, AppServerClient * asc,
 	GServerClient * gsc;
 
 #ifdef DEBUG
-	fprintf(stderr, "DEBUG: %s(%p, %u, %u)\n", __func__, gserver, type,
-			func);
+	fprintf(stderr, "DEBUG: %s(%p, %u, %u)\n", __func__, (void *)gserver,
+			type, func);
 #endif
 	if((gsc = _gserver_get_client(gserver, asc)) == NULL)
 		return NULL;
