@@ -21,6 +21,7 @@
 #include <string.h>
 #include <GL/glut.h>
 #include "GServer/video.h"
+#include "../../config.h"
 
 
 /* GLUT */
@@ -134,7 +135,7 @@ static int _glut_init(GServerVideoPlugin * plugin)
 	glut->height = 480;
 	glutInit(&argc, argv);
 	glutInitWindowSize(glut->width, glut->height);
-	glutCreateWindow("GServer GLUT");
+	glutCreateWindow(PACKAGE " GLUT");
 	glutDisplayFunc(_glut_display);
 	glutIdleFunc(_glut_idle);
 	glShadeModel(GL_SMOOTH);

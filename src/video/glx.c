@@ -22,6 +22,7 @@
 #include <GL/glx.h>
 #include <GL/glu.h>
 #include "GServer/video.h"
+#include "../../config.h"
 
 
 /* GLX */
@@ -172,8 +173,8 @@ static int _glx_init(GServerVideoPlugin * plugin)
 			CWBorderPixel | CWColormap | CWEventMask, &attr);
 	wdelete = XInternAtom(glx->display, "WM_DELETE_WINDOW", True);
 	XSetWMProtocols(glx->display, glx->window, &wdelete, 1);
-	XSetStandardProperties(glx->display, glx->window, "GServer GLX",
-			"GServer GLX", None, NULL, 0, NULL);
+	XSetStandardProperties(glx->display, glx->window, PACKAGE " GLX",
+			PACKAGE " GLX", None, NULL, 0, NULL);
 	XMapRaised(glx->display, glx->window);
 	glXMakeCurrent(glx->display, glx->window, glx->context);
 	XGetGeometry(glx->display, glx->window, &wdummy, &x, &y, &glx->width,
