@@ -43,10 +43,10 @@ vesa_LDFLAGS = $(LDFLAGSF) $(LDFLAGS)
 $(OBJDIR)vesa$(SOEXT): $(vesa_OBJS)
 	$(CCSHARED) -o $(OBJDIR)vesa$(SOEXT) $(vesa_OBJS) $(vesa_LDFLAGS)
 
-$(OBJDIR)glut.o: glut.c
+$(OBJDIR)glut.o: glut.c ../../config.h
 	$(CC) $(glut_CFLAGS) `pkg-config --cflags glut` -o $(OBJDIR)glut.o -c glut.c
 
-$(OBJDIR)glx.o: glx.c
+$(OBJDIR)glx.o: glx.c ../../config.h
 	$(CC) $(glx_CFLAGS) `pkg-config --cflags glu` -o $(OBJDIR)glx.o -c glx.c
 
 $(OBJDIR)vbe.o: vbe.c
