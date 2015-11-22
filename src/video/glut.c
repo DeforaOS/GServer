@@ -122,6 +122,7 @@ GServerVideoPlugin video_plugin =
 static int _glut_init(GServerVideoPlugin * plugin)
 {
 	GLUTVideo * glut;
+	GServerPlatform * platform;
 	int argc = 1;
 	char * argv[] = { "GServer", NULL };
 
@@ -131,8 +132,9 @@ static int _glut_init(GServerVideoPlugin * plugin)
 	if((glut = object_new(sizeof(*glut))) == NULL)
 		return 1;
 	plugin->priv = glut;
-	glut->width = 640;
-	glut->height = 480;
+	platform = plugin->helper->get_platform(plugin->helper->gserver);
+	glut->width = gserverplatform_get_video_width(platform);
+	glut->height = gserverplatform_get_video_height(platform);
 	glutInit(&argc, argv);
 	glutInitWindowSize(glut->width, glut->height);
 	glutCreateWindow(PACKAGE " GLUT");
@@ -186,15 +188,18 @@ static int _idle_timeout(void * data);
 static void _glut_idle(void)
 {
 	struct timeval tv;
+	GServerPlatform * platform;
 	Event * event;
 
+	platform = video_plugin.helper->get_platform(
+			video_plugin.helper->gserver);
 	event = video_plugin.helper->get_event(video_plugin.helper->gserver);
 #ifdef DEBUG
 	tv.tv_sec = 1;
 	tv.tv_usec = 0;
 #else
 	tv.tv_sec = 0;
-	tv.tv_usec = 1000000 / 60;
+	tv.tv_usec = 1000000 / gserverplatform_get_video_refresh_rate(platform);
 #endif
 	event_register_timeout(event, &tv, _idle_timeout, event);
 	event_loop(event);

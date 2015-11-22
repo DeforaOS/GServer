@@ -21,6 +21,7 @@
 # include <stdint.h>
 # include <System.h>
 # include "gserver.h"
+# include "platform.h"
 
 
 /* Video */
@@ -94,6 +95,7 @@ typedef struct _GServerVideoPluginHelper
 	char const * (*config_get)(GServer * gserver, char const * section,
 			char const * variable);
 	Event * (*get_event)(GServer * gserver);
+	GServerPlatform * (*get_platform)(GServer * gserver);
 	void (*refresh)(GServer * gserver);
 } GServerVideoPluginHelper;
 

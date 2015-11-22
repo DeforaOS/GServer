@@ -22,6 +22,7 @@
 #include <System.h>
 #include "GServer/video.h"
 #include "../data/GServer.h"
+#include "platform.h"
 #include "gserver.h"
 #include "../config.h"
 
@@ -58,6 +59,8 @@ typedef struct _GServerClient GServerClient;
 
 struct _App
 {
+	GServerPlatform * platform;
+
 	Event * event;
 	int event_own;
 	AppServer * appserver;
@@ -167,6 +170,8 @@ GServer * gserver_new(AppServerOptions options, Event * event)
 
 static int _new_init(AppServerOptions options, GServer * gserver, Event * event)
 {
+	if((gserver->platform = gserverplatform_new()) == NULL)
+		return -1;
 	gserver->video_handle = NULL;
 	gserver->video_plugin = NULL;
 	gserver->clients = NULL;
@@ -174,11 +179,15 @@ static int _new_init(AppServerOptions options, GServer * gserver, Event * event)
 	if((gserver->event = event) != NULL)
 		gserver->event_own = 0;
 	else if((gserver->event = event_new()) == NULL)
+	{
+		gserverplatform_delete(gserver->platform);
 		return -1;
+	}
 	else
 		gserver->event_own = 1;
 	gserver->video_helper.gserver = gserver;
 	gserver->video_helper.get_event = gserver_get_event;
+	gserver->video_helper.get_platform = gserver_get_platform;
 	gserver->video_helper.refresh = gserver_refresh;
 	if((gserver->appserver = appserver_new_event(gserver, options,
 					"GServer", NULL, gserver->event))
@@ -192,14 +201,18 @@ static int _new_init(AppServerOptions options, GServer * gserver, Event * event)
 		appserver_delete(gserver->appserver);
 	if(gserver->event_own != 0)
 		event_delete(gserver->event);
+	gserverplatform_delete(gserver->platform);
 	return -1;
 }
 
 static int _init_video(GServer * gserver)
-	/* FIXME ask Hardware what to load instead of hard-coding glut */
 {
-	if((gserver->video_handle = plugin_new(LIBDIR, PACKAGE, "video",
-					"glut")) == NULL)
+	String const subsystem[] = "video";
+	GServerPlatform * platform = gserver->platform;
+
+	if((gserver->video_handle = plugin_new(LIBDIR, PACKAGE, subsystem,
+					gserverplatform_get_driver(platform,
+						subsystem))) == NULL)
 		return 1;
 	if((gserver->video_plugin = plugin_lookup(gserver->video_handle,
 					"video_plugin")) == NULL)
@@ -226,6 +239,8 @@ void gserver_delete(GServer * gserver)
 		appserver_delete(gserver->appserver);
 	if(gserver->event != NULL)
 		event_delete(gserver->event);
+	if(gserver->platform != NULL)
+		gserverplatform_delete(gserver->platform);
 	object_delete(gserver);
 }
 
@@ -243,6 +258,13 @@ static void _delete_video(GServer * gserver)
 Event * gserver_get_event(GServer * gserver)
 {
 	return gserver->event;
+}
+
+
+/* gserver_get_platform */
+GServerPlatform * gserver_get_platform(GServer * gserver)
+{
+	return gserver->platform;
 }
 
 

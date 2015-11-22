@@ -125,6 +125,7 @@ GServerVideoPlugin video_plugin =
 /* glx_init */
 static int _glx_init(GServerVideoPlugin * plugin)
 {
+	GServerPlatform * platform;
 	GLXVideo * glx;
 	Event * event;
 	Window root;
@@ -146,6 +147,7 @@ static int _glx_init(GServerVideoPlugin * plugin)
 	if((glx = object_new(sizeof(*glx))) == NULL)
 		return 1;
 	plugin->priv = glx;
+	platform = plugin->helper->get_platform(plugin->helper->gserver);
 	event = plugin->helper->get_event(plugin->helper->gserver);
 	glx->display = XOpenDisplay(NULL);
 	glx->screen = DefaultScreen(glx->display);
@@ -159,8 +161,8 @@ static int _glx_init(GServerVideoPlugin * plugin)
 		vi = glXChooseVisual(glx->display, glx->screen, attributes);
 	}
 	glx->context = glXCreateContext(glx->display, vi, 0, GL_TRUE);
-	glx->width = 640;
-	glx->height = 480;
+	glx->width = gserverplatform_get_video_width(platform);
+	glx->height = gserverplatform_get_video_height(platform);
 	memset(&attr, 0, sizeof(attr));
 	root = RootWindow(glx->display, vi->screen);
 	attr.colormap = XCreateColormap(glx->display, root, vi->visual,
@@ -211,7 +213,7 @@ static int _glx_init(GServerVideoPlugin * plugin)
 	tv.tv_usec = 0;
 #else
 	tv.tv_sec = 0;
-	tv.tv_usec = 1000000 / 60;
+	tv.tv_usec = 1000000 / gserverplatform_get_video_refresh_rate(platform);
 #endif
 	if(_glx_timeout(plugin) == 0)
 		event_register_timeout(event, &tv, _glx_timeout, plugin);

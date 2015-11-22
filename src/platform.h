@@ -1,5 +1,5 @@
 /* $Id$ */
-/* Copyright (c) 2010-2012 Pierre Pronchery <khorben@defora.org> */
+/* Copyright (c) 2015 Pierre Pronchery <khorben@defora.org> */
 /* This file is part of DeforaOS Graphics GServer */
 /* This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,29 +15,20 @@
 
 
 
-#ifndef GSERVER_GSERVER_H
-# define GSERVER_GSERVER_H
+#ifndef GSERVER_PLATFORM_H
+# define GSERVER_PLATFORM_H
 
-# include <System.h>
-# include <System/App.h>
-# include "GServer/platform.h"
-# include "GServer/gserver.h"
+# include <System/string.h>
 
 
-/* GServer */
+/* GServerPlatform */
 /* public */
-/* functions */
-GServer * gserver_new(AppServerOptions options, Event * event);
-void gserver_delete(GServer * gserver);
-
+/* accessors */
+GServerPlatform * gserverplatform_new(void);
+void gserverplatform_delete(GServerPlatform * platform);
 
 /* accessors */
-Event * gserver_get_event(GServer * gserver);
-GServerPlatform * gserver_get_platform(GServer * gserver);
+String const * gserverplatform_get_driver(GServerPlatform * platform,
+		String const * subsystem);
 
-
-/* useful */
-int gserver_loop(GServer * gserver);
-void gserver_refresh(GServer * gserver);
-
-#endif /* !GSERVER_GSERVER_H */
+#endif /* !GSERVER_PLATFORM_H */

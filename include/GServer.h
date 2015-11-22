@@ -20,6 +20,7 @@
 
 
 # include "GServer/gserver.h"
+# include "GServer/platform.h"
 # include "GServer/video.h"
 
 #endif /* !GRAPHICS_GSERVER_H */
