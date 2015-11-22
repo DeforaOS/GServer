@@ -193,7 +193,7 @@ static void _glut_idle(void)
 	tv.tv_usec = 0;
 #else
 	tv.tv_sec = 0;
-	tv.tv_usec = 1000000 / 25;
+	tv.tv_usec = 1000000 / 60;
 #endif
 	event_register_timeout(event, &tv, _idle_timeout, event);
 	event_loop(event);

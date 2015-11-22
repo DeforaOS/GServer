@@ -210,7 +210,7 @@ static int _glx_init(GServerVideoPlugin * plugin)
 	tv.tv_usec = 0;
 #else
 	tv.tv_sec = 0;
-	tv.tv_usec = 1000000 / 25;
+	tv.tv_usec = 1000000 / 60;
 #endif
 	if(_glx_timeout(plugin) == 0)
 		event_register_timeout(event, &tv, _glx_timeout, plugin);
