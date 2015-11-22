@@ -285,6 +285,9 @@ void gserver_refresh(GServer * gserver)
 {
 	size_t i;
 
+#ifdef DEBUG
+	fprintf(stderr, "DEBUG: %s()\n", __func__);
+#endif
 	gserver->video_plugin->proto1i(gserver->video_plugin,
 			GSERVER_VIDEO_PROTO1i_glClear,
 			GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
