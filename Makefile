@@ -44,6 +44,7 @@ dist:
 		$(PACKAGE)-$(VERSION)/include/GServer/Makefile \
 		$(PACKAGE)-$(VERSION)/include/GServer/project.conf \
 		$(PACKAGE)-$(VERSION)/src/gserver.c \
+		$(PACKAGE)-$(VERSION)/src/platform.c \
 		$(PACKAGE)-$(VERSION)/src/main.c \
 		$(PACKAGE)-$(VERSION)/src/Makefile \
 		$(PACKAGE)-$(VERSION)/src/gserver.h \

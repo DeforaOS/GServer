@@ -31,7 +31,7 @@ subdirs:
 $(OBJDIR)../data/GServer.h: ../data/GServer.interface
 	../data/appbroker.sh -P "$(PREFIX)" -- "$(OBJDIR)../data/GServer.h"
 
-GServer_OBJS = $(OBJDIR)gserver.o $(OBJDIR)main.o
+GServer_OBJS = $(OBJDIR)gserver.o $(OBJDIR)platform.o $(OBJDIR)main.o
 GServer_CFLAGS = $(CPPFLAGSF) $(CPPFLAGS) $(CFLAGSF) $(CFLAGS) `pkg-config --cflags gl`
 GServer_LDFLAGS = $(LDFLAGSF) $(LDFLAGS)
 
@@ -40,6 +40,9 @@ $(OBJDIR)GServer$(EXEEXT): $(GServer_OBJS)
 
 $(OBJDIR)gserver.o: gserver.c gserver.h ../data/GServer.h ../config.h
 	$(CC) $(GServer_CFLAGS) -o $(OBJDIR)gserver.o -c gserver.c
+
+$(OBJDIR)platform.o: platform.c ../config.h
+	$(CC) $(GServer_CFLAGS) -o $(OBJDIR)platform.o -c platform.c
 
 $(OBJDIR)main.o: main.c gserver.h ../config.h
 	$(CC) $(GServer_CFLAGS) -o $(OBJDIR)main.o -c main.c
