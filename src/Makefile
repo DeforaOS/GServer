@@ -1,5 +1,5 @@
 SUBDIRS	= video
-TARGETS	= $(OBJDIR)../data/GServer.h $(OBJDIR)GServer
+TARGETS	= $(OBJDIR)../data/GServer.h $(OBJDIR)GServer$(EXEEXT)
 OBJDIR	=
 PREFIX	= /usr/local
 DESTDIR	=
@@ -12,6 +12,7 @@ CFLAGSF	= -W `pkg-config --cflags libApp`
 CFLAGS	= -Wall -g -O2 -pedantic
 LDFLAGSF= `pkg-config --libs libApp` -Wl,--export-dynamic
 LDFLAGS	= 
+EXEEXT	=
 RM	= rm -f
 LN	= ln -f
 MKDIR	= mkdir -m 0755 -p
@@ -34,8 +35,8 @@ GServer_OBJS = $(OBJDIR)gserver.o $(OBJDIR)main.o
 GServer_CFLAGS = $(CPPFLAGSF) $(CPPFLAGS) $(CFLAGSF) $(CFLAGS) `pkg-config --cflags gl`
 GServer_LDFLAGS = $(LDFLAGSF) $(LDFLAGS)
 
-$(OBJDIR)GServer: $(GServer_OBJS)
-	$(CC) -o $(OBJDIR)GServer $(GServer_OBJS) $(GServer_LDFLAGS)
+$(OBJDIR)GServer$(EXEEXT): $(GServer_OBJS)
+	$(CC) -o $(OBJDIR)GServer$(EXEEXT) $(GServer_OBJS) $(GServer_LDFLAGS)
 
 $(OBJDIR)gserver.o: gserver.c gserver.h ../data/GServer.h ../config.h
 	$(CC) $(GServer_CFLAGS) -o $(OBJDIR)gserver.o -c gserver.c
@@ -44,20 +45,32 @@ $(OBJDIR)main.o: main.c gserver.h ../config.h
 	$(CC) $(GServer_CFLAGS) -o $(OBJDIR)main.o -c main.c
 
 clean:
-	@for i in $(SUBDIRS); do (cd "$$i" && $(MAKE) clean) || exit; done
+	@for i in $(SUBDIRS); do (cd "$$i" && \
+		if [ -n "$(OBJDIR)" ]; then \
+		$(MAKE) OBJDIR="$(OBJDIR)$$i/" clean; \
+		else $(MAKE) clean; fi) || exit; done
 	$(RM) -- $(../data/GServer.h_OBJS) $(GServer_OBJS)
 	../data/appbroker.sh -c -P "$(PREFIX)" -- "../data/GServer.h"
 
 distclean:
-	@for i in $(SUBDIRS); do (cd "$$i" && $(MAKE) distclean) || exit; done
+	@for i in $(SUBDIRS); do (cd "$$i" && \
+		if [ -n "$(OBJDIR)" ]; then \
+		$(MAKE) OBJDIR="$(OBJDIR)$$i/" distclean; \
+		else $(MAKE) distclean; fi) || exit; done
 	$(RM) -- $(../data/GServer.h_OBJS) $(GServer_OBJS)
 	../data/appbroker.sh -c -P "$(PREFIX)" -- "../data/GServer.h"
 	$(RM) -- $(TARGETS)
 
 install: $(TARGETS)
-	@for i in $(SUBDIRS); do (cd "$$i" && $(MAKE) install) || exit; done
+	@for i in $(SUBDIRS); do (cd "$$i" && \
+		if [ -n "$(OBJDIR)" ]; then \
+		$(MAKE) OBJDIR="$(OBJDIR)$$i/" install; \
+		else $(MAKE) install; fi) || exit; done
 
 uninstall:
-	@for i in $(SUBDIRS); do (cd "$$i" && $(MAKE) uninstall) || exit; done
+	@for i in $(SUBDIRS); do (cd "$$i" && \
+		if [ -n "$(OBJDIR)" ]; then \
+		$(MAKE) OBJDIR="$(OBJDIR)$$i/" uninstall; \
+		else $(MAKE) uninstall; fi) || exit; done
 
 .PHONY: all subdirs clean distclean install uninstall
