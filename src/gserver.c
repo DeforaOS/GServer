@@ -286,8 +286,8 @@ void gserver_refresh(GServer * gserver)
 	size_t i;
 
 	gserver->video_plugin->proto1i(gserver->video_plugin,
-			GSERVER_VIDEO_PROTO1i_glClear, GL_COLOR_BUFFER_BIT
-			| GL_DEPTH_BUFFER_BIT);
+			GSERVER_VIDEO_PROTO1i_glClear,
+			GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	gserver->video_plugin->proto0(gserver->video_plugin,
 			GSERVER_VIDEO_PROTO0_glLoadIdentity);
 	for(i = 0; i < gserver->clients_cnt; i++)
