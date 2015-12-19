@@ -33,6 +33,10 @@ ret=VOID
 [call::glFlush]
 ret=VOID
 
+[call::glIsEnabled]
+ret=BOOL
+arg1=UINT32
+
 [call::glLoadIdentity]
 ret=VOID
 
