@@ -316,10 +316,10 @@ void gserver_refresh(GServer * gserver)
 	_gserver_queue0(gserver, asc, GSERVER_VIDEO_PROTO0_ ## func); \
 }
 #define GSERVER_PROTO1d(type, func) \
-	type GServer_ ## func(GServer * gserver, AppServerClient * asc, double * x) \
+	type GServer_ ## func(GServer * gserver, AppServerClient * asc, double x) \
 { \
 	DEBUG_INTERFACE(); \
-	_gserver_queue1d(gserver, asc, GSERVER_VIDEO_PROTO1d_ ## func, *x); \
+	_gserver_queue1d(gserver, asc, GSERVER_VIDEO_PROTO1d_ ## func, x); \
 }
 #define GSERVER_PROTO1i(type, func, type1) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x) \
@@ -334,10 +334,10 @@ void gserver_refresh(GServer * gserver)
 	_gserver_queue1u(gserver, asc, GSERVER_VIDEO_PROTO1u_ ## func, x); \
 }
 #define GSERVER_PROTO3f(type, func) \
-	type GServer_ ## func (GServer * gserver, AppServerClient * asc, float * x, float * y, float * z) \
+	type GServer_ ## func (GServer * gserver, AppServerClient * asc, float x, float y, float z) \
 { \
 	DEBUG_INTERFACE3f(x, y, z); \
-	_gserver_queue3f(gserver, asc, GSERVER_VIDEO_PROTO3f_ ## func, *x, *y, *z); \
+	_gserver_queue3f(gserver, asc, GSERVER_VIDEO_PROTO3f_ ## func, x, y, z); \
 }
 #define GSERVER_PROTO3i(type, func, type1, type2, type3) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, int32_t x, int32_t y, int32_t z) \
@@ -346,10 +346,10 @@ void gserver_refresh(GServer * gserver)
 	_gserver_queue3i(gserver, asc, GSERVER_VIDEO_PROTO3i_ ## func, x, y, z); \
 }
 #define GSERVER_PROTO4f(type, func) \
-	type GServer_ ## func (GServer * gserver, AppServerClient * asc, float * x, float * y, float * z, float * t) \
+	type GServer_ ## func (GServer * gserver, AppServerClient * asc, float x, float y, float z, float t) \
 { \
 	DEBUG_INTERFACE4f(x, y, z, t); \
-	_gserver_queue4f(gserver, asc, GSERVER_VIDEO_PROTO4f_ ## func, *x, *y, *z, *t); \
+	_gserver_queue4f(gserver, asc, GSERVER_VIDEO_PROTO4f_ ## func, x, y, z, t); \
 }
 
 /* proto0 */
