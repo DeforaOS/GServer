@@ -53,7 +53,7 @@ clean:
 		$(MAKE) OBJDIR="$(OBJDIR)$$i/" clean; \
 		else $(MAKE) clean; fi) || exit; done
 	$(RM) -- $(../data/GServer.h_OBJS) $(GServer_OBJS)
-	../data/appbroker.sh -c -P "$(PREFIX)" -- "../data/GServer.h"
+	../data/appbroker.sh -c -P "$(PREFIX)" -- "$(OBJDIR)../data/GServer.h"
 
 distclean:
 	@for i in $(SUBDIRS); do (cd "$$i" && \
@@ -61,7 +61,7 @@ distclean:
 		$(MAKE) OBJDIR="$(OBJDIR)$$i/" distclean; \
 		else $(MAKE) distclean; fi) || exit; done
 	$(RM) -- $(../data/GServer.h_OBJS) $(GServer_OBJS)
-	../data/appbroker.sh -c -P "$(PREFIX)" -- "../data/GServer.h"
+	../data/appbroker.sh -c -P "$(PREFIX)" -- "$(OBJDIR)../data/GServer.h"
 	$(RM) -- $(TARGETS)
 
 install: $(TARGETS)
