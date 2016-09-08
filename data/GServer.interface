@@ -1,6 +1,5 @@
 #$Id$
 service=GServer
-port=4248
 
 [call::glBegin]
 arg1=UINT32
