@@ -149,6 +149,9 @@ arg2=FLOAT
 arg3=FLOAT
 arg4=FLOAT
 
+[call::glShadeModel]
+arg1=UINT32
+
 [call::glTexCoord2f]
 arg1=FLOAT
 arg2=FLOAT

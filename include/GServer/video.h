@@ -70,9 +70,10 @@ typedef enum _GServerVideoProto1i
 	GSERVER_VIDEO_PROTO1i_glDisableClientState,
 	GSERVER_VIDEO_PROTO1i_glEnable,
 	GSERVER_VIDEO_PROTO1i_glEnableClientState,
-	GSERVER_VIDEO_PROTO1i_glIsEnabled
+	GSERVER_VIDEO_PROTO1i_glIsEnabled,
+	GSERVER_VIDEO_PROTO1i_glShadeModel
 } GServerVideoProto1i;
-# define GSERVER_VIDEO_PROTO1i_LAST GSERVER_VIDEO_PROTO1i_glIsEnabled
+# define GSERVER_VIDEO_PROTO1i_LAST GSERVER_VIDEO_PROTO1i_glShadeModel
 # define GSERVER_VIDEO_PROTO1i_COUNT (GSERVER_VIDEO_PROTO1i_LAST + 1)
 
 typedef enum _GServerVideoProto2f

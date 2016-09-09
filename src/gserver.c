@@ -506,6 +506,7 @@ GSERVER_PROTO1i(void, glEnable, uint32_t)
 GSERVER_PROTO1i(void, glEnableClientState, uint32_t)
 /* FIXME really returns bool */
 GSERVER_PROTO1i(bool, glIsEnabled, uint32_t)
+GSERVER_PROTO1i(void, glShadeModel, uint32_t)
 
 /* proto2f */
 GSERVER_PROTO2f(void, glTexCoord2f)
