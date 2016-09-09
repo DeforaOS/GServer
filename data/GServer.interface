@@ -31,10 +31,20 @@ arg1=INT32
 arg2=INT32
 arg3=INT32
 
+[call::glColor3s]
+arg1=INT16
+arg2=INT16
+arg3=INT16
+
 [call::glColor3ui]
 arg1=UINT32
 arg2=UINT32
 arg3=UINT32
+
+[call::glColor3us]
+arg1=UINT16
+arg2=UINT16
+arg3=UINT16
 
 [call::glColor4d]
 arg1=DOUBLE
@@ -53,6 +63,12 @@ arg1=INT32
 arg2=INT32
 arg3=INT32
 arg4=INT32
+
+[call::glColor4s]
+arg1=INT16
+arg2=INT16
+arg3=INT16
+arg4=INT16
 
 [call::glColor4ub]
 arg1=UINT8
