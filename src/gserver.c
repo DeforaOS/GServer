@@ -403,8 +403,8 @@ void gserver_refresh(GServer * gserver)
 	DEBUG_INTERFACE(); \
 	_gserver_queue0(gserver, asc, GSERVER_VIDEO_PROTO0_ ## func); \
 }
-#define GSERVER_PROTO1d(type, func) \
-	type GServer_ ## func(GServer * gserver, AppServerClient * asc, double x) \
+#define GSERVER_PROTO1d(type, func, type1) \
+	type GServer_ ## func(GServer * gserver, AppServerClient * asc, type1 x) \
 { \
 	DEBUG_INTERFACE(); \
 	_gserver_queue1d(gserver, asc, GSERVER_VIDEO_PROTO1d_ ## func, x); \
@@ -489,7 +489,7 @@ GSERVER_PROTO0(void, glLoadIdentity)
 GSERVER_PROTO0(void, SwapBuffers)
 
 /* proto1d */
-GSERVER_PROTO1d(void, glClearDepth)
+GSERVER_PROTO1d(void, glClearDepth, double)
 
 /* proto1i */
 GSERVER_PROTO1i(void, glBegin, uint32_t)
