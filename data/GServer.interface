@@ -47,6 +47,10 @@ ret=VOID
 [call::glFlush]
 ret=VOID
 
+[call::glHint]
+arg1=UINT32
+arg2=UINT32
+
 [call::glIsEnabled]
 ret=BOOL
 arg1=UINT32
