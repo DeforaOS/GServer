@@ -50,6 +50,12 @@ arg1=UINT16
 arg2=UINT16
 arg3=UINT16
 
+[call::glColor4b]
+arg1=UINT8
+arg2=UINT8
+arg3=UINT8
+arg4=UINT8
+
 [call::glColor4d]
 arg1=DOUBLE
 arg2=DOUBLE
