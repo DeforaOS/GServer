@@ -140,6 +140,10 @@ arg2=FLOAT
 arg3=FLOAT
 arg4=FLOAT
 
+[call::glTexCoord2f]
+arg1=FLOAT
+arg2=FLOAT
+
 [call::glTranslatef]
 arg1=FLOAT
 arg2=FLOAT

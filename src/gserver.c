@@ -36,6 +36,9 @@
 #ifdef DEBUG
 # define DEBUG_INTERFACE() fprintf(stderr, "DEBUG: %s()\n", __func__)
 # define DEBUG_INTERFACE1i(x) fprintf(stderr, "DEBUG: %s(0x%x)\n", __func__, x)
+# define DEBUG_INTERFACE2d(x, y) \
+	fprintf(stderr, "DEBUG: %s(%.1f, %.1f)\n", __func__, x, y)
+# define DEBUG_INTERFACE2f(x, y) DEBUG_INTERFACE2d(x, y)
 # define DEBUG_INTERFACE2i(x, y) \
 	fprintf(stderr, "DEBUG: %s(0x%x, 0x%x)\n", __func__, x, y)
 # define DEBUG_INTERFACE3d(x, y, z) \
@@ -57,6 +60,8 @@
 #else
 # define DEBUG_INTERFACE()
 # define DEBUG_INTERFACE1i(x)
+# define DEBUG_INTERFACE2d(x, y, z)
+# define DEBUG_INTERFACE2f(x, y, z)
 # define DEBUG_INTERFACE2i(x, y)
 # define DEBUG_INTERFACE3d(x, y, z)
 # define DEBUG_INTERFACE3f(x, y, z)
@@ -111,6 +116,11 @@ struct _GServerCall
 		{
 			uint32_t x;
 		} _1i;
+		struct
+		{
+			float x;
+			float y;
+		} _2f;
 		struct
 		{
 			uint32_t x;
@@ -203,6 +213,8 @@ static int _gserver_queue1d(GServer * gserver, AppServerClient * asc,
 		GServerVideoProto1d func, double x);
 static int _gserver_queue1i(GServer * gserver, AppServerClient * asc,
 		GServerVideoProto1i func, uint32_t x);
+static int _gserver_queue2f(GServer * gserver, AppServerClient * asc,
+		GServerVideoProto2f func, float x, float y);
 static int _gserver_queue2i(GServer * gserver, AppServerClient * asc,
 		GServerVideoProto2i func, uint32_t x, uint32_t y);
 static int _gserver_queue3d(GServer * gserver, AppServerClient * asc,
@@ -402,6 +414,12 @@ void gserver_refresh(GServer * gserver)
 	DEBUG_INTERFACE1i(x); \
 	_gserver_queue1i(gserver, asc, GSERVER_VIDEO_PROTO1i_ ## func, (uint32_t)x); \
 }
+#define GSERVER_PROTO2f(type, func) \
+	type GServer_ ## func (GServer * gserver, AppServerClient * asc, float x, float y) \
+{ \
+	DEBUG_INTERFACE2f(x, y, z); \
+	_gserver_queue2f(gserver, asc, GSERVER_VIDEO_PROTO2f_ ## func, x, y); \
+}
 #define GSERVER_PROTO2i(type, func, type1, type2) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x, type2 y) \
 { \
@@ -489,6 +507,9 @@ GSERVER_PROTO1i(void, glEnableClientState, uint32_t)
 /* FIXME really returns bool */
 GSERVER_PROTO1i(bool, glIsEnabled, uint32_t)
 
+/* proto2f */
+GSERVER_PROTO2f(void, glTexCoord2f)
+
 /* proto2i */
 GSERVER_PROTO2i(void, glColorMaterial, uint32_t, uint32_t)
 GSERVER_PROTO2i(void, glHint, uint32_t, uint32_t)
@@ -553,6 +574,10 @@ static void _gserver_client_calls(GServer * gserver, GServerClient * client)
 				break;
 			case GSERVER_VIDEO_PROTO_1i:
 				vp->proto1i(vp, call->func, call->args._1i.x);
+				break;
+			case GSERVER_VIDEO_PROTO_2f:
+				vp->proto2f(vp, call->func, call->args._2f.x,
+						call->args._3f.y);
 				break;
 			case GSERVER_VIDEO_PROTO_2i:
 				vp->proto2i(vp, call->func, call->args._2i.x,
@@ -700,6 +725,21 @@ static int _gserver_queue1i(GServer * gserver, AppServerClient * asc,
 			== NULL)
 		return -1;
 	gsc->args._1i.x = x;
+	return 0;
+}
+
+
+/* gserver_queue2f */
+static int _gserver_queue2f(GServer * gserver, AppServerClient * asc,
+		GServerVideoProto2f func, float x, float y)
+{
+	GServerCall * gsc;
+
+	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_PROTO_2f, func))
+			== NULL)
+		return -1;
+	gsc->args._2f.x = x;
+	gsc->args._2f.y = y;
 	return 0;
 }
 
