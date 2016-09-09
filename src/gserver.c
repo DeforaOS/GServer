@@ -427,56 +427,56 @@ void gserver_refresh(GServer * gserver)
 	DEBUG_INTERFACE2u(x, y); \
 	_gserver_queue2u(gserver, asc, GSERVER_VIDEO_PROTO2u_ ## func, x, y); \
 }
-#define GSERVER_PROTO3f(type, func) \
-	type GServer_ ## func (GServer * gserver, AppServerClient * asc, float x, float y, float z) \
+#define GSERVER_PROTO3f(type, func, type1, type2, type3) \
+	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x, type2 y, type3 z) \
 { \
 	DEBUG_INTERFACE3f(x, y, z); \
 	_gserver_queue3f(gserver, asc, GSERVER_VIDEO_PROTO3f_ ## func, x, y, z); \
 }
 #define GSERVER_PROTO3i(type, func, type1, type2, type3) \
-	type GServer_ ## func (GServer * gserver, AppServerClient * asc, int32_t x, int32_t y, int32_t z) \
+	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x, type2 y, type3 z) \
 { \
 	DEBUG_INTERFACE3i(x, y, z); \
 	_gserver_queue3i(gserver, asc, GSERVER_VIDEO_PROTO3i_ ## func, x, y, z); \
 }
 #define GSERVER_PROTO3u(type, func, type1, type2, type3) \
-	type GServer_ ## func (GServer * gserver, AppServerClient * asc, uint32_t x, uint32_t y, uint32_t z) \
+	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x, type2 y, type3 z) \
 { \
 	DEBUG_INTERFACE3u(x, y, z); \
 	_gserver_queue3u(gserver, asc, GSERVER_VIDEO_PROTO3u_ ## func, x, y, z); \
 }
-#define GSERVER_PROTO4d(type, func) \
-	type GServer_ ## func (GServer * gserver, AppServerClient * asc, double x, double y, double z, double t) \
+#define GSERVER_PROTO4d(type, func, type1, type2, type3, type4) \
+	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x, type2 y, type3 z, type4 t) \
 { \
 	DEBUG_INTERFACE4d(x, y, z, t); \
 	_gserver_queue4d(gserver, asc, GSERVER_VIDEO_PROTO4d_ ## func, x, y, z, t); \
 }
-#define GSERVER_PROTO4f(type, func) \
-	type GServer_ ## func (GServer * gserver, AppServerClient * asc, float x, float y, float z, float t) \
+#define GSERVER_PROTO4f(type, func, type1, type2, type3, type4) \
+	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x, type2 y, type3 z, type4 t) \
 { \
 	DEBUG_INTERFACE4f(x, y, z, t); \
 	_gserver_queue4f(gserver, asc, GSERVER_VIDEO_PROTO4f_ ## func, x, y, z, t); \
 }
 #define GSERVER_PROTO4i(type, func, type1, type2, type3, type4) \
-	type GServer_ ## func (GServer * gserver, AppServerClient * asc, int32_t x, int32_t y, int32_t z, int32_t t) \
+	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x, type2 y, type3 z, type4 t) \
 { \
 	DEBUG_INTERFACE4i(x, y, z, t); \
 	_gserver_queue4i(gserver, asc, GSERVER_VIDEO_PROTO4i_ ## func, x, y, z, t); \
 }
 #define GSERVER_PROTO4u(type, func, type1, type2, type3, type4) \
-	type GServer_ ## func (GServer * gserver, AppServerClient * asc, uint32_t x, uint32_t y, uint32_t z, uint32_t t) \
+	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x, type2 y, type3 z, type4 t) \
 { \
 	DEBUG_INTERFACE4u(x, y, z, t); \
 	_gserver_queue4u(gserver, asc, GSERVER_VIDEO_PROTO4u_ ## func, x, y, z, t); \
 }
 #define GSERVER_PROTO4ub(type, func, type1, type2, type3, type4) \
-	type GServer_ ## func (GServer * gserver, AppServerClient * asc, uint8_t x, uint8_t y, uint8_t z, uint8_t t) \
+	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x, type2 y, type3 z, type4 t) \
 { \
 	DEBUG_INTERFACE4ub(x, y, z, t); \
 	_gserver_queue4ub(gserver, asc, GSERVER_VIDEO_PROTO4ub_ ## func, x, y, z, t); \
 }
 #define GSERVER_PROTO4us(type, func, type1, type2, type3, type4) \
-	type GServer_ ## func (GServer * gserver, AppServerClient * asc, uint16_t x, uint16_t y, uint16_t z, uint16_t t) \
+	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x, type2 y, type3 z, type4 t) \
 { \
 	DEBUG_INTERFACE4us(x, y, z, t); \
 	_gserver_queue4us(gserver, asc, GSERVER_VIDEO_PROTO4us_ ## func, x, y, z, t); \
@@ -509,9 +509,9 @@ GSERVER_PROTO2u(void, glColorMaterial, uint32_t, uint32_t)
 GSERVER_PROTO2u(void, glHint, uint32_t, uint32_t)
 
 /* proto3f */
-GSERVER_PROTO3f(void, glColor3f)
-GSERVER_PROTO3f(void, glTranslatef)
-GSERVER_PROTO3f(void, glVertex3f)
+GSERVER_PROTO3f(void, glColor3f, float, float, float)
+GSERVER_PROTO3f(void, glTranslatef, float, float, float)
+GSERVER_PROTO3f(void, glVertex3f, float, float, float)
 
 /* proto3i */
 GSERVER_PROTO3i(void, glColor3i, int32_t, int32_t, int32_t)
@@ -521,12 +521,12 @@ GSERVER_PROTO3i(void, glVertex3i, int32_t, int32_t, int32_t)
 GSERVER_PROTO3u(void, glColor3ui, uint32_t, uint32_t, uint32_t)
 
 /* proto4d */
-GSERVER_PROTO4d(void, glColor4d)
+GSERVER_PROTO4d(void, glColor4d, double, double, double, double)
 
 /* proto4f */
-GSERVER_PROTO4f(void, glClearColor)
-GSERVER_PROTO4f(void, glColor4f)
-GSERVER_PROTO4f(void, glRotatef)
+GSERVER_PROTO4f(void, glClearColor, float, float, float, float)
+GSERVER_PROTO4f(void, glColor4f, float, float, float, float)
+GSERVER_PROTO4f(void, glRotatef, float, float, float, float)
 
 /* proto4i */
 GSERVER_PROTO4i(void, glColor4i, int32_t, int32_t, int32_t, int32_t)
