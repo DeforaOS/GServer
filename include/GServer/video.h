@@ -47,6 +47,7 @@ typedef enum _GServerVideoProto
 typedef enum _GServerVideoProto0
 {
 	GSERVER_VIDEO_PROTO0_glEnd = 0,
+	GSERVER_VIDEO_PROTO0_glEndList,
 	GSERVER_VIDEO_PROTO0_glFlush,
 	GSERVER_VIDEO_PROTO0_glLoadIdentity,
 	GSERVER_VIDEO_PROTO0_SwapBuffers

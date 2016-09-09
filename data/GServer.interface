@@ -119,6 +119,9 @@ arg1=UINT32
 [call::glEnd]
 ret=VOID
 
+[call::glEndList]
+ret=VOID
+
 [call::glFlush]
 ret=VOID
 

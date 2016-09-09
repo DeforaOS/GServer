@@ -489,6 +489,7 @@ void gserver_refresh(GServer * gserver)
 
 /* proto0 */
 GSERVER_PROTO0(void, glEnd)
+GSERVER_PROTO0(void, glEndList)
 GSERVER_PROTO0(void, glFlush)
 GSERVER_PROTO0(void, glLoadIdentity)
 GSERVER_PROTO0(void, SwapBuffers)
