@@ -102,6 +102,7 @@ typedef enum _GServerVideoProto3i
 {
 	GSERVER_VIDEO_PROTO3i_glColor3i = 0,
 	GSERVER_VIDEO_PROTO3i_glColor3ui,
+	GSERVER_VIDEO_PROTO3i_glDrawArrays,
 	GSERVER_VIDEO_PROTO3i_glLighti,
 	GSERVER_VIDEO_PROTO3i_glVertex3i
 } GServerVideoProto3i;

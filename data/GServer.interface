@@ -101,6 +101,11 @@ arg1=UINT32
 [call::glDisableClientState]
 arg1=UINT32
 
+[call::glDrawArrays]
+arg1=UINT32
+arg2=INT32
+arg3=INT32
+
 [call::glEnable]
 arg1=UINT32
 
