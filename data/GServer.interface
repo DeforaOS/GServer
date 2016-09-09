@@ -134,6 +134,11 @@ arg3=INT32
 [call::glLoadIdentity]
 ret=VOID
 
+[call::glNormal3f]
+arg1=FLOAT
+arg2=FLOAT
+arg3=FLOAT
+
 [call::glRotatef]
 arg1=FLOAT
 arg2=FLOAT

@@ -100,6 +100,7 @@ typedef enum _GServerVideoProto3d
 typedef enum _GServerVideoProto3f
 {
 	GSERVER_VIDEO_PROTO3f_glColor3f = 0,
+	GSERVER_VIDEO_PROTO3f_glNormal3f,
 	GSERVER_VIDEO_PROTO3f_glTranslatef,
 	GSERVER_VIDEO_PROTO3f_glVertex3f
 } GServerVideoProto3f;

@@ -519,6 +519,7 @@ GSERVER_PROTO3d(void, glColor3d)
 
 /* proto3f */
 GSERVER_PROTO3f(void, glColor3f)
+GSERVER_PROTO3f(void, glNormal3f)
 GSERVER_PROTO3f(void, glTranslatef)
 GSERVER_PROTO3f(void, glVertex3f)
 
