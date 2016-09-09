@@ -26,6 +26,9 @@ arg1=INT32
 arg2=INT32
 arg3=INT32
 
+[call::glDepthFunc]
+arg1=UINT32
+
 [call::glDisable]
 arg1=UINT32
 
