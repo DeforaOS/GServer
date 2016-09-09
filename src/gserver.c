@@ -36,19 +36,23 @@
 #ifdef DEBUG
 # define DEBUG_INTERFACE() fprintf(stderr, "DEBUG: %s()\n", __func__)
 # define DEBUG_INTERFACE1i(x) fprintf(stderr, "DEBUG: %s(0x%x)\n", __func__, x)
-# define DEBUG_INTERFACE2i(x) fprintf(stderr, "DEBUG: %s(0x%x, 0x%x)\n", __func__, x, y)
-# define DEBUG_INTERFACE3i(x) fprintf(stderr, "DEBUG: %s(0x%x, 0x%x, 0x%x)\n", __func__, x, y, z)
+# define DEBUG_INTERFACE2i(x, y) \
+	fprintf(stderr, "DEBUG: %s(0x%x, 0x%x)\n", __func__, x, y)
+# define DEBUG_INTERFACE3i(x, y, z) \
+	fprintf(stderr, "DEBUG: %s(0x%x, 0x%x, 0x%x)\n", __func__, x, y, z)
 # define DEBUG_INTERFACE1u(x) DEBUG_INTERFACE1i(x)
-# define DEBUG_INTERFACE2u(x) DEBUG_INTERFACE2i(x)
-# define DEBUG_INTERFACE3u(x) DEBUG_INTERFACE3i(x)
-# define DEBUG_INTERFACE3f(x, y, z) fprintf(stderr, \
-		"DEBUG: %s(%.1f, %.1f, %.1f)\n", __func__, *x, *y, *z)
-# define DEBUG_INTERFACE3i(x, y, z) fprintf(stderr, \
-		"DEBUG: %s(%d, %d, %d)\n", __func__, x, y, z)
-# define DEBUG_INTERFACE4d(x, y, z, t) fprintf(stderr, \
-		"DEBUG: %s(%.1f, %.1f, %.1f, %.1f)\n", __func__, *x, *y, *z, *t)
-# define DEBUG_INTERFACE4f(x, y, z, t) fprintf(stderr, \
-		"DEBUG: %s(%.1f, %.1f, %.1f, %.1f)\n", __func__, *x, *y, *z, *t)
+# define DEBUG_INTERFACE2u(x, y) DEBUG_INTERFACE2i(x, y)
+# define DEBUG_INTERFACE3i(x, y, z) \
+	fprintf(stderr, "DEBUG: %s(0x%x, 0x%x, 0x%x)\n", __func__, x, y, z)
+# define DEBUG_INTERFACE3f(x, y, z) \
+	fprintf(stderr, "DEBUG: %s(%.1f, %.1f, %.1f)\n", __func__, x, y, z)
+# define DEBUG_INTERFACE3u(x, y, z) DEBUG_INTERFACE3i(x, y, z)
+# define DEBUG_INTERFACE4d(x, y, z, t) \
+	fprintf(stderr, "DEBUG: %s(%.1f, %.1f, %.1f, %.1f)\n", \
+			__func__, x, y, z, t)
+# define DEBUG_INTERFACE4f(x, y, z, t) \
+	fprintf(stderr, "DEBUG: %s(%.1f, %.1f, %.1f, %.1f)\n", \
+			__func__, x, y, z, t)
 #else
 # define DEBUG_INTERFACE()
 # define DEBUG_INTERFACE1i(x)
