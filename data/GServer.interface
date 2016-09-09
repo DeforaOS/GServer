@@ -26,6 +26,10 @@ arg1=INT32
 arg2=INT32
 arg3=INT32
 
+[call::glColorMaterial]
+arg1=UINT32
+arg2=UINT32
+
 [call::glDepthFunc]
 arg1=UINT32
 

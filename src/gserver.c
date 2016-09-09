@@ -391,6 +391,7 @@ GSERVER_PROTO1u(void, glEnableClientState, uint32_t)
 GSERVER_PROTO1u(bool, glIsEnabled, uint32_t)
 
 /* proto2u */
+GSERVER_PROTO2u(void, glColorMaterial, uint32_t, uint32_t)
 GSERVER_PROTO2u(void, glHint, uint32_t, uint32_t)
 
 /* proto3f */

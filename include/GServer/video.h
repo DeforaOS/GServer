@@ -77,7 +77,8 @@ typedef enum _GServerVideoProto1u
 
 typedef enum _GServerVideoProto2u
 {
-	GSERVER_VIDEO_PROTO2u_glHint = 0
+	GSERVER_VIDEO_PROTO2u_glColorMaterial = 0,
+	GSERVER_VIDEO_PROTO2u_glHint
 } GServerVideoProto2u;
 # define GSERVER_VIDEO_PROTO2u_LAST GSERVER_VIDEO_PROTO2u_glHint
 # define GSERVER_VIDEO_PROTO2u_COUNT (GSERVER_VIDEO_PROTO1u_LAST + 1)
