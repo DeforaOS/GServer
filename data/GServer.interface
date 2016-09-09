@@ -16,6 +16,11 @@ arg4=FLOAT
 [call::glClearDepth]
 arg1=DOUBLE
 
+[call::glColor3d]
+arg1=DOUBLE
+arg2=DOUBLE
+arg3=DOUBLE
+
 [call::glColor3f]
 arg1=FLOAT
 arg2=FLOAT
