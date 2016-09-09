@@ -529,6 +529,7 @@ GSERVER_PROTO3i(void, glColor3i, int32_t, int32_t, int32_t)
 GSERVER_PROTO3i(void, glColor3ui, uint32_t, uint32_t, uint32_t)
 GSERVER_PROTO3i(void, glDrawArrays, uint32_t, int32_t, int32_t)
 GSERVER_PROTO3i(void, glLighti, uint32_t, uint32_t, int32_t)
+GSERVER_PROTO3i(void, glTexParameteri, uint32_t, uint32_t, uint32_t)
 GSERVER_PROTO3i(void, glVertex3i, int32_t, int32_t, int32_t)
 
 /* proto3s */

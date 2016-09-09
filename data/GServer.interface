@@ -153,6 +153,11 @@ arg4=FLOAT
 arg1=FLOAT
 arg2=FLOAT
 
+[call::glTexParameteri]
+arg1=UINT32
+arg2=UINT32
+arg3=UINT32
+
 [call::glTranslatef]
 arg1=FLOAT
 arg2=FLOAT
