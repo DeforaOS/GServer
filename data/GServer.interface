@@ -26,6 +26,12 @@ arg1=INT32
 arg2=INT32
 arg3=INT32
 
+[call::glDisable]
+arg1=UINT32
+
+[call::glDisableClientState]
+arg1=UINT32
+
 [call::glEnable]
 arg1=UINT32
 

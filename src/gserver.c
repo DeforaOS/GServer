@@ -366,6 +366,8 @@ GSERVER_PROTO1i(void, glBegin, uint32_t)
 GSERVER_PROTO1i(void, glClear, uint32_t)
 
 /* proto1u */
+GSERVER_PROTO1u(void, glDisable, uint32_t)
+GSERVER_PROTO1u(void, glDisableClientState, uint32_t)
 GSERVER_PROTO1u(void, glEnable, uint32_t)
 GSERVER_PROTO1u(void, glEnableClientState, uint32_t)
 /* FIXME really returns bool */
