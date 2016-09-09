@@ -108,7 +108,7 @@ typedef enum _GServerVideoProto3i
 
 typedef enum _GServerVideoProto3u
 {
-	GSERVER_VIDEO_PROTO3i_glColor3ui = 0
+	GSERVER_VIDEO_PROTO3u_glColor3ui = 0
 } GServerVideoProto3u;
 # define GSERVER_VIDEO_PROTO3u_LAST GSERVER_VIDEO_PROTO3ui_glColor3ui
 # define GSERVER_VIDEO_PROTO3u_COUNT (GSERVER_VIDEO_PROTO3ui_LAST + 1)

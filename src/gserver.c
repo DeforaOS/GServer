@@ -443,7 +443,7 @@ void gserver_refresh(GServer * gserver)
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, uint32_t x, uint32_t y, uint32_t z) \
 { \
 	DEBUG_INTERFACE3u(x, y, z); \
-	_gserver_queue3u(gserver, asc, GSERVER_VIDEO_PROTO3i_ ## func, x, y, z); \
+	_gserver_queue3u(gserver, asc, GSERVER_VIDEO_PROTO3u_ ## func, x, y, z); \
 }
 #define GSERVER_PROTO4d(type, func) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, double x, double y, double z, double t) \
