@@ -45,6 +45,8 @@
 		"DEBUG: %s(%.1f, %.1f, %.1f)\n", __func__, *x, *y, *z)
 # define DEBUG_INTERFACE3i(x, y, z) fprintf(stderr, \
 		"DEBUG: %s(%d, %d, %d)\n", __func__, x, y, z)
+# define DEBUG_INTERFACE4d(x, y, z, t) fprintf(stderr, \
+		"DEBUG: %s(%.1f, %.1f, %.1f, %.1f)\n", __func__, *x, *y, *z, *t)
 # define DEBUG_INTERFACE4f(x, y, z, t) fprintf(stderr, \
 		"DEBUG: %s(%.1f, %.1f, %.1f, %.1f)\n", __func__, *x, *y, *z, *t)
 #else
@@ -55,6 +57,7 @@
 # define DEBUG_INTERFACE3f(x, y, z)
 # define DEBUG_INTERFACE3i(x, y, z)
 # define DEBUG_INTERFACE3u(x, y, z)
+# define DEBUG_INTERFACE4d(x, y, z, t)
 # define DEBUG_INTERFACE4f(x, y, z, t)
 #endif
 
@@ -128,6 +131,13 @@ struct _GServerCall
 		} _3u;
 		struct
 		{
+			double x;
+			double y;
+			double z;
+			double t;
+		} _4d;
+		struct
+		{
 			float x;
 			float y;
 			float z;
@@ -171,6 +181,9 @@ static int _gserver_queue3i(GServer * gserver, AppServerClient * asc,
 		GServerVideoProto3i func, int32_t x, int32_t y, int32_t z);
 static int _gserver_queue3u(GServer * gserver, AppServerClient * asc,
 		GServerVideoProto3u func, uint32_t x, uint32_t y, uint32_t z);
+static int _gserver_queue4d(GServer * gserver, AppServerClient * asc,
+		GServerVideoProto4d func, double x, double y, double z,
+		double t);
 static int _gserver_queue4f(GServer * gserver, AppServerClient * asc,
 		GServerVideoProto4f func, float x, float y, float z, float t);
 
@@ -378,6 +391,12 @@ void gserver_refresh(GServer * gserver)
 	DEBUG_INTERFACE3u(x, y, z); \
 	_gserver_queue3u(gserver, asc, GSERVER_VIDEO_PROTO3i_ ## func, x, y, z); \
 }
+#define GSERVER_PROTO4d(type, func) \
+	type GServer_ ## func (GServer * gserver, AppServerClient * asc, double x, double y, double z, double t) \
+{ \
+	DEBUG_INTERFACE4d(x, y, z, t); \
+	_gserver_queue4d(gserver, asc, GSERVER_VIDEO_PROTO4d_ ## func, x, y, z, t); \
+}
 #define GSERVER_PROTO4f(type, func) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, float x, float y, float z, float t) \
 { \
@@ -422,6 +441,9 @@ GSERVER_PROTO3i(void, glVertex3i, int32_t, int32_t, int32_t)
 
 /* proto3u */
 GSERVER_PROTO3u(void, glColor3ui, uint32_t, uint32_t, uint32_t)
+
+/* proto4d */
+GSERVER_PROTO4d(void, glColor4d)
 
 /* proto4f */
 GSERVER_PROTO4f(void, glClearColor)
@@ -473,6 +495,12 @@ static void _gserver_client_calls(GServer * gserver, GServerClient * client)
 				vp->proto3u(vp, call->func, call->args._3u.x,
 						call->args._3u.y,
 						call->args._3u.z);
+				break;
+			case GSERVER_VIDEO_PROTO_4d:
+				vp->proto4d(vp, call->func, call->args._4d.x,
+						call->args._4d.y,
+						call->args._4d.z,
+						call->args._4d.t);
 				break;
 			case GSERVER_VIDEO_PROTO_4f:
 				vp->proto4f(vp, call->func, call->args._4f.x,
@@ -649,6 +677,24 @@ static int _gserver_queue3u(GServer * gserver, AppServerClient * asc,
 	gsc->args._3u.x = x;
 	gsc->args._3u.y = y;
 	gsc->args._3u.z = z;
+	return 0;
+}
+
+
+/* gserver_queue4d */
+static int _gserver_queue4d(GServer * gserver, AppServerClient * asc,
+		GServerVideoProto4d func, double x, double y, double z,
+		double t)
+{
+	GServerCall * gsc;
+
+	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_PROTO_4d, func))
+			== NULL)
+		return -1;
+	gsc->args._4d.x = x;
+	gsc->args._4d.y = y;
+	gsc->args._4d.z = z;
+	gsc->args._4d.t = t;
 	return 0;
 }
 
