@@ -26,159 +26,160 @@
 
 /* Video */
 /* types */
-typedef enum _GServerVideoProto
+typedef enum _GServerVideoCall
 {
-	GSERVER_VIDEO_PROTO_0 = 0,
-	GSERVER_VIDEO_PROTO_1d,
-	GSERVER_VIDEO_PROTO_1i,
-	GSERVER_VIDEO_PROTO_2f,
-	GSERVER_VIDEO_PROTO_2i,
-	GSERVER_VIDEO_PROTO_3b,
-	GSERVER_VIDEO_PROTO_3d,
-	GSERVER_VIDEO_PROTO_3f,
-	GSERVER_VIDEO_PROTO_3i,
-	GSERVER_VIDEO_PROTO_3s,
-	GSERVER_VIDEO_PROTO_4b,
-	GSERVER_VIDEO_PROTO_4d,
-	GSERVER_VIDEO_PROTO_4f,
-	GSERVER_VIDEO_PROTO_4i,
-	GSERVER_VIDEO_PROTO_4s
-} GServerVideoProto;
+	GSERVER_VIDEO_CALL_0 = 0,
+	GSERVER_VIDEO_CALL_1d,
+	GSERVER_VIDEO_CALL_1i,
+	GSERVER_VIDEO_CALL_2f,
+	GSERVER_VIDEO_CALL_2i,
+	GSERVER_VIDEO_CALL_3b,
+	GSERVER_VIDEO_CALL_3d,
+	GSERVER_VIDEO_CALL_3f,
+	GSERVER_VIDEO_CALL_3i,
+	GSERVER_VIDEO_CALL_3s,
+	GSERVER_VIDEO_CALL_4b,
+	GSERVER_VIDEO_CALL_4d,
+	GSERVER_VIDEO_CALL_4f,
+	GSERVER_VIDEO_CALL_4i,
+	GSERVER_VIDEO_CALL_4s
+} GServerVideoCall;
 
-typedef enum _GServerVideoProto0
+typedef enum _GServerVideoCall0
 {
-	GSERVER_VIDEO_PROTO0_glEnd = 0,
-	GSERVER_VIDEO_PROTO0_glEndList,
-	GSERVER_VIDEO_PROTO0_glFlush,
-	GSERVER_VIDEO_PROTO0_glLoadIdentity,
-	GSERVER_VIDEO_PROTO0_SwapBuffers
-} GServerVideoProto0;
-# define GSERVER_VIDEO_PROTO0_LAST GSERVER_VIDEO_PROTO0_SwapBuffers
-# define GSERVER_VIDEO_PROTO0_COUNT (GSERVER_VIDEO_PROTO0_LAST + 1)
+	GSERVER_VIDEO_CALL0_glEnd = 0,
+	GSERVER_VIDEO_CALL0_glEndList,
+	GSERVER_VIDEO_CALL0_glFlush,
+	GSERVER_VIDEO_CALL0_glLoadIdentity,
+	GSERVER_VIDEO_CALL0_SwapBuffers
+} GServerVideoCall0;
+# define GSERVER_VIDEO_CALL0_LAST GSERVER_VIDEO_CALL0_SwapBuffers
+# define GSERVER_VIDEO_CALL0_COUNT (GSERVER_VIDEO_CALL0_LAST + 1)
 
-typedef enum _GServerVideoProto1d
+typedef enum _GServerVideoCall1d
 {
-	GSERVER_VIDEO_PROTO1d_glClearDepth = 0
-} GServerVideoProto1d;
-# define GSERVER_VIDEO_PROTO1d_LAST GSERVER_VIDEO_PROTO1d_glClearDepth
-# define GSERVER_VIDEO_PROTO1d_COUNT (GSERVER_VIDEO_PROTO1d_LAST + 1)
+	GSERVER_VIDEO_CALL1d_glClearDepth = 0
+} GServerVideoCall1d;
+# define GSERVER_VIDEO_CALL1d_LAST GSERVER_VIDEO_CALL1d_glClearDepth
+# define GSERVER_VIDEO_CALL1d_COUNT (GSERVER_VIDEO_CALL1d_LAST + 1)
 
-typedef enum _GServerVideoProto1i
+typedef enum _GServerVideoCall1i
 {
-	GSERVER_VIDEO_PROTO1i_glBegin = 0,
-	GSERVER_VIDEO_PROTO1i_glClear,
-	GSERVER_VIDEO_PROTO1i_glDepthFunc,
-	GSERVER_VIDEO_PROTO1i_glDisable,
-	GSERVER_VIDEO_PROTO1i_glDisableClientState,
-	GSERVER_VIDEO_PROTO1i_glEnable,
-	GSERVER_VIDEO_PROTO1i_glEnableClientState,
-	GSERVER_VIDEO_PROTO1i_glIsEnabled,
-	GSERVER_VIDEO_PROTO1i_glShadeModel
-} GServerVideoProto1i;
-# define GSERVER_VIDEO_PROTO1i_LAST GSERVER_VIDEO_PROTO1i_glShadeModel
-# define GSERVER_VIDEO_PROTO1i_COUNT (GSERVER_VIDEO_PROTO1i_LAST + 1)
+	GSERVER_VIDEO_CALL1i_glBegin = 0,
+	GSERVER_VIDEO_CALL1i_glClear,
+	GSERVER_VIDEO_CALL1i_glDepthFunc,
+	GSERVER_VIDEO_CALL1i_glDisable,
+	GSERVER_VIDEO_CALL1i_glDisableClientState,
+	GSERVER_VIDEO_CALL1i_glEnable,
+	GSERVER_VIDEO_CALL1i_glEnableClientState,
+	GSERVER_VIDEO_CALL1i_glIsEnabled,
+	GSERVER_VIDEO_CALL1i_glShadeModel
+} GServerVideoCall1i;
+# define GSERVER_VIDEO_CALL1i_LAST GSERVER_VIDEO_CALL1i_glShadeModel
+# define GSERVER_VIDEO_CALL1i_COUNT (GSERVER_VIDEO_CALL1i_LAST + 1)
 
-typedef enum _GServerVideoProto2f
+typedef enum _GServerVideoCall2f
 {
-	GSERVER_VIDEO_PROTO2f_glTexCoord2f = 0
-} GServerVideoProto2f;
-# define GSERVER_VIDEO_PROTO2f_LAST GSERVER_VIDEO_PROTO2f_glTexCoord2f
-# define GSERVER_VIDEO_PROTO2f_COUNT (GSERVER_VIDEO_PROTO2f_LAST + 1)
+	GSERVER_VIDEO_CALL2f_glTexCoord2f = 0
+} GServerVideoCall2f;
+# define GSERVER_VIDEO_CALL2f_LAST GSERVER_VIDEO_CALL2f_glTexCoord2f
+# define GSERVER_VIDEO_CALL2f_COUNT (GSERVER_VIDEO_CALL2f_LAST + 1)
 
-typedef enum _GServerVideoProto2i
+typedef enum _GServerVideoCall2i
 {
-	GSERVER_VIDEO_PROTO2i_glBindTexture = 0,
-	GSERVER_VIDEO_PROTO2i_glColorMaterial,
-	GSERVER_VIDEO_PROTO2i_glHint,
-	GSERVER_VIDEO_PROTO2i_glVertex2i
-} GServerVideoProto2i;
-# define GSERVER_VIDEO_PROTO2i_LAST GSERVER_VIDEO_PROTO2i_glVertex2i
-# define GSERVER_VIDEO_PROTO2i_COUNT (GSERVER_VIDEO_PROTO1i_LAST + 1)
+	GSERVER_VIDEO_CALL2i_glBindTexture = 0,
+	GSERVER_VIDEO_CALL2i_glColorMaterial,
+	GSERVER_VIDEO_CALL2i_glHint,
+	GSERVER_VIDEO_CALL2i_glVertex2i
+} GServerVideoCall2i;
+# define GSERVER_VIDEO_CALL2i_LAST GSERVER_VIDEO_CALL2i_glVertex2i
+# define GSERVER_VIDEO_CALL2i_COUNT (GSERVER_VIDEO_CALL1i_LAST + 1)
 
-typedef enum _GServerVideoProto3b
+typedef enum _GServerVideoCall3b
 {
-	GSERVER_VIDEO_PROTO3b_glColor3b = 0,
-	GSERVER_VIDEO_PROTO3b_glColor3ub
-} GServerVideoProto3b;
-# define GSERVER_VIDEO_PROTO3b_LAST GSERVER_VIDEO_PROTO3b_glColor3ub
-# define GSERVER_VIDEO_PROTO3b_COUNT (GSERVER_VIDEO_PROTO3b_LAST + 1)
+	GSERVER_VIDEO_CALL3b_glColor3b = 0,
+	GSERVER_VIDEO_CALL3b_glColor3ub
+} GServerVideoCall3b;
+# define GSERVER_VIDEO_CALL3b_LAST GSERVER_VIDEO_CALL3b_glColor3ub
+# define GSERVER_VIDEO_CALL3b_COUNT (GSERVER_VIDEO_CALL3b_LAST + 1)
 
-typedef enum _GServerVideoProto3d
+typedef enum _GServerVideoCall3d
 {
-	GSERVER_VIDEO_PROTO3d_glColor3d = 0,
-	GSERVER_VIDEO_PROTO3d_glTranslated
-} GServerVideoProto3d;
-# define GSERVER_VIDEO_PROTO3d_LAST GSERVER_VIDEO_PROTO3d_glTranslated
-# define GSERVER_VIDEO_PROTO3d_COUNT (GSERVER_VIDEO_PROTO3d_LAST + 1)
+	GSERVER_VIDEO_CALL3d_glColor3d = 0,
+	GSERVER_VIDEO_CALL3d_glTranslated
+} GServerVideoCall3d;
+# define GSERVER_VIDEO_CALL3d_LAST GSERVER_VIDEO_CALL3d_glTranslated
+# define GSERVER_VIDEO_CALL3d_COUNT (GSERVER_VIDEO_CALL3d_LAST + 1)
 
-typedef enum _GServerVideoProto3f
+typedef enum _GServerVideoCall3f
 {
-	GSERVER_VIDEO_PROTO3f_glColor3f = 0,
-	GSERVER_VIDEO_PROTO3f_glNormal3f,
-	GSERVER_VIDEO_PROTO3f_glTranslatef,
-	GSERVER_VIDEO_PROTO3f_glVertex3f
-} GServerVideoProto3f;
-# define GSERVER_VIDEO_PROTO3f_LAST GSERVER_VIDEO_PROTO3f_glVertex3f
-# define GSERVER_VIDEO_PROTO3f_COUNT (GSERVER_VIDEO_PROTO3f_LAST + 1)
+	GSERVER_VIDEO_CALL3f_glColor3f = 0,
+	GSERVER_VIDEO_CALL3f_glNormal3f,
+	GSERVER_VIDEO_CALL3f_glTranslatef,
+	GSERVER_VIDEO_CALL3f_glVertex3f
+} GServerVideoCall3f;
+# define GSERVER_VIDEO_CALL3f_LAST GSERVER_VIDEO_CALL3f_glVertex3f
+# define GSERVER_VIDEO_CALL3f_COUNT (GSERVER_VIDEO_CALL3f_LAST + 1)
 
-typedef enum _GServerVideoProto3i
+typedef enum _GServerVideoCall3i
 {
-	GSERVER_VIDEO_PROTO3i_glColor3i = 0,
-	GSERVER_VIDEO_PROTO3i_glColor3ui,
-	GSERVER_VIDEO_PROTO3i_glDrawArrays,
-	GSERVER_VIDEO_PROTO3i_glLighti,
-	GSERVER_VIDEO_PROTO3i_glTexParameteri,
-	GSERVER_VIDEO_PROTO3i_glVertex3i
-} GServerVideoProto3i;
-# define GSERVER_VIDEO_PROTO3i_LAST GSERVER_VIDEO_PROTO3i_glVertex3i
-# define GSERVER_VIDEO_PROTO3i_COUNT (GSERVER_VIDEO_PROTO3i_LAST + 1)
+	GSERVER_VIDEO_CALL3i_glColor3i = 0,
+	GSERVER_VIDEO_CALL3i_glColor3ui,
+	GSERVER_VIDEO_CALL3i_glDrawArrays,
+	GSERVER_VIDEO_CALL3i_glLighti,
+	GSERVER_VIDEO_CALL3i_glTexParameteri,
+	GSERVER_VIDEO_CALL3i_glVertex3i
+} GServerVideoCall3i;
+# define GSERVER_VIDEO_CALL3i_LAST GSERVER_VIDEO_CALL3i_glVertex3i
+# define GSERVER_VIDEO_CALL3i_COUNT (GSERVER_VIDEO_CALL3i_LAST + 1)
 
-typedef enum _GServerVideoProto3s
+typedef enum _GServerVideoCall3s
 {
-	GSERVER_VIDEO_PROTO3s_glColor3s = 0
-} GServerVideoProto3s;
-# define GSERVER_VIDEO_PROTO3s_LAST GSERVER_VIDEO_PROTO3s_glColor3s
-# define GSERVER_VIDEO_PROTO3s_COUNT (GSERVER_VIDEO_PROTO3s_LAST + 1)
+	GSERVER_VIDEO_CALL3s_glColor3s = 0,
+	GSERVER_VIDEO_CALL3s_glColor3us
+} GServerVideoCall3s;
+# define GSERVER_VIDEO_CALL3s_LAST GSERVER_VIDEO_CALL3s_glColor3us
+# define GSERVER_VIDEO_CALL3s_COUNT (GSERVER_VIDEO_CALL3s_LAST + 1)
 
-typedef enum _GServerVideoProto4b
+typedef enum _GServerVideoCall4b
 {
-	GSERVER_VIDEO_PROTO4b_glColor4b = 0,
-	GSERVER_VIDEO_PROTO4b_glColor4ub
-} GServerVideoProto4b;
-# define GSERVER_VIDEO_PROTO4b_LAST GSERVER_VIDEO_PROTO4b_glColor4ub
-# define GSERVER_VIDEO_PROTO4b_COUNT (GSERVER_VIDEO_PROTO4b_LAST + 1)
+	GSERVER_VIDEO_CALL4b_glColor4b = 0,
+	GSERVER_VIDEO_CALL4b_glColor4ub
+} GServerVideoCall4b;
+# define GSERVER_VIDEO_CALL4b_LAST GSERVER_VIDEO_CALL4b_glColor4ub
+# define GSERVER_VIDEO_CALL4b_COUNT (GSERVER_VIDEO_CALL4b_LAST + 1)
 
-typedef enum _GServerVideoProto4d
+typedef enum _GServerVideoCall4d
 {
-	GSERVER_VIDEO_PROTO4d_glColor4d = 0
-} GServerVideoProto4d;
-# define GSERVER_VIDEO_PROTO4d_LAST GSERVER_VIDEO_PROTO4d_glColor4d
-# define GSERVER_VIDEO_PROTO4d_COUNT (GSERVER_VIDEO_PROTO4d_LAST + 1)
+	GSERVER_VIDEO_CALL4d_glColor4d = 0
+} GServerVideoCall4d;
+# define GSERVER_VIDEO_CALL4d_LAST GSERVER_VIDEO_CALL4d_glColor4d
+# define GSERVER_VIDEO_CALL4d_COUNT (GSERVER_VIDEO_CALL4d_LAST + 1)
 
-typedef enum _GServerVideoProto4f
+typedef enum _GServerVideoCall4f
 {
-	GSERVER_VIDEO_PROTO4f_glClearColor = 0,
-	GSERVER_VIDEO_PROTO4f_glColor4f,
-	GSERVER_VIDEO_PROTO4f_glRotatef
-} GServerVideoProto4f;
-# define GSERVER_VIDEO_PROTO4f_LAST GSERVER_VIDEO_PROTO4f_glRotatef
-# define GSERVER_VIDEO_PROTO4f_COUNT (GSERVER_VIDEO_PROTO4f_LAST + 1)
+	GSERVER_VIDEO_CALL4f_glClearColor = 0,
+	GSERVER_VIDEO_CALL4f_glColor4f,
+	GSERVER_VIDEO_CALL4f_glRotatef
+} GServerVideoCall4f;
+# define GSERVER_VIDEO_CALL4f_LAST GSERVER_VIDEO_CALL4f_glRotatef
+# define GSERVER_VIDEO_CALL4f_COUNT (GSERVER_VIDEO_CALL4f_LAST + 1)
 
-typedef enum _GServerVideoProto4i
+typedef enum _GServerVideoCall4i
 {
-	GSERVER_VIDEO_PROTO4i_glColor4i = 0,
-	GSERVER_VIDEO_PROTO4i_glColor4ui
-} GServerVideoProto4i;
-# define GSERVER_VIDEO_PROTO4i_LAST GSERVER_VIDEO_PROTO4i_glColor4ui
-# define GSERVER_VIDEO_PROTO4i_COUNT (GSERVER_VIDEO_PROTO4i_LAST + 1)
+	GSERVER_VIDEO_CALL4i_glColor4i = 0,
+	GSERVER_VIDEO_CALL4i_glColor4ui
+} GServerVideoCall4i;
+# define GSERVER_VIDEO_CALL4i_LAST GSERVER_VIDEO_CALL4i_glColor4ui
+# define GSERVER_VIDEO_CALL4i_COUNT (GSERVER_VIDEO_CALL4i_LAST + 1)
 
-typedef enum _GServerVideoProto4s
+typedef enum _GServerVideoCall4s
 {
-	GSERVER_VIDEO_PROTO4s_glColor4s = 0,
-	GSERVER_VIDEO_PROTO4s_glColor4us
-} GServerVideoProto4s;
-# define GSERVER_VIDEO_PROTO4s_LAST GSERVER_VIDEO_PROTO4s_glColor4us
-# define GSERVER_VIDEO_PROTO4s_COUNT (GSERVER_VIDEO_PROTO4s_LAST + 1)
+	GSERVER_VIDEO_CALL4s_glColor4s = 0,
+	GSERVER_VIDEO_CALL4s_glColor4us
+} GServerVideoCall4s;
+# define GSERVER_VIDEO_CALL4s_LAST GSERVER_VIDEO_CALL4s_glColor4us
+# define GSERVER_VIDEO_CALL4s_COUNT (GSERVER_VIDEO_CALL4s_LAST + 1)
 
 /* GServerVideoPlugin */
 typedef struct _GServerVideoPlugin GServerVideoPlugin;
@@ -199,34 +200,34 @@ struct _GServerVideoPlugin
 	char const * name;
 	int (*init)(GServerVideoPlugin * plugin);
 	void (*destroy)(GServerVideoPlugin * plugin);
-	void (*proto0)(GServerVideoPlugin * plugin, GServerVideoProto0 func);
-	void (*proto1d)(GServerVideoPlugin * plugin, GServerVideoProto1d func,
+	void (*call0)(GServerVideoPlugin * plugin, GServerVideoCall0 func);
+	void (*call1d)(GServerVideoPlugin * plugin, GServerVideoCall1d func,
 			double x);
-	void (*proto1i)(GServerVideoPlugin * plugin, GServerVideoProto1i func,
+	void (*call1i)(GServerVideoPlugin * plugin, GServerVideoCall1i func,
 			uint32_t x);
-	void (*proto2f)(GServerVideoPlugin * plugin, GServerVideoProto2f func,
+	void (*call2f)(GServerVideoPlugin * plugin, GServerVideoCall2f func,
 			float x, float y);
-	void (*proto2i)(GServerVideoPlugin * plugin, GServerVideoProto2i func,
+	void (*call2i)(GServerVideoPlugin * plugin, GServerVideoCall2i func,
 			uint32_t x, uint32_t y);
-	void (*proto3b)(GServerVideoPlugin * plugin, GServerVideoProto3b func,
+	void (*call3b)(GServerVideoPlugin * plugin, GServerVideoCall3b func,
 			uint8_t x, uint8_t y, uint8_t z);
-	void (*proto3d)(GServerVideoPlugin * plugin, GServerVideoProto3d func,
+	void (*call3d)(GServerVideoPlugin * plugin, GServerVideoCall3d func,
 			double x, double y, double z);
-	void (*proto3f)(GServerVideoPlugin * plugin, GServerVideoProto3f func,
+	void (*call3f)(GServerVideoPlugin * plugin, GServerVideoCall3f func,
 			float x, float y, float z);
-	void (*proto3i)(GServerVideoPlugin * plugin, GServerVideoProto3i func,
+	void (*call3i)(GServerVideoPlugin * plugin, GServerVideoCall3i func,
 			uint32_t x, uint32_t y, uint32_t z);
-	void (*proto3s)(GServerVideoPlugin * plugin, GServerVideoProto3s func,
+	void (*call3s)(GServerVideoPlugin * plugin, GServerVideoCall3s func,
 			uint16_t x, uint16_t y, uint16_t z);
-	void (*proto4b)(GServerVideoPlugin * plugin, GServerVideoProto4b func,
+	void (*call4b)(GServerVideoPlugin * plugin, GServerVideoCall4b func,
 			uint8_t x, uint8_t y, uint8_t z, uint8_t t);
-	void (*proto4d)(GServerVideoPlugin * plugin, GServerVideoProto4d func,
+	void (*call4d)(GServerVideoPlugin * plugin, GServerVideoCall4d func,
 			double x, double y, double z, double t);
-	void (*proto4f)(GServerVideoPlugin * plugin, GServerVideoProto4f func,
+	void (*call4f)(GServerVideoPlugin * plugin, GServerVideoCall4f func,
 			float x, float y, float z, float t);
-	void (*proto4i)(GServerVideoPlugin * plugin, GServerVideoProto4i func,
+	void (*call4i)(GServerVideoPlugin * plugin, GServerVideoCall4i func,
 			uint32_t x, uint32_t y, uint32_t z, uint32_t t);
-	void (*proto4s)(GServerVideoPlugin * plugin, GServerVideoProto4s func,
+	void (*call4s)(GServerVideoPlugin * plugin, GServerVideoCall4s func,
 			uint16_t x, uint16_t y, uint16_t z, uint16_t t);
 	void * priv;
 };

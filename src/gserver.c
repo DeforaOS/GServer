@@ -104,7 +104,7 @@ struct _App
 
 struct _GServerCall
 {
-	GServerVideoProto type;
+	GServerVideoCall type;
 	unsigned int func;
 	union
 	{
@@ -212,40 +212,40 @@ static GServerClient * _gserver_get_client(GServer * gserver, void * id);
 
 /* queue */
 static GServerCall * _gserver_queue(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto type, unsigned int func);
+		GServerVideoCall type, unsigned int func);
 static int _gserver_queue0(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto0 func);
+		GServerVideoCall0 func);
 static int _gserver_queue1d(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto1d func, double x);
+		GServerVideoCall1d func, double x);
 static int _gserver_queue1i(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto1i func, uint32_t x);
+		GServerVideoCall1i func, uint32_t x);
 static int _gserver_queue2f(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto2f func, float x, float y);
+		GServerVideoCall2f func, float x, float y);
 static int _gserver_queue2i(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto2i func, uint32_t x, uint32_t y);
+		GServerVideoCall2i func, uint32_t x, uint32_t y);
 static int _gserver_queue3b(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto3b func, uint8_t x, uint8_t y, uint8_t z);
+		GServerVideoCall3b func, uint8_t x, uint8_t y, uint8_t z);
 static int _gserver_queue3d(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto3d func, double x, double y, double z);
+		GServerVideoCall3d func, double x, double y, double z);
 static int _gserver_queue3f(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto3f func, float x, float y, float z);
+		GServerVideoCall3f func, float x, float y, float z);
 static int _gserver_queue3i(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto3i func, uint32_t x, uint32_t y, uint32_t z);
+		GServerVideoCall3i func, uint32_t x, uint32_t y, uint32_t z);
 static int _gserver_queue3s(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto3s func, uint16_t x, uint16_t y, uint16_t z);
+		GServerVideoCall3s func, uint16_t x, uint16_t y, uint16_t z);
 static int _gserver_queue4b(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto4b func, uint8_t x, uint8_t y, uint8_t z,
+		GServerVideoCall4b func, uint8_t x, uint8_t y, uint8_t z,
 		uint8_t t);
 static int _gserver_queue4d(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto4d func, double x, double y, double z,
+		GServerVideoCall4d func, double x, double y, double z,
 		double t);
 static int _gserver_queue4f(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto4f func, float x, float y, float z, float t);
+		GServerVideoCall4f func, float x, float y, float z, float t);
 static int _gserver_queue4i(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto4i func, uint32_t x, uint32_t y, uint32_t z,
+		GServerVideoCall4i func, uint32_t x, uint32_t y, uint32_t z,
 		uint32_t t);
 static int _gserver_queue4s(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto4s func, uint16_t x, uint16_t y, uint16_t z,
+		GServerVideoCall4s func, uint16_t x, uint16_t y, uint16_t z,
 		uint16_t t);
 
 
@@ -391,15 +391,15 @@ void gserver_refresh(GServer * gserver)
 #ifdef DEBUG
 	fprintf(stderr, "DEBUG: %s()\n", __func__);
 #endif
-	gserver->video_plugin->proto1i(gserver->video_plugin,
-			GSERVER_VIDEO_PROTO1i_glClear,
+	gserver->video_plugin->call1i(gserver->video_plugin,
+			GSERVER_VIDEO_CALL1i_glClear,
 			GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	gserver->video_plugin->proto0(gserver->video_plugin,
-			GSERVER_VIDEO_PROTO0_glLoadIdentity);
+	gserver->video_plugin->call0(gserver->video_plugin,
+			GSERVER_VIDEO_CALL0_glLoadIdentity);
 	for(i = 0; i < gserver->clients_cnt; i++)
 		_gserver_client_calls(gserver, &gserver->clients[i]);
-	gserver->video_plugin->proto0(gserver->video_plugin,
-			GSERVER_VIDEO_PROTO0_SwapBuffers);
+	gserver->video_plugin->call0(gserver->video_plugin,
+			GSERVER_VIDEO_CALL0_SwapBuffers);
 }
 
 
@@ -408,91 +408,91 @@ void gserver_refresh(GServer * gserver)
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc) \
 { \
 	DEBUG_INTERFACE(); \
-	_gserver_queue0(gserver, asc, GSERVER_VIDEO_PROTO0_ ## func); \
+	_gserver_queue0(gserver, asc, GSERVER_VIDEO_CALL0_ ## func); \
 }
 #define GSERVER_PROTO1d(type, func) \
 	type GServer_ ## func(GServer * gserver, AppServerClient * asc, double x) \
 { \
 	DEBUG_INTERFACE(); \
-	_gserver_queue1d(gserver, asc, GSERVER_VIDEO_PROTO1d_ ## func, x); \
+	_gserver_queue1d(gserver, asc, GSERVER_VIDEO_CALL1d_ ## func, x); \
 }
 #define GSERVER_PROTO1i(type, func, type1) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x) \
 { \
 	DEBUG_INTERFACE1i(x); \
-	_gserver_queue1i(gserver, asc, GSERVER_VIDEO_PROTO1i_ ## func, (uint32_t)x); \
+	_gserver_queue1i(gserver, asc, GSERVER_VIDEO_CALL1i_ ## func, (uint32_t)x); \
 }
 #define GSERVER_PROTO2f(type, func) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, float x, float y) \
 { \
 	DEBUG_INTERFACE2f(x, y); \
-	_gserver_queue2f(gserver, asc, GSERVER_VIDEO_PROTO2f_ ## func, x, y); \
+	_gserver_queue2f(gserver, asc, GSERVER_VIDEO_CALL2f_ ## func, x, y); \
 }
 #define GSERVER_PROTO2i(type, func, type1, type2) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x, type2 y) \
 { \
 	DEBUG_INTERFACE2i(x, y); \
-	_gserver_queue2i(gserver, asc, GSERVER_VIDEO_PROTO2i_ ## func, (uint32_t)x, (uint32_t)y); \
+	_gserver_queue2i(gserver, asc, GSERVER_VIDEO_CALL2i_ ## func, (uint32_t)x, (uint32_t)y); \
 }
 #define GSERVER_PROTO3b(type, func, type1, type2, type3) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x, type2 y, type3 z) \
 { \
 	DEBUG_INTERFACE3b(x, y, z); \
-	_gserver_queue3b(gserver, asc, GSERVER_VIDEO_PROTO3b_ ## func, (uint8_t)x, (uint8_t)y, (uint8_t)z); \
+	_gserver_queue3b(gserver, asc, GSERVER_VIDEO_CALL3b_ ## func, (uint8_t)x, (uint8_t)y, (uint8_t)z); \
 }
 #define GSERVER_PROTO3d(type, func) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, double x, double y, double z) \
 { \
 	DEBUG_INTERFACE3d(x, y, z); \
-	_gserver_queue3d(gserver, asc, GSERVER_VIDEO_PROTO3d_ ## func, x, y, z); \
+	_gserver_queue3d(gserver, asc, GSERVER_VIDEO_CALL3d_ ## func, x, y, z); \
 }
 #define GSERVER_PROTO3f(type, func) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, float x, float y, float z) \
 { \
 	DEBUG_INTERFACE3f(x, y, z); \
-	_gserver_queue3f(gserver, asc, GSERVER_VIDEO_PROTO3f_ ## func, x, y, z); \
+	_gserver_queue3f(gserver, asc, GSERVER_VIDEO_CALL3f_ ## func, x, y, z); \
 }
 #define GSERVER_PROTO3i(type, func, type1, type2, type3) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x, type2 y, type3 z) \
 { \
 	DEBUG_INTERFACE3i(x, y, z); \
-	_gserver_queue3i(gserver, asc, GSERVER_VIDEO_PROTO3i_ ## func, (uint32_t)x, (uint32_t)y, (uint32_t)z); \
+	_gserver_queue3i(gserver, asc, GSERVER_VIDEO_CALL3i_ ## func, (uint32_t)x, (uint32_t)y, (uint32_t)z); \
 }
 #define GSERVER_PROTO3s(type, func, type1, type2, type3) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x, type2 y, type3 z) \
 { \
 	DEBUG_INTERFACE3s(x, y, z); \
-	_gserver_queue3s(gserver, asc, GSERVER_VIDEO_PROTO3s_ ## func, (uint16_t)x, (uint16_t)y, (uint16_t)z); \
+	_gserver_queue3s(gserver, asc, GSERVER_VIDEO_CALL3s_ ## func, (uint16_t)x, (uint16_t)y, (uint16_t)z); \
 }
 #define GSERVER_PROTO4b(type, func, type1, type2, type3, type4) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x, type2 y, type3 z, type4 t) \
 { \
 	DEBUG_INTERFACE4b(x, y, z, t); \
-	_gserver_queue4b(gserver, asc, GSERVER_VIDEO_PROTO4b_ ## func, (uint8_t)x, (uint8_t)y, (uint8_t)z, (uint8_t)t); \
+	_gserver_queue4b(gserver, asc, GSERVER_VIDEO_CALL4b_ ## func, (uint8_t)x, (uint8_t)y, (uint8_t)z, (uint8_t)t); \
 }
 #define GSERVER_PROTO4d(type, func) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, double x, double y, double z, double t) \
 { \
 	DEBUG_INTERFACE4d(x, y, z, t); \
-	_gserver_queue4d(gserver, asc, GSERVER_VIDEO_PROTO4d_ ## func, x, y, z, t); \
+	_gserver_queue4d(gserver, asc, GSERVER_VIDEO_CALL4d_ ## func, x, y, z, t); \
 }
 #define GSERVER_PROTO4f(type, func) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, float x, float y, float z, float t) \
 { \
 	DEBUG_INTERFACE4f(x, y, z, t); \
-	_gserver_queue4f(gserver, asc, GSERVER_VIDEO_PROTO4f_ ## func, x, y, z, t); \
+	_gserver_queue4f(gserver, asc, GSERVER_VIDEO_CALL4f_ ## func, x, y, z, t); \
 }
 #define GSERVER_PROTO4i(type, func, type1, type2, type3, type4) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x, type2 y, type3 z, type4 t) \
 { \
 	DEBUG_INTERFACE4i(x, y, z, t); \
-	_gserver_queue4i(gserver, asc, GSERVER_VIDEO_PROTO4i_ ## func, (uint32_t)x, (uint32_t)y, (uint32_t)z, (uint32_t)t); \
+	_gserver_queue4i(gserver, asc, GSERVER_VIDEO_CALL4i_ ## func, (uint32_t)x, (uint32_t)y, (uint32_t)z, (uint32_t)t); \
 }
 #define GSERVER_PROTO4s(type, func, type1, type2, type3, type4) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x, type2 y, type3 z, type4 t) \
 { \
 	DEBUG_INTERFACE4s(x, y, z, t); \
-	_gserver_queue4s(gserver, asc, GSERVER_VIDEO_PROTO4s_ ## func, (uint16_t)x, (uint16_t)y, (uint16_t)z, (uint16_t)t); \
+	_gserver_queue4s(gserver, asc, GSERVER_VIDEO_CALL4s_ ## func, (uint16_t)x, (uint16_t)y, (uint16_t)z, (uint16_t)t); \
 }
 
 /* proto0 */
@@ -586,74 +586,74 @@ static void _gserver_client_calls(GServer * gserver, GServerClient * client)
 		call = &client->calls[i];
 		switch(call->type)
 		{
-			case GSERVER_VIDEO_PROTO_0:
-				vp->proto0(vp, call->func);
+			case GSERVER_VIDEO_CALL_0:
+				vp->call0(vp, call->func);
 				break;
-			case GSERVER_VIDEO_PROTO_1d:
-				vp->proto1d(vp, call->func, call->args._1d.x);
+			case GSERVER_VIDEO_CALL_1d:
+				vp->call1d(vp, call->func, call->args._1d.x);
 				break;
-			case GSERVER_VIDEO_PROTO_1i:
-				vp->proto1i(vp, call->func, call->args._1i.x);
+			case GSERVER_VIDEO_CALL_1i:
+				vp->call1i(vp, call->func, call->args._1i.x);
 				break;
-			case GSERVER_VIDEO_PROTO_2f:
-				vp->proto2f(vp, call->func, call->args._2f.x,
+			case GSERVER_VIDEO_CALL_2f:
+				vp->call2f(vp, call->func, call->args._2f.x,
 						call->args._3f.y);
 				break;
-			case GSERVER_VIDEO_PROTO_2i:
-				vp->proto2i(vp, call->func, call->args._2i.x,
+			case GSERVER_VIDEO_CALL_2i:
+				vp->call2i(vp, call->func, call->args._2i.x,
 						call->args._2i.y);
 				break;
-			case GSERVER_VIDEO_PROTO_3b:
-				vp->proto3b(vp, call->func, call->args._3b.x,
+			case GSERVER_VIDEO_CALL_3b:
+				vp->call3b(vp, call->func, call->args._3b.x,
 						call->args._3b.y,
 						call->args._3b.z);
 				break;
-			case GSERVER_VIDEO_PROTO_3d:
-				vp->proto3d(vp, call->func, call->args._3d.x,
+			case GSERVER_VIDEO_CALL_3d:
+				vp->call3d(vp, call->func, call->args._3d.x,
 						call->args._3d.y,
 						call->args._3d.z);
 				break;
-			case GSERVER_VIDEO_PROTO_3f:
-				vp->proto3f(vp, call->func, call->args._3f.x,
+			case GSERVER_VIDEO_CALL_3f:
+				vp->call3f(vp, call->func, call->args._3f.x,
 						call->args._3f.y,
 						call->args._3f.z);
 				break;
-			case GSERVER_VIDEO_PROTO_3i:
-				vp->proto3i(vp, call->func, call->args._3i.x,
+			case GSERVER_VIDEO_CALL_3i:
+				vp->call3i(vp, call->func, call->args._3i.x,
 						call->args._3i.y,
 						call->args._3i.z);
 				break;
-			case GSERVER_VIDEO_PROTO_3s:
-				vp->proto3s(vp, call->func, call->args._3s.x,
+			case GSERVER_VIDEO_CALL_3s:
+				vp->call3s(vp, call->func, call->args._3s.x,
 						call->args._3s.y,
 						call->args._3s.z);
 				break;
-			case GSERVER_VIDEO_PROTO_4b:
-				vp->proto4b(vp, call->func, call->args._4b.x,
+			case GSERVER_VIDEO_CALL_4b:
+				vp->call4b(vp, call->func, call->args._4b.x,
 						call->args._4b.y,
 						call->args._4b.z,
 						call->args._4b.t);
 				break;
-			case GSERVER_VIDEO_PROTO_4d:
-				vp->proto4d(vp, call->func, call->args._4d.x,
+			case GSERVER_VIDEO_CALL_4d:
+				vp->call4d(vp, call->func, call->args._4d.x,
 						call->args._4d.y,
 						call->args._4d.z,
 						call->args._4d.t);
 				break;
-			case GSERVER_VIDEO_PROTO_4f:
-				vp->proto4f(vp, call->func, call->args._4f.x,
+			case GSERVER_VIDEO_CALL_4f:
+				vp->call4f(vp, call->func, call->args._4f.x,
 						call->args._4f.y,
 						call->args._4f.z,
 						call->args._4f.t);
 				break;
-			case GSERVER_VIDEO_PROTO_4i:
-				vp->proto4i(vp, call->func, call->args._4i.x,
+			case GSERVER_VIDEO_CALL_4i:
+				vp->call4i(vp, call->func, call->args._4i.x,
 						call->args._4i.y,
 						call->args._4i.z,
 						call->args._4i.t);
 				break;
-			case GSERVER_VIDEO_PROTO_4s:
-				vp->proto4s(vp, call->func, call->args._4s.x,
+			case GSERVER_VIDEO_CALL_4s:
+				vp->call4s(vp, call->func, call->args._4s.x,
 						call->args._4s.y,
 						call->args._4s.z,
 						call->args._4s.t);
@@ -687,7 +687,7 @@ static GServerClient * _gserver_get_client(GServer * gserver,
 
 /* gserver_queue */
 static GServerCall * _gserver_queue(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto type, unsigned int func)
+		GServerVideoCall type, unsigned int func)
 {
 	GServerCall * ret = NULL;
 	GServerClient * gsc;
@@ -714,11 +714,11 @@ static GServerCall * _gserver_queue(GServer * gserver, AppServerClient * asc,
 
 /* gserver_queue0 */
 static int _gserver_queue0(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto0 func)
+		GServerVideoCall0 func)
 {
 	GServerCall * gsc;
 
-	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_PROTO_0, func))
+	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_0, func))
 			== NULL)
 		return -1;
 	/* FIXME intercept SwapBuffers() and glClear() */
@@ -728,11 +728,11 @@ static int _gserver_queue0(GServer * gserver, AppServerClient * asc,
 
 /* gserver_queue1d */
 static int _gserver_queue1d(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto1d func, double x)
+		GServerVideoCall1d func, double x)
 {
 	GServerCall * gsc;
 
-	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_PROTO_1d, func))
+	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_1d, func))
 			== NULL)
 		return -1;
 	gsc->args._1d.x = x;
@@ -742,11 +742,11 @@ static int _gserver_queue1d(GServer * gserver, AppServerClient * asc,
 
 /* gserver_queue1i */
 static int _gserver_queue1i(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto1i func, uint32_t x)
+		GServerVideoCall1i func, uint32_t x)
 {
 	GServerCall * gsc;
 
-	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_PROTO_1i, func))
+	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_1i, func))
 			== NULL)
 		return -1;
 	gsc->args._1i.x = x;
@@ -756,11 +756,11 @@ static int _gserver_queue1i(GServer * gserver, AppServerClient * asc,
 
 /* gserver_queue2f */
 static int _gserver_queue2f(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto2f func, float x, float y)
+		GServerVideoCall2f func, float x, float y)
 {
 	GServerCall * gsc;
 
-	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_PROTO_2f, func))
+	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_2f, func))
 			== NULL)
 		return -1;
 	gsc->args._2f.x = x;
@@ -771,11 +771,11 @@ static int _gserver_queue2f(GServer * gserver, AppServerClient * asc,
 
 /* gserver_queue2i */
 static int _gserver_queue2i(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto2i func, uint32_t x, uint32_t y)
+		GServerVideoCall2i func, uint32_t x, uint32_t y)
 {
 	GServerCall * gsc;
 
-	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_PROTO_2i, func))
+	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_2i, func))
 			== NULL)
 		return -1;
 	gsc->args._2i.x = x;
@@ -786,11 +786,11 @@ static int _gserver_queue2i(GServer * gserver, AppServerClient * asc,
 
 /* gserver_queue3b */
 static int _gserver_queue3b(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto3b func, uint8_t x, uint8_t y, uint8_t z)
+		GServerVideoCall3b func, uint8_t x, uint8_t y, uint8_t z)
 {
 	GServerCall * gsc;
 
-	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_PROTO_3b, func))
+	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_3b, func))
 			== NULL)
 		return -1;
 	gsc->args._3b.x = x;
@@ -802,11 +802,11 @@ static int _gserver_queue3b(GServer * gserver, AppServerClient * asc,
 
 /* gserver_queue3d */
 static int _gserver_queue3d(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto3d func, double x, double y, double z)
+		GServerVideoCall3d func, double x, double y, double z)
 {
 	GServerCall * gsc;
 
-	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_PROTO_3d, func))
+	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_3d, func))
 			== NULL)
 		return -1;
 	gsc->args._3d.x = x;
@@ -818,11 +818,11 @@ static int _gserver_queue3d(GServer * gserver, AppServerClient * asc,
 
 /* gserver_queue3f */
 static int _gserver_queue3f(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto3f func, float x, float y, float z)
+		GServerVideoCall3f func, float x, float y, float z)
 {
 	GServerCall * gsc;
 
-	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_PROTO_3f, func))
+	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_3f, func))
 			== NULL)
 		return -1;
 	gsc->args._3f.x = x;
@@ -834,11 +834,11 @@ static int _gserver_queue3f(GServer * gserver, AppServerClient * asc,
 
 /* gserver_queue3i */
 static int _gserver_queue3i(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto3i func, uint32_t x, uint32_t y, uint32_t z)
+		GServerVideoCall3i func, uint32_t x, uint32_t y, uint32_t z)
 {
 	GServerCall * gsc;
 
-	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_PROTO_3i, func))
+	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_3i, func))
 			== NULL)
 		return -1;
 	gsc->args._3i.x = x;
@@ -850,11 +850,11 @@ static int _gserver_queue3i(GServer * gserver, AppServerClient * asc,
 
 /* gserver_queue3s */
 static int _gserver_queue3s(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto3s func, uint16_t x, uint16_t y, uint16_t z)
+		GServerVideoCall3s func, uint16_t x, uint16_t y, uint16_t z)
 {
 	GServerCall * gsc;
 
-	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_PROTO_3s, func))
+	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_3s, func))
 			== NULL)
 		return -1;
 	gsc->args._3s.x = x;
@@ -866,12 +866,12 @@ static int _gserver_queue3s(GServer * gserver, AppServerClient * asc,
 
 /* gserver_queue4b */
 static int _gserver_queue4b(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto4b func, uint8_t x, uint8_t y, uint8_t z,
+		GServerVideoCall4b func, uint8_t x, uint8_t y, uint8_t z,
 		uint8_t t)
 {
 	GServerCall * gsc;
 
-	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_PROTO_4b, func))
+	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_4b, func))
 			== NULL)
 		return -1;
 	gsc->args._4b.x = x;
@@ -884,12 +884,12 @@ static int _gserver_queue4b(GServer * gserver, AppServerClient * asc,
 
 /* gserver_queue4d */
 static int _gserver_queue4d(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto4d func, double x, double y, double z,
+		GServerVideoCall4d func, double x, double y, double z,
 		double t)
 {
 	GServerCall * gsc;
 
-	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_PROTO_4d, func))
+	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_4d, func))
 			== NULL)
 		return -1;
 	gsc->args._4d.x = x;
@@ -902,11 +902,11 @@ static int _gserver_queue4d(GServer * gserver, AppServerClient * asc,
 
 /* gserver_queue4f */
 static int _gserver_queue4f(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto4f func, float x, float y, float z, float t)
+		GServerVideoCall4f func, float x, float y, float z, float t)
 {
 	GServerCall * gsc;
 
-	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_PROTO_4f, func))
+	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_4f, func))
 			== NULL)
 		return -1;
 	gsc->args._4f.x = x;
@@ -919,12 +919,12 @@ static int _gserver_queue4f(GServer * gserver, AppServerClient * asc,
 
 /* gserver_queue4i */
 static int _gserver_queue4i(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto4i func, uint32_t x, uint32_t y, uint32_t z,
+		GServerVideoCall4i func, uint32_t x, uint32_t y, uint32_t z,
 		uint32_t t)
 {
 	GServerCall * gsc;
 
-	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_PROTO_4i, func))
+	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_4i, func))
 			== NULL)
 		return -1;
 	gsc->args._4i.x = x;
@@ -937,12 +937,12 @@ static int _gserver_queue4i(GServer * gserver, AppServerClient * asc,
 
 /* gserver_queue4s */
 static int _gserver_queue4s(GServer * gserver, AppServerClient * asc,
-		GServerVideoProto4s func, uint16_t x, uint16_t y, uint16_t z,
+		GServerVideoCall4s func, uint16_t x, uint16_t y, uint16_t z,
 		uint16_t t)
 {
 	GServerCall * gsc;
 
-	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_PROTO_4s, func))
+	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_4s, func))
 			== NULL)
 		return -1;
 	gsc->args._4s.x = x;
