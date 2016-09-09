@@ -44,61 +44,153 @@ typedef struct _GLXVideo
 static int _glx_init(GServerVideoPlugin * plugin);
 static void _glx_destroy(GServerVideoPlugin * plugin);
 
-static void _glx_proto0(GServerVideoPlugin * plugin, GServerVideoProto0 func);
-static void _glx_proto1d(GServerVideoPlugin * plugin, GServerVideoProto1d func,
+static void _glx_call0(GServerVideoPlugin * plugin, GServerVideoCall0 func);
+static void _glx_call1d(GServerVideoPlugin * plugin, GServerVideoCall1d func,
 		double x);
-static void _glx_proto1i(GServerVideoPlugin * plugin, GServerVideoProto1i func,
-		int32_t x);
-static void _glx_proto3f(GServerVideoPlugin * plugin, GServerVideoProto3f func,
+static void _glx_call1i(GServerVideoPlugin * plugin, GServerVideoCall1i func,
+		uint32_t x);
+static void _glx_call2f(GServerVideoPlugin * plugin, GServerVideoCall2f func,
+		float x, float y);
+static void _glx_call2i(GServerVideoPlugin * plugin, GServerVideoCall2i func,
+		uint32_t x, uint32_t y);
+static void _glx_call3b(GServerVideoPlugin * plugin, GServerVideoCall3b func,
+		uint8_t x, uint8_t y, uint8_t z);
+static void _glx_call3d(GServerVideoPlugin * plugin, GServerVideoCall3d func,
+		double x, double y, double z);
+static void _glx_call3f(GServerVideoPlugin * plugin, GServerVideoCall3f func,
 		float x, float y, float z);
-static void _glx_proto3i(GServerVideoPlugin * plugin, GServerVideoProto3i func,
-		int32_t x, int32_t y, int32_t z);
-static void _glx_proto4f(GServerVideoPlugin * plugin, GServerVideoProto4f func,
+static void _glx_call3i(GServerVideoPlugin * plugin, GServerVideoCall3i func,
+		uint32_t x, uint32_t y, uint32_t z);
+static void _glx_call3s(GServerVideoPlugin * plugin, GServerVideoCall3s func,
+		uint16_t x, uint16_t y, uint16_t z);
+static void _glx_call4b(GServerVideoPlugin * plugin, GServerVideoCall4b func,
+		uint8_t x, uint8_t y, uint8_t z, uint8_t t);
+static void _glx_call4d(GServerVideoPlugin * plugin, GServerVideoCall4d func,
+		double x, double y, double z, double t);
+static void _glx_call4f(GServerVideoPlugin * plugin, GServerVideoCall4f func,
 		float x, float y, float z, float t);
+static void _glx_call4i(GServerVideoPlugin * plugin, GServerVideoCall4i func,
+		uint32_t x, uint32_t y, uint32_t z, uint32_t t);
+static void _glx_call4s(GServerVideoPlugin * plugin, GServerVideoCall4s func,
+		uint16_t x, uint16_t y, uint16_t z, uint16_t t);
 
 static void _glx_swap_buffers(void);
 static int _glx_timeout(void * data);
 
 
 /* variables */
-static void (*_glx_func0[GSERVER_VIDEO_PROTO0_COUNT])(void) =
+static void (*_glx_func0[GSERVER_VIDEO_CALL0_COUNT])(void) =
 {
 	glEnd,
+	glEndList,
 	glFlush,
 	glLoadIdentity,
 	_glx_swap_buffers
 };
 
-static void (*_glx_func1d[GSERVER_VIDEO_PROTO1d_COUNT])(double) =
+static void (*_glx_func1d[GSERVER_VIDEO_CALL1d_COUNT])(double) =
 {
 	glClearDepth
 };
 
-static void (*_glx_func1i[GSERVER_VIDEO_PROTO1i_COUNT])(uint32_t) =
+static void (*_glx_func1i[GSERVER_VIDEO_CALL1i_COUNT])(uint32_t) =
 {
 	glBegin,
-	glClear
+	glClear,
+	glDepthFunc,
+	glDisable,
+	glDisableClientState,
+	glEnable,
+	glEnableClientState,
+	glIsEnabled,
+	glShadeModel
 };
 
-static void (*_glx_func3f[GSERVER_VIDEO_PROTO3f_COUNT])(float, float, float) =
+static void (*_glx_func2f[GSERVER_VIDEO_CALL2f_COUNT])(float, float) =
+{
+	glTexCoord2f
+};
+
+static void (*_glx_func2i[GSERVER_VIDEO_CALL2i_COUNT])(uint32_t, uint32_t) =
+{
+	glBindTexture,
+	glColorMaterial,
+	glHint,
+	glVertex2i
+};
+
+static void (*_glx_func3b[GSERVER_VIDEO_CALL3b_COUNT])(uint8_t, uint8_t,
+		uint8_t) =
+{
+	glColor3b,
+	glColor3ub
+};
+
+static void (*_glx_func3d[GSERVER_VIDEO_CALL3d_COUNT])(double, double,
+		double) =
+{
+	glColor3d,
+	glTranslated
+};
+
+static void (*_glx_func3f[GSERVER_VIDEO_CALL3f_COUNT])(float, float, float) =
 {
 	glColor3f,
+	glNormal3f,
 	glTranslatef,
 	glVertex3f
 };
 
-static void (*_glx_func3i[GSERVER_VIDEO_PROTO3i_COUNT])(int32_t, int32_t,
-		int32_t) =
+static void (*_glx_func3i[GSERVER_VIDEO_CALL3i_COUNT])(uint32_t, uint32_t,
+		uint32_t) =
 {
 	glColor3i,
+	glColor3ui,
+	glDrawArrays,
+	glLighti,
+	glTexParameteri,
 	glVertex3i
 };
 
-static void (*_glx_func4f[GSERVER_VIDEO_PROTO4f_COUNT])(float, float, float,
+static void (*_glx_func3s[GSERVER_VIDEO_CALL3s_COUNT])(uint16_t, uint16_t,
+		uint16_t) =
+{
+	glColor3s,
+	glColor3us
+};
+
+static void (*_glx_func4b[GSERVER_VIDEO_CALL4b_COUNT])(uint8_t, uint8_t,
+		uint8_t, uint8_t) =
+{
+	glColor4b,
+	glColor4ub
+};
+
+static void (*_glx_func4d[GSERVER_VIDEO_CALL4d_COUNT])(double, double, double,
+		double) =
+{
+	glColor4d
+};
+
+static void (*_glx_func4f[GSERVER_VIDEO_CALL4f_COUNT])(float, float, float,
 		float) =
 {
 	glClearColor,
 	glRotatef
+};
+
+static void (*_glx_func4i[GSERVER_VIDEO_CALL4i_COUNT])(uint32_t, uint32_t,
+		uint32_t, uint32_t) =
+{
+	glColor4i,
+	glColor4ui
+};
+
+static void (*_glx_func4s[GSERVER_VIDEO_CALL4s_COUNT])(uint16_t, uint16_t,
+		uint16_t, uint16_t) =
+{
+	glColor4s,
+	glColor4us
 };
 
 
@@ -110,12 +202,21 @@ GServerVideoPlugin video_plugin =
 	"GLX",
 	_glx_init,
 	_glx_destroy,
-	_glx_proto0,
-	_glx_proto1d,
-	_glx_proto1i,
-	_glx_proto3f,
-	_glx_proto3i,
-	_glx_proto4f,
+	_glx_call0,
+	_glx_call1d,
+	_glx_call1i,
+	_glx_call2f,
+	_glx_call2i,
+	_glx_call3b,
+	_glx_call3d,
+	_glx_call3f,
+	_glx_call3i,
+	_glx_call3s,
+	_glx_call4b,
+	_glx_call4d,
+	_glx_call4f,
+	_glx_call4i,
+	_glx_call4s,
 	NULL
 };
 
@@ -237,12 +338,12 @@ static void _glx_destroy(GServerVideoPlugin * plugin)
 
 
 /* functions */
-/* glx_proto0 */
-static void _glx_proto0(GServerVideoPlugin * plugin, GServerVideoProto0 func)
+/* glx_call0 */
+static void _glx_call0(GServerVideoPlugin * plugin, GServerVideoCall0 func)
 {
 	GLXVideo * glx = plugin->priv;
 
-	if(func == GSERVER_VIDEO_PROTO0_SwapBuffers)
+	if(func == GSERVER_VIDEO_CALL0_SwapBuffers)
 	{
 		if(glx->double_buffered != 0)
 			glXSwapBuffers(glx->display, glx->window);
@@ -252,43 +353,143 @@ static void _glx_proto0(GServerVideoPlugin * plugin, GServerVideoProto0 func)
 }
 
 
-/* glx_proto1d */
-static void _glx_proto1d(GServerVideoPlugin * plugin, GServerVideoProto1d func,
+/* glx_call1d */
+static void _glx_call1d(GServerVideoPlugin * plugin, GServerVideoCall1d func,
 		double x)
 {
+	(void) plugin;
+
 	_glx_func1d[func](x);
 }
 
 
-/* glx_proto1i */
-static void _glx_proto1i(GServerVideoPlugin * plugin, GServerVideoProto1i func,
-		int32_t x)
+/* glx_call1i */
+static void _glx_call1i(GServerVideoPlugin * plugin, GServerVideoCall1i func,
+		uint32_t x)
 {
+	(void) plugin;
+
 	_glx_func1i[func](x);
 }
 
 
-/* glx_proto3f */
-static void _glx_proto3f(GServerVideoPlugin * plugin, GServerVideoProto3f func,
+/* glx_call2f */
+static void _glx_call2f(GServerVideoPlugin * plugin, GServerVideoCall2f func,
+		float x, float y)
+{
+	(void) plugin;
+
+	_glx_func2f[func](x, y);
+}
+
+
+/* glx_call2i */
+static void _glx_call2i(GServerVideoPlugin * plugin, GServerVideoCall2i func,
+		uint32_t x, uint32_t y)
+{
+	(void) plugin;
+
+	_glx_func2i[func](x, y);
+}
+
+
+/* glx_call3b */
+static void _glx_call3b(GServerVideoPlugin * plugin, GServerVideoCall3b func,
+		uint8_t x, uint8_t y, uint8_t z)
+{
+	(void) plugin;
+
+	_glx_func3b[func](x, y, z);
+}
+
+
+/* glx_call3d */
+static void _glx_call3d(GServerVideoPlugin * plugin, GServerVideoCall3d func,
+		double x, double y, double z)
+{
+	(void) plugin;
+
+	_glx_func3d[func](x, y, z);
+}
+
+
+/* glx_call3f */
+static void _glx_call3f(GServerVideoPlugin * plugin, GServerVideoCall3f func,
 		float x, float y, float z)
 {
+	(void) plugin;
+
 	_glx_func3f[func](x, y, z);
 }
 
 
-/* glx_proto3i */
-static void _glx_proto3i(GServerVideoPlugin * plugin, GServerVideoProto3i func,
-		int32_t x, int32_t y, int32_t z)
+/* glx_call3i */
+static void _glx_call3i(GServerVideoPlugin * plugin, GServerVideoCall3i func,
+		uint32_t x, uint32_t y, uint32_t z)
 {
+	(void) plugin;
+
 	_glx_func3i[func](x, y, z);
 }
 
 
-/* glx_proto4f */
-static void _glx_proto4f(GServerVideoPlugin * plugin, GServerVideoProto4f func,
+/* glx_call3s */
+static void _glx_call3s(GServerVideoPlugin * plugin, GServerVideoCall3s func,
+		uint16_t x, uint16_t y, uint16_t z)
+{
+	(void) plugin;
+
+	_glx_func3s[func](x, y, z);
+}
+
+
+/* glx_call4b */
+static void _glx_call4b(GServerVideoPlugin * plugin, GServerVideoCall4b func,
+		uint8_t x, uint8_t y, uint8_t z, uint8_t t)
+{
+	(void) plugin;
+
+	_glx_func4b[func](x, y, z, t);
+}
+
+
+/* glx_call4d */
+static void _glx_call4d(GServerVideoPlugin * plugin, GServerVideoCall4d func,
+		double x, double y, double z, double t)
+{
+	(void) plugin;
+
+	_glx_func4d[func](x, y, z, t);
+}
+
+
+/* glx_call4f */
+static void _glx_call4f(GServerVideoPlugin * plugin, GServerVideoCall4f func,
 		float x, float y, float z, float t)
 {
+	(void) plugin;
+
 	_glx_func4f[func](x, y, z, t);
+}
+
+
+/* glx_call4i */
+static void _glx_call4i(GServerVideoPlugin * plugin, GServerVideoCall4i func,
+		uint32_t x, uint32_t y, uint32_t z, uint32_t t)
+{
+	(void) plugin;
+
+	_glx_func4i[func](x, y, z, t);
+}
+
+
+/* glx_call4s */
+static void _glx_call4s(GServerVideoPlugin * plugin, GServerVideoCall4s func,
+		uint16_t x, uint16_t y, uint16_t z, uint16_t t)
+{
+	(void) plugin;
+
+	_glx_func4s[func](x, y, z, t);
 }
 
 
