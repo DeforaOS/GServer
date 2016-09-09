@@ -164,10 +164,19 @@ arg1=UINT32
 arg2=UINT32
 arg3=UINT32
 
+[call::glTranslated]
+arg1=DOUBLE
+arg2=DOUBLE
+arg3=DOUBLE
+
 [call::glTranslatef]
 arg1=FLOAT
 arg2=FLOAT
 arg3=FLOAT
+
+[call::glVertex2i]
+arg1=INT32
+arg2=INT32
 
 [call::glVertex3f]
 arg1=FLOAT

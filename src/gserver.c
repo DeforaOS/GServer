@@ -516,9 +516,11 @@ GSERVER_PROTO2f(void, glTexCoord2f)
 GSERVER_PROTO2i(void, glBindTexture, uint32_t, uint32_t)
 GSERVER_PROTO2i(void, glColorMaterial, uint32_t, uint32_t)
 GSERVER_PROTO2i(void, glHint, uint32_t, uint32_t)
+GSERVER_PROTO2i(void, glVertex2i, int32_t, int32_t)
 
 /* proto3d */
 GSERVER_PROTO3d(void, glColor3d)
+GSERVER_PROTO3d(void, glTranslated)
 
 /* proto3f */
 GSERVER_PROTO3f(void, glColor3f)
