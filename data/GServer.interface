@@ -43,6 +43,12 @@ arg2=FLOAT
 arg3=FLOAT
 arg4=FLOAT
 
+[call::glColor4i]
+arg1=INT32
+arg2=INT32
+arg3=INT32
+arg4=INT32
+
 [call::glColorMaterial]
 arg1=UINT32
 arg2=UINT32

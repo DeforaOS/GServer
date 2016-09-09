@@ -37,7 +37,8 @@ typedef enum _GServerVideoProto
 	GSERVER_VIDEO_PROTO_3i,
 	GSERVER_VIDEO_PROTO_3u,
 	GSERVER_VIDEO_PROTO_4d,
-	GSERVER_VIDEO_PROTO_4f
+	GSERVER_VIDEO_PROTO_4f,
+	GSERVER_VIDEO_PROTO_4i
 } GServerVideoProto;
 
 typedef enum _GServerVideoProto0
@@ -125,6 +126,13 @@ typedef enum _GServerVideoProto4f
 # define GSERVER_VIDEO_PROTO4f_LAST GSERVER_VIDEO_PROTO4f_glRotatef
 # define GSERVER_VIDEO_PROTO4f_COUNT (GSERVER_VIDEO_PROTO4f_LAST + 1)
 
+typedef enum _GServerVideoProto4i
+{
+	GSERVER_VIDEO_PROTO4i_glColor4i = 0
+} GServerVideoProto4i;
+# define GSERVER_VIDEO_PROTO4i_LAST GSERVER_VIDEO_PROTO4i_glColor4i
+# define GSERVER_VIDEO_PROTO4i_COUNT (GSERVER_VIDEO_PROTO4i_LAST + 1)
+
 /* GServerVideoPlugin */
 typedef struct _GServerVideoPlugin GServerVideoPlugin;
 
@@ -163,6 +171,8 @@ struct _GServerVideoPlugin
 			double x, double y, double z, double t);
 	void (*proto4f)(GServerVideoPlugin * plugin, GServerVideoProto4f func,
 			float x, float y, float z, float t);
+	void (*proto4i)(GServerVideoPlugin * plugin, GServerVideoProto4i func,
+			int32_t x, int32_t y, int32_t z, int32_t t);
 	void * priv;
 };
 
