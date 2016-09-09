@@ -425,6 +425,7 @@ GSERVER_PROTO3u(void, glColor3ui, uint32_t, uint32_t, uint32_t)
 
 /* proto4f */
 GSERVER_PROTO4f(void, glClearColor)
+GSERVER_PROTO4f(void, glColor4f)
 GSERVER_PROTO4f(void, glRotatef)
 
 

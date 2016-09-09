@@ -111,6 +111,7 @@ typedef enum _GServerVideoProto3u
 typedef enum _GServerVideoProto4f
 {
 	GSERVER_VIDEO_PROTO4f_glClearColor = 0,
+	GSERVER_VIDEO_PROTO4f_glColor4f,
 	GSERVER_VIDEO_PROTO4f_glRotatef
 } GServerVideoProto4f;
 # define GSERVER_VIDEO_PROTO4f_LAST GSERVER_VIDEO_PROTO4f_glRotatef
