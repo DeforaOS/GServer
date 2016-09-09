@@ -84,7 +84,8 @@ typedef enum _GServerVideoProto2f
 
 typedef enum _GServerVideoProto2i
 {
-	GSERVER_VIDEO_PROTO2i_glColorMaterial = 0,
+	GSERVER_VIDEO_PROTO2i_glBindTexture = 0,
+	GSERVER_VIDEO_PROTO2i_glColorMaterial,
 	GSERVER_VIDEO_PROTO2i_glHint
 } GServerVideoProto2i;
 # define GSERVER_VIDEO_PROTO2i_LAST GSERVER_VIDEO_PROTO2i_glHint

@@ -4,6 +4,10 @@ service=GServer
 [call::glBegin]
 arg1=UINT32
 
+[call:glBindTexture]
+arg1=UINT32
+arg2=UINT32
+
 [call::glClear]
 arg1=UINT32
 
