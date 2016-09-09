@@ -49,6 +49,24 @@ arg2=INT32
 arg3=INT32
 arg4=INT32
 
+[call::glColor4ub]
+arg1=UINT8
+arg2=UINT8
+arg3=UINT8
+arg4=UINT8
+
+[call::glColor4ui]
+arg1=UINT32
+arg2=UINT32
+arg3=UINT32
+arg4=UINT32
+
+[call::glColor4us]
+arg1=UINT16
+arg2=UINT16
+arg3=UINT16
+arg4=UINT16
+
 [call::glColorMaterial]
 arg1=UINT32
 arg2=UINT32

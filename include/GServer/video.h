@@ -38,7 +38,10 @@ typedef enum _GServerVideoProto
 	GSERVER_VIDEO_PROTO_3u,
 	GSERVER_VIDEO_PROTO_4d,
 	GSERVER_VIDEO_PROTO_4f,
-	GSERVER_VIDEO_PROTO_4i
+	GSERVER_VIDEO_PROTO_4i,
+	GSERVER_VIDEO_PROTO_4u,
+	GSERVER_VIDEO_PROTO_4ub,
+	GSERVER_VIDEO_PROTO_4us
 } GServerVideoProto;
 
 typedef enum _GServerVideoProto0
@@ -133,6 +136,27 @@ typedef enum _GServerVideoProto4i
 # define GSERVER_VIDEO_PROTO4i_LAST GSERVER_VIDEO_PROTO4i_glColor4i
 # define GSERVER_VIDEO_PROTO4i_COUNT (GSERVER_VIDEO_PROTO4i_LAST + 1)
 
+typedef enum _GServerVideoProto4u
+{
+	GSERVER_VIDEO_PROTO4u_glColor4ui = 0
+} GServerVideoProto4u;
+# define GSERVER_VIDEO_PROTO4u_LAST GSERVER_VIDEO_PROTO4ui_glColor4ui
+# define GSERVER_VIDEO_PROTO4u_COUNT (GSERVER_VIDEO_PROTO4ui_LAST + 1)
+
+typedef enum _GServerVideoProto4ub
+{
+	GSERVER_VIDEO_PROTO4ub_glColor4ub = 0
+} GServerVideoProto4ub;
+# define GSERVER_VIDEO_PROTO4ub_LAST GSERVER_VIDEO_PROTO4ub_glColor4ub
+# define GSERVER_VIDEO_PROTO4ub_COUNT (GSERVER_VIDEO_PROTO4ub_LAST + 1)
+
+typedef enum _GServerVideoProto4us
+{
+	GSERVER_VIDEO_PROTO4us_glColor4us = 0
+} GServerVideoProto4us;
+# define GSERVER_VIDEO_PROTO4us_LAST GSERVER_VIDEO_PROTO4us_glColor4us
+# define GSERVER_VIDEO_PROTO4us_COUNT (GSERVER_VIDEO_PROTO4us_LAST + 1)
+
 /* GServerVideoPlugin */
 typedef struct _GServerVideoPlugin GServerVideoPlugin;
 
@@ -173,6 +197,12 @@ struct _GServerVideoPlugin
 			float x, float y, float z, float t);
 	void (*proto4i)(GServerVideoPlugin * plugin, GServerVideoProto4i func,
 			int32_t x, int32_t y, int32_t z, int32_t t);
+	void (*proto4u)(GServerVideoPlugin * plugin, GServerVideoProto4u func,
+			uint32_t x, uint32_t y, uint32_t z, uint32_t t);
+	void (*proto4ub)(GServerVideoPlugin * plugin, GServerVideoProto4ub func,
+			uint8_t x, uint8_t y, uint8_t z, uint8_t t);
+	void (*proto4us)(GServerVideoPlugin * plugin, GServerVideoProto4us func,
+			uint16_t x, uint16_t y, uint16_t z, uint16_t t);
 	void * priv;
 };
 
