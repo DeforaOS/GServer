@@ -29,6 +29,9 @@ arg3=INT32
 [call::glEnable]
 arg1=UINT32
 
+[call::glEnableClientState]
+arg1=UINT32
+
 [call::glEnd]
 ret=VOID
 

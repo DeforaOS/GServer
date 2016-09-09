@@ -65,6 +65,7 @@ typedef enum _GServerVideoProto1i
 typedef enum _GServerVideoProto1u
 {
 	GSERVER_VIDEO_PROTO1u_glEnable = 0,
+	GSERVER_VIDEO_PROTO1u_glEnableClientState,
 	GSERVER_VIDEO_PROTO1u_glIsEnabled
 } GServerVideoProto1u;
 # define GSERVER_VIDEO_PROTO1u_LAST GSERVER_VIDEO_PROTO1u_glIsEnabled
