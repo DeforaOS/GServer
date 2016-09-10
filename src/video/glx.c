@@ -186,7 +186,8 @@ static void (*_glx_func4i[GSERVER_VIDEO_CALL4i_COUNT])(uint32_t, uint32_t,
 {
 	glColor4i,
 	glColor4ui,
-	glScissor
+	glScissor,
+	glViewport
 };
 
 static void (*_glx_func4s[GSERVER_VIDEO_CALL4s_COUNT])(uint16_t, uint16_t,

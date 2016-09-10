@@ -218,5 +218,11 @@ arg1=INT32
 arg2=INT32
 arg3=INT32
 
+[call::glViewport]
+arg1=INT32
+arg2=INT32
+arg3=INT32
+arg4=INT32
+
 [call::SwapBuffers]
 ret=void
