@@ -133,13 +133,13 @@ arg1=UINT32
 arg1=UINT32
 
 [call::glEnd]
-ret=VOID
+ret=void
 
 [call::glEndList]
-ret=VOID
+ret=void
 
 [call::glFlush]
-ret=VOID
+ret=void
 
 [call::glHint]
 arg1=UINT32
@@ -155,7 +155,7 @@ arg2=UINT32
 arg3=INT32
 
 [call::glLoadIdentity]
-ret=VOID
+ret=void
 
 [call::glNormal3f]
 arg1=FLOAT
@@ -205,4 +205,4 @@ arg2=INT32
 arg3=INT32
 
 [call::SwapBuffers]
-ret=VOID
+ret=void
