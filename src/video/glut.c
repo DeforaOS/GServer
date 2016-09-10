@@ -113,6 +113,7 @@ static void (*_glut_func2i[GSERVER_VIDEO_CALL2i_COUNT])(uint32_t, uint32_t) =
 	glColorMaterial,
 	glFogi,
 	glHint,
+	glLightModeli,
 	glVertex2i
 };
 

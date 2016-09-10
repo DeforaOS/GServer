@@ -153,6 +153,10 @@ arg2=UINT32
 ret=BOOL
 arg1=UINT32
 
+[call::glLightModeli]
+arg1=UINT32
+arg2=INT32
+
 [call::glLighti]
 arg1=UINT32
 arg2=UINT32

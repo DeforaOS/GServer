@@ -525,6 +525,7 @@ GSERVER_PROTO2i(void, glBindTexture, uint32_t, uint32_t)
 GSERVER_PROTO2i(void, glColorMaterial, uint32_t, uint32_t)
 GSERVER_PROTO2i(void, glFogi, uint32_t, int32_t)
 GSERVER_PROTO2i(void, glHint, uint32_t, uint32_t)
+GSERVER_PROTO2i(void, glLightModeli, uint32_t, int32_t)
 GSERVER_PROTO2i(void, glVertex2i, int32_t, int32_t)
 
 /* proto3b */

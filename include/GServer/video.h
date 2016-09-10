@@ -91,6 +91,7 @@ typedef enum _GServerVideoCall2i
 	GSERVER_VIDEO_CALL2i_glColorMaterial,
 	GSERVER_VIDEO_CALL2i_glFogi,
 	GSERVER_VIDEO_CALL2i_glHint,
+	GSERVER_VIDEO_CALL2i_glLightModeli,
 	GSERVER_VIDEO_CALL2i_glVertex2i
 } GServerVideoCall2i;
 # define GSERVER_VIDEO_CALL2i_LAST GSERVER_VIDEO_CALL2i_glVertex2i
