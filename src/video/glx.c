@@ -115,6 +115,7 @@ static void (*_glx_func2i[GSERVER_VIDEO_CALL2i_COUNT])(uint32_t, uint32_t) =
 {
 	glBindTexture,
 	glColorMaterial,
+	glFogi,
 	glHint,
 	glVertex2i
 };

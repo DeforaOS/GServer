@@ -141,6 +141,10 @@ ret=void
 [call::glFlush]
 ret=void
 
+[call::glFogi]
+arg1=UINT32
+arg2=INT32
+
 [call::glHint]
 arg1=UINT32
 arg2=UINT32
