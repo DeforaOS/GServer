@@ -308,6 +308,8 @@ static void _sdl_destroy(GServerVideoPlugin * plugin)
 /* sdl_call0 */
 static void _sdl_call0(GServerVideoPlugin * plugin, GServerVideoCall0 func)
 {
+	(void) plugin;
+
 	if(func == GSERVER_VIDEO_CALL0_SwapBuffers)
 	{
 		SDL_GL_SwapBuffers();
