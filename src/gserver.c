@@ -114,6 +114,10 @@ struct _GServerCall
 		} _1d;
 		struct
 		{
+			float x;
+		} _1f;
+		struct
+		{
 			uint32_t x;
 		} _1i;
 		struct
@@ -217,6 +221,8 @@ static int _gserver_queue0(GServer * gserver, AppServerClient * asc,
 		GServerVideoCall0 func);
 static int _gserver_queue1d(GServer * gserver, AppServerClient * asc,
 		GServerVideoCall1d func, double x);
+static int _gserver_queue1f(GServer * gserver, AppServerClient * asc,
+		GServerVideoCall1f func, float x);
 static int _gserver_queue1i(GServer * gserver, AppServerClient * asc,
 		GServerVideoCall1i func, uint32_t x);
 static int _gserver_queue2f(GServer * gserver, AppServerClient * asc,
@@ -416,6 +422,12 @@ void gserver_refresh(GServer * gserver)
 	DEBUG_INTERFACE(); \
 	_gserver_queue1d(gserver, asc, GSERVER_VIDEO_CALL1d_ ## func, x); \
 }
+#define GSERVER_PROTO1f(type, func) \
+	type GServer_ ## func(GServer * gserver, AppServerClient * asc, float x) \
+{ \
+	DEBUG_INTERFACE(); \
+	_gserver_queue1f(gserver, asc, GSERVER_VIDEO_CALL1f_ ## func, x); \
+}
 #define GSERVER_PROTO1i(type, func, type1) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, type1 x) \
 { \
@@ -504,6 +516,9 @@ GSERVER_PROTO0(void, SwapBuffers)
 
 /* proto1d */
 GSERVER_PROTO1d(void, glClearDepth)
+
+/* proto1f*/
+GSERVER_PROTO1f(void, glPointSize)
 
 /* proto1i */
 GSERVER_PROTO1i(void, glBegin, uint32_t)
@@ -597,6 +612,9 @@ static void _gserver_client_calls(GServer * gserver, GServerClient * client)
 				break;
 			case GSERVER_VIDEO_CALL_1d:
 				vp->call1d(vp, call->func, call->args._1d.x);
+				break;
+			case GSERVER_VIDEO_CALL_1f:
+				vp->call1f(vp, call->func, call->args._1f.x);
 				break;
 			case GSERVER_VIDEO_CALL_1i:
 				vp->call1i(vp, call->func, call->args._1i.x);
@@ -742,6 +760,20 @@ static int _gserver_queue1d(GServer * gserver, AppServerClient * asc,
 			== NULL)
 		return -1;
 	gsc->args._1d.x = x;
+	return 0;
+}
+
+
+/* gserver_queue1f */
+static int _gserver_queue1f(GServer * gserver, AppServerClient * asc,
+		GServerVideoCall1f func, float x)
+{
+	GServerCall * gsc;
+
+	if((gsc = _gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_1f, func))
+			== NULL)
+		return -1;
+	gsc->args._1f.x = x;
 	return 0;
 }
 

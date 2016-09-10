@@ -30,6 +30,7 @@ typedef enum _GServerVideoCall
 {
 	GSERVER_VIDEO_CALL_0 = 0,
 	GSERVER_VIDEO_CALL_1d,
+	GSERVER_VIDEO_CALL_1f,
 	GSERVER_VIDEO_CALL_1i,
 	GSERVER_VIDEO_CALL_2f,
 	GSERVER_VIDEO_CALL_2i,
@@ -62,6 +63,13 @@ typedef enum _GServerVideoCall1d
 } GServerVideoCall1d;
 # define GSERVER_VIDEO_CALL1d_LAST GSERVER_VIDEO_CALL1d_glClearDepth
 # define GSERVER_VIDEO_CALL1d_COUNT (GSERVER_VIDEO_CALL1d_LAST + 1)
+
+typedef enum _GServerVideoCall1f
+{
+	GSERVER_VIDEO_CALL1f_glPointSize = 0
+} GServerVideoCall1f;
+# define GSERVER_VIDEO_CALL1f_LAST GSERVER_VIDEO_CALL1f_glPointSize
+# define GSERVER_VIDEO_CALL1f_COUNT (GSERVER_VIDEO_CALL1f_LAST + 1)
 
 typedef enum _GServerVideoCall1i
 {
@@ -209,6 +217,8 @@ struct _GServerVideoPlugin
 	void (*call0)(GServerVideoPlugin * plugin, GServerVideoCall0 func);
 	void (*call1d)(GServerVideoPlugin * plugin, GServerVideoCall1d func,
 			double x);
+	void (*call1f)(GServerVideoPlugin * plugin, GServerVideoCall1f func,
+			float x);
 	void (*call1i)(GServerVideoPlugin * plugin, GServerVideoCall1i func,
 			uint32_t x);
 	void (*call2f)(GServerVideoPlugin * plugin, GServerVideoCall2f func,

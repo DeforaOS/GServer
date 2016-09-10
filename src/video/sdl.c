@@ -44,6 +44,8 @@ static void _sdl_destroy(GServerVideoPlugin * plugin);
 static void _sdl_call0(GServerVideoPlugin * plugin, GServerVideoCall0 func);
 static void _sdl_call1d(GServerVideoPlugin * plugin, GServerVideoCall1d func,
 		double x);
+static void _sdl_call1f(GServerVideoPlugin * plugin, GServerVideoCall1f func,
+		float x);
 static void _sdl_call1i(GServerVideoPlugin * plugin, GServerVideoCall1i func,
 		uint32_t x);
 static void _sdl_call2f(GServerVideoPlugin * plugin, GServerVideoCall2f func,
@@ -86,6 +88,11 @@ static void (*_sdl_func0[GSERVER_VIDEO_CALL0_COUNT])(void) =
 static void (*_sdl_func1d[GSERVER_VIDEO_CALL1d_COUNT])(double) =
 {
 	glClearDepth
+};
+
+static void (*_sdl_func1f[GSERVER_VIDEO_CALL1f_COUNT])(float) =
+{
+	glPointSize
 };
 
 static void (*_sdl_func1i[GSERVER_VIDEO_CALL1i_COUNT])(uint32_t) =
@@ -205,6 +212,7 @@ GServerVideoPlugin video_plugin =
 	_sdl_destroy,
 	_sdl_call0,
 	_sdl_call1d,
+	_sdl_call1f,
 	_sdl_call1i,
 	_sdl_call2f,
 	_sdl_call2i,
@@ -306,6 +314,16 @@ static void _sdl_call0(GServerVideoPlugin * plugin, GServerVideoCall0 func)
 		return;
 	}
 	_sdl_func0[func]();
+}
+
+
+/* sdl_call1f */
+static void _sdl_call1f(GServerVideoPlugin * plugin, GServerVideoCall1f func,
+		float x)
+{
+	(void) plugin;
+
+	_sdl_func1f[func](x);
 }
 
 
