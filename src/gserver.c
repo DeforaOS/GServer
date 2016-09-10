@@ -568,6 +568,7 @@ GSERVER_PROTO4f(void, glRotatef)
 /* proto4i */
 GSERVER_PROTO4i(void, glColor4i, int32_t, int32_t, int32_t, int32_t)
 GSERVER_PROTO4i(void, glColor4ui, uint32_t, uint32_t, uint32_t, uint32_t)
+GSERVER_PROTO4i(void, glScissor, int32_t, int32_t, int32_t, int32_t)
 
 /* proto4s */
 GSERVER_PROTO4s(void, glColor4s, int16_t, int16_t, int16_t, int16_t)

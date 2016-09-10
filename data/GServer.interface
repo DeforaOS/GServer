@@ -176,6 +176,12 @@ arg2=FLOAT
 arg3=FLOAT
 arg4=FLOAT
 
+[call::glScissor]
+arg1=INT32
+arg2=INT32
+arg3=INT32
+arg4=INT32
+
 [call::glShadeModel]
 arg1=UINT32
 

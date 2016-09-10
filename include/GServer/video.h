@@ -170,9 +170,10 @@ typedef enum _GServerVideoCall4f
 typedef enum _GServerVideoCall4i
 {
 	GSERVER_VIDEO_CALL4i_glColor4i = 0,
-	GSERVER_VIDEO_CALL4i_glColor4ui
+	GSERVER_VIDEO_CALL4i_glColor4ui,
+	GSERVER_VIDEO_CALL4i_glScissor
 } GServerVideoCall4i;
-# define GSERVER_VIDEO_CALL4i_LAST GSERVER_VIDEO_CALL4i_glColor4ui
+# define GSERVER_VIDEO_CALL4i_LAST GSERVER_VIDEO_CALL4i_glScissor
 # define GSERVER_VIDEO_CALL4i_COUNT (GSERVER_VIDEO_CALL4i_LAST + 1)
 
 typedef enum _GServerVideoCall4s
