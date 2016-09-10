@@ -518,6 +518,7 @@ GSERVER_PROTO1i(bool, glIsEnabled, uint32_t)
 GSERVER_PROTO1i(void, glShadeModel, uint32_t)
 
 /* proto2f */
+GSERVER_PROTO2f(void, glPolygonOffset)
 GSERVER_PROTO2f(void, glTexCoord2f)
 
 /* proto2i */

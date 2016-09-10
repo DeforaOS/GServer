@@ -103,6 +103,7 @@ static void (*_sdl_func1i[GSERVER_VIDEO_CALL1i_COUNT])(uint32_t) =
 
 static void (*_sdl_func2f[GSERVER_VIDEO_CALL2f_COUNT])(float, float) =
 {
+	glPolygonOffset,
 	glTexCoord2f
 };
 

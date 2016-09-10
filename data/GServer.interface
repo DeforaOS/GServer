@@ -170,6 +170,10 @@ arg1=FLOAT
 arg2=FLOAT
 arg3=FLOAT
 
+[call::glPolygonOffset]
+arg1=FLOAT
+arg2=FLOAT
+
 [call::glRotatef]
 arg1=FLOAT
 arg2=FLOAT

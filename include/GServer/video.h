@@ -80,7 +80,8 @@ typedef enum _GServerVideoCall1i
 
 typedef enum _GServerVideoCall2f
 {
-	GSERVER_VIDEO_CALL2f_glTexCoord2f = 0
+	GSERVER_VIDEO_CALL2f_glPolygonOffset = 0,
+	GSERVER_VIDEO_CALL2f_glTexCoord2f
 } GServerVideoCall2f;
 # define GSERVER_VIDEO_CALL2f_LAST GSERVER_VIDEO_CALL2f_glTexCoord2f
 # define GSERVER_VIDEO_CALL2f_COUNT (GSERVER_VIDEO_CALL2f_LAST + 1)
