@@ -147,6 +147,7 @@ static void (*_glut_func3i[GSERVER_VIDEO_CALL3i_COUNT])(uint32_t, uint32_t,
 	glColor3ui,
 	glDrawArrays,
 	glLighti,
+	glTexGeni,
 	glTexParameteri,
 	glVertex3i
 };

@@ -130,6 +130,7 @@ typedef enum _GServerVideoCall3i
 	GSERVER_VIDEO_CALL3i_glColor3ui,
 	GSERVER_VIDEO_CALL3i_glDrawArrays,
 	GSERVER_VIDEO_CALL3i_glLighti,
+	GSERVER_VIDEO_CALL3i_glTexGeni,
 	GSERVER_VIDEO_CALL3i_glTexParameteri,
 	GSERVER_VIDEO_CALL3i_glVertex3i
 } GServerVideoCall3i;
