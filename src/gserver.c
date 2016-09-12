@@ -569,6 +569,7 @@ GSERVER_PROTO3i(void, glVertex3i, int32_t, int32_t, int32_t)
 
 /* proto3s */
 GSERVER_PROTO3s(void, glColor3s, int16_t, int16_t, int16_t)
+GSERVER_PROTO3s(void, glColor3us, uint16_t, uint16_t, uint16_t)
 
 /* proto4b */
 GSERVER_PROTO4b(void, glColor4b, int8_t, int8_t, int8_t, int8_t)
