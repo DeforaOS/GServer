@@ -73,7 +73,9 @@ typedef enum _GServerVideoCall1f
 
 typedef enum _GServerVideoCall1i
 {
-	GSERVER_VIDEO_CALL1i_glBegin = 0,
+	GSERVER_VIDEO_CALL1i_glActiveTexture = 0,
+	GSERVER_VIDEO_CALL1i_glArrayElement,
+	GSERVER_VIDEO_CALL1i_glBegin,
 	GSERVER_VIDEO_CALL1i_glClear,
 	GSERVER_VIDEO_CALL1i_glDepthFunc,
 	GSERVER_VIDEO_CALL1i_glDisable,
@@ -96,7 +98,8 @@ typedef enum _GServerVideoCall2f
 
 typedef enum _GServerVideoCall2i
 {
-	GSERVER_VIDEO_CALL2i_glBindTexture = 0,
+	GSERVER_VIDEO_CALL2i_glAttachShader = 0,
+	GSERVER_VIDEO_CALL2i_glBindTexture,
 	GSERVER_VIDEO_CALL2i_glColorMaterial,
 	GSERVER_VIDEO_CALL2i_glFogi,
 	GSERVER_VIDEO_CALL2i_glHint,

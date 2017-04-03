@@ -1,6 +1,16 @@
 #$Id$
 service=GServer
 
+[call::glActiveTexture]
+arg1=UINT32,texture
+
+[call::glArrayElement]
+arg1=INT32,i
+
+[call::glAttachShader]
+arg1=UINT32,program
+arg2=UINT32,shader
+
 [call::glBegin]
 arg1=UINT32
 

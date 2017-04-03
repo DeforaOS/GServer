@@ -521,6 +521,8 @@ GSERVER_PROTO1d(void, glClearDepth)
 GSERVER_PROTO1f(void, glPointSize)
 
 /* proto1i */
+GSERVER_PROTO1i(void, glActiveTexture, uint32_t)
+GSERVER_PROTO1i(void, glArrayElement, int32_t)
 GSERVER_PROTO1i(void, glBegin, uint32_t)
 GSERVER_PROTO1i(void, glClear, uint32_t)
 GSERVER_PROTO1i(void, glDepthFunc, uint32_t)
@@ -537,6 +539,7 @@ GSERVER_PROTO2f(void, glPolygonOffset)
 GSERVER_PROTO2f(void, glTexCoord2f)
 
 /* proto2i */
+GSERVER_PROTO2i(void, glAttachShader, uint32_t, uint32_t)
 GSERVER_PROTO2i(void, glBindTexture, uint32_t, uint32_t)
 GSERVER_PROTO2i(void, glColorMaterial, uint32_t, uint32_t)
 GSERVER_PROTO2i(void, glFogi, uint32_t, int32_t)
