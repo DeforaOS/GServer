@@ -11,20 +11,20 @@ arg1=UINT32,texture
 [call::glArrayElement]
 arg1=INT32,i
 
-[call::glAttachShader]
-arg1=UINT32,program
-arg2=UINT32,shader
+#[call::glAttachShader]
+#arg1=UINT32,program
+#arg2=UINT32,shader
 
 [call::glBegin]
 arg1=UINT32,mode
 
-[call::glBeginQuery]
-arg1=UINT32,target
-arg2=UINT32,id
+#[call::glBeginQuery]
+#arg1=UINT32,target
+#arg2=UINT32,id
 
-[call::glBindBuffer]
-arg1=UINT32,target
-arg2=UINT32,buffer
+#[call::glBindBuffer]
+#arg1=UINT32,target
+#arg2=UINT32,buffer
 
 [call:glBindTexture]
 arg1=UINT32,target
@@ -33,19 +33,19 @@ arg2=UINT32,texture
 [call::glBlendEquation]
 arg1=UINT32,mode
 
-[call::glBlendEquationSeparate]
-arg1=UINT32,modeRGB
-arg2=UINT32,modeAlpha
+#[call::glBlendEquationSeparate]
+#arg1=UINT32,modeRGB
+#arg2=UINT32,modeAlpha
 
 [call::glBlendFunc]
 arg1=UINT32,sfactor
 arg2=UINT32,dfactor
 
-[call::glBlendFuncSeparate]
-arg1=UINT32,srcRGB
-arg2=UINT32,dstRGB
-arg3=UINT32,srcAlpha
-arg4=UINT32,dstAlpha
+#[call::glBlendFuncSeparate]
+#arg1=UINT32,srcRGB
+#arg2=UINT32,dstRGB
+#arg3=UINT32,srcAlpha
+#arg4=UINT32,dstAlpha
 
 [call::glCallList]
 arg1=UINT32,list
@@ -175,8 +175,8 @@ arg4=BOOL,alpha
 arg1=UINT32,face
 arg2=UINT32,mode
 
-[call::glCompileShader]
-arg1=UINT32,shader
+#[call::glCompileShader]
+#arg1=UINT32,shader
 
 [call::glDepthFunc]
 arg1=UINT32

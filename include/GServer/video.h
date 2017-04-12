@@ -82,7 +82,9 @@ typedef enum _GServerVideoCall1i
 	GSERVER_VIDEO_CALL1i_glClear,
 	GSERVER_VIDEO_CALL1i_glClearStencil,
 	GSERVER_VIDEO_CALL1i_glClientActiveTexture,
+#if 0
 	GSERVER_VIDEO_CALL1i_glCompileShader,
+#endif
 	GSERVER_VIDEO_CALL1i_glDepthFunc,
 	GSERVER_VIDEO_CALL1i_glDisable,
 	GSERVER_VIDEO_CALL1i_glDisableClientState,
@@ -104,11 +106,15 @@ typedef enum _GServerVideoCall2f
 
 typedef enum _GServerVideoCall2i
 {
+#if 0
 	GSERVER_VIDEO_CALL2i_glAttachShader = 0,
 	GSERVER_VIDEO_CALL2i_glBeginQuery,
 	GSERVER_VIDEO_CALL2i_glBindBuffer,
 	GSERVER_VIDEO_CALL2i_glBindTexture,
 	GSERVER_VIDEO_CALL2i_glBlendEquationSeparate,
+#else
+	GSERVER_VIDEO_CALL2i_glBindTexture = 0,
+#endif
 	GSERVER_VIDEO_CALL2i_glBlendFunc,
 	GSERVER_VIDEO_CALL2i_glColorMaterial,
 	GSERVER_VIDEO_CALL2i_glFogi,
@@ -193,8 +199,12 @@ typedef enum _GServerVideoCall4f
 
 typedef enum _GServerVideoCall4i
 {
+#if 0
 	GSERVER_VIDEO_CALL4i_glBlendFuncSeparate = 0,
 	GSERVER_VIDEO_CALL4i_glColor4i,
+#else
+	GSERVER_VIDEO_CALL4i_glColor4i = 0,
+#endif
 	GSERVER_VIDEO_CALL4i_glColor4ui,
 	GSERVER_VIDEO_CALL4i_glColorMask,
 	GSERVER_VIDEO_CALL4i_glScissor,

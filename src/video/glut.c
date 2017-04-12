@@ -93,13 +93,23 @@ static void (*_glut_func1d[GSERVER_VIDEO_CALL1d_COUNT])(double) =
 
 static void (*_glut_func1f[GSERVER_VIDEO_CALL1f_COUNT])(float) =
 {
+	glClearIndex,
 	glPointSize
 };
 
 static void (*_glut_func1i[GSERVER_VIDEO_CALL1i_COUNT])(uint32_t) =
 {
+	glActiveTexture,
+	glArrayElement,
 	glBegin,
+	glBlendEquation,
+	glCallList,
 	glClear,
+	glClearStencil,
+	glClientActiveTexture,
+#if 0
+	glCompileShader,
+#endif
 	glDepthFunc,
 	glDisable,
 	glDisableClientState,
@@ -117,7 +127,16 @@ static void (*_glut_func2f[GSERVER_VIDEO_CALL2f_COUNT])(float, float) =
 
 static void (*_glut_func2i[GSERVER_VIDEO_CALL2i_COUNT])(uint32_t, uint32_t) =
 {
+#if 0
+	glAttachShader,
+	glBeginQuery,
+	glBindBuffer,
+#endif
 	glBindTexture,
+#if 0
+	glBlendEquationSeparate,
+#endif
+	glBlendFunc,
 	glColorMaterial,
 	glFogi,
 	glHint,
@@ -182,6 +201,7 @@ static void (*_glut_func4d[GSERVER_VIDEO_CALL4d_COUNT])(double, double, double,
 static void (*_glut_func4f[GSERVER_VIDEO_CALL4f_COUNT])(float, float, float,
 		float) =
 {
+	glClearAccum,
 	glClearColor,
 	glRotatef
 };
@@ -189,8 +209,12 @@ static void (*_glut_func4f[GSERVER_VIDEO_CALL4f_COUNT])(float, float, float,
 static void (*_glut_func4i[GSERVER_VIDEO_CALL4i_COUNT])(uint32_t, uint32_t,
 		uint32_t, uint32_t) =
 {
+#if 0
+	glBlendFuncSeparate,
+#endif
 	glColor4i,
 	glColor4ui,
+	glColorMask,
 	glScissor,
 	glViewport
 };
