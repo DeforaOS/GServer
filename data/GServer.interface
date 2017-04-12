@@ -47,8 +47,17 @@ arg2=UINT32,dstRGB
 arg3=UINT32,srcAlpha
 arg4=UINT32,dstAlpha
 
+[call::glCallList]
+arg1=UINT32,list
+
 [call::glClear]
 arg1=UINT32,mask
+
+[call::glClearAccum]
+arg1=FLOAT,red
+arg2=FLOAT,green
+arg3=FLOAT,blue
+arg4=FLOAT,alpha
 
 [call::glClearColor]
 arg1=FLOAT,red
@@ -58,6 +67,15 @@ arg4=FLOAT,alpha
 
 [call::glClearDepth]
 arg1=DOUBLE,depth
+
+[call::glClearIndex]
+arg1=FLOAT,c
+
+[call::glClearStencil]
+arg1=INT32,s
+
+[call::glClientActiveTexture]
+arg1=UINT32,texture
 
 [call::glColor3b]
 arg1=INT8,red
@@ -147,9 +165,18 @@ arg2=UINT16,green
 arg3=UINT16,blue
 arg4=UINT16,alpha
 
+[call::glColorMask]
+arg1=BOOL,red
+arg2=BOOL,green
+arg3=BOOL,blue
+arg4=BOOL,alpha
+
 [call::glColorMaterial]
 arg1=UINT32,face
 arg2=UINT32,mode
+
+[call::glCompileShader]
+arg1=UINT32,shader
 
 [call::glDepthFunc]
 arg1=UINT32

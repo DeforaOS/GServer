@@ -518,6 +518,7 @@ GSERVER_PROTO0(void, SwapBuffers)
 GSERVER_PROTO1d(void, glClearDepth)
 
 /* proto1f*/
+GSERVER_PROTO1f(void, glClearIndex)
 GSERVER_PROTO1f(void, glPointSize)
 
 /* proto1i */
@@ -525,7 +526,11 @@ GSERVER_PROTO1i(void, glActiveTexture, uint32_t)
 GSERVER_PROTO1i(void, glArrayElement, int32_t)
 GSERVER_PROTO1i(void, glBegin, uint32_t)
 GSERVER_PROTO1i(void, glBlendEquation, uint32_t)
+GSERVER_PROTO1i(void, glCallList, uint32_t)
 GSERVER_PROTO1i(void, glClear, uint32_t)
+GSERVER_PROTO1i(void, glClearStencil, int32_t)
+GSERVER_PROTO1i(void, glClientActiveTexture, uint32_t)
+GSERVER_PROTO1i(void, glCompileShader, uint32_t)
 GSERVER_PROTO1i(void, glDepthFunc, uint32_t)
 GSERVER_PROTO1i(void, glDisable, uint32_t)
 GSERVER_PROTO1i(void, glDisableClientState, uint32_t)
@@ -587,6 +592,7 @@ GSERVER_PROTO4b(void, glColor4ub, uint8_t, uint8_t, uint8_t, uint8_t)
 GSERVER_PROTO4d(void, glColor4d)
 
 /* proto4f */
+GSERVER_PROTO4f(void, glClearAccum)
 GSERVER_PROTO4f(void, glClearColor)
 GSERVER_PROTO4f(void, glColor4f)
 GSERVER_PROTO4f(void, glRotatef)
@@ -596,6 +602,7 @@ GSERVER_PROTO4i(void, glBlendFuncSeparate, uint32_t, uint32_t, uint32_t,
 		uint32_t)
 GSERVER_PROTO4i(void, glColor4i, int32_t, int32_t, int32_t, int32_t)
 GSERVER_PROTO4i(void, glColor4ui, uint32_t, uint32_t, uint32_t, uint32_t)
+GSERVER_PROTO4i(void, glColorMask, bool, bool, bool, bool)
 GSERVER_PROTO4i(void, glScissor, int32_t, int32_t, int32_t, int32_t)
 GSERVER_PROTO4i(void, glViewport, int32_t, int32_t, int32_t, int32_t)
 

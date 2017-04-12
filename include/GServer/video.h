@@ -66,7 +66,8 @@ typedef enum _GServerVideoCall1d
 
 typedef enum _GServerVideoCall1f
 {
-	GSERVER_VIDEO_CALL1f_glPointSize = 0
+	GSERVER_VIDEO_CALL1f_glClearIndex = 0,
+	GSERVER_VIDEO_CALL1f_glPointSize
 } GServerVideoCall1f;
 # define GSERVER_VIDEO_CALL1f_LAST GSERVER_VIDEO_CALL1f_glPointSize
 # define GSERVER_VIDEO_CALL1f_COUNT (GSERVER_VIDEO_CALL1f_LAST + 1)
@@ -77,7 +78,11 @@ typedef enum _GServerVideoCall1i
 	GSERVER_VIDEO_CALL1i_glArrayElement,
 	GSERVER_VIDEO_CALL1i_glBegin,
 	GSERVER_VIDEO_CALL1i_glBlendEquation,
+	GSERVER_VIDEO_CALL1i_glCallList,
 	GSERVER_VIDEO_CALL1i_glClear,
+	GSERVER_VIDEO_CALL1i_glClearStencil,
+	GSERVER_VIDEO_CALL1i_glClientActiveTexture,
+	GSERVER_VIDEO_CALL1i_glCompileShader,
 	GSERVER_VIDEO_CALL1i_glDepthFunc,
 	GSERVER_VIDEO_CALL1i_glDisable,
 	GSERVER_VIDEO_CALL1i_glDisableClientState,
@@ -178,7 +183,8 @@ typedef enum _GServerVideoCall4d
 
 typedef enum _GServerVideoCall4f
 {
-	GSERVER_VIDEO_CALL4f_glClearColor = 0,
+	GSERVER_VIDEO_CALL4f_glClearAccum = 0,
+	GSERVER_VIDEO_CALL4f_glClearColor,
 	GSERVER_VIDEO_CALL4f_glColor4f,
 	GSERVER_VIDEO_CALL4f_glRotatef
 } GServerVideoCall4f;
@@ -190,6 +196,7 @@ typedef enum _GServerVideoCall4i
 	GSERVER_VIDEO_CALL4i_glBlendFuncSeparate = 0,
 	GSERVER_VIDEO_CALL4i_glColor4i,
 	GSERVER_VIDEO_CALL4i_glColor4ui,
+	GSERVER_VIDEO_CALL4i_glColorMask,
 	GSERVER_VIDEO_CALL4i_glScissor,
 	GSERVER_VIDEO_CALL4i_glViewport
 } GServerVideoCall4i;
