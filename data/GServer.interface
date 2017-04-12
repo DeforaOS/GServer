@@ -12,7 +12,7 @@ arg1=UINT32,program
 arg2=UINT32,shader
 
 [call::glBegin]
-arg1=UINT32
+arg1=UINT32,mode
 
 [call::glBeginQuery]
 arg1=UINT32,target
@@ -23,112 +23,112 @@ arg1=UINT32,target
 arg2=UINT32,buffer
 
 [call:glBindTexture]
-arg1=UINT32
-arg2=UINT32
+arg1=UINT32,target
+arg2=UINT32,texture
 
 [call::glClear]
-arg1=UINT32
+arg1=UINT32,mask
 
 [call::glClearColor]
-arg1=FLOAT
-arg2=FLOAT
-arg3=FLOAT
-arg4=FLOAT
+arg1=FLOAT,red
+arg2=FLOAT,green
+arg3=FLOAT,blue
+arg4=FLOAT,alpha
 
 [call::glClearDepth]
-arg1=DOUBLE
+arg1=DOUBLE,depth
 
 [call::glColor3b]
-arg1=INT8
-arg2=INT8
-arg3=INT8
+arg1=INT8,red
+arg2=INT8,green
+arg3=INT8,blue
 
 [call::glColor3d]
-arg1=DOUBLE
-arg2=DOUBLE
-arg3=DOUBLE
+arg1=DOUBLE,red
+arg2=DOUBLE,green
+arg3=DOUBLE,blue
 
 [call::glColor3f]
-arg1=FLOAT
-arg2=FLOAT
-arg3=FLOAT
+arg1=FLOAT,red
+arg2=FLOAT,green
+arg3=FLOAT,blue
 
 [call::glColor3i]
-arg1=INT32
-arg2=INT32
-arg3=INT32
+arg1=INT32,red
+arg2=INT32,green
+arg3=INT32,blue
 
 [call::glColor3s]
-arg1=INT16
-arg2=INT16
-arg3=INT16
+arg1=INT16,red
+arg2=INT16,green
+arg3=INT16,blue
 
 [call::glColor3ub]
-arg1=UINT8
-arg2=UINT8
-arg3=UINT8
+arg1=UINT8,red
+arg2=UINT8,green
+arg3=UINT8,blue
 
 [call::glColor3ui]
-arg1=UINT32
-arg2=UINT32
-arg3=UINT32
+arg1=UINT32,red
+arg2=UINT32,green
+arg3=UINT32,blue
 
 [call::glColor3us]
-arg1=UINT16
-arg2=UINT16
-arg3=UINT16
+arg1=UINT16,red
+arg2=UINT16,green
+arg3=UINT16,blue
 
 [call::glColor4b]
-arg1=INT8
-arg2=INT8
-arg3=INT8
-arg4=INT8
+arg1=INT8,red
+arg2=INT8,green
+arg3=INT8,blue
+arg4=INT8,alpha
 
 [call::glColor4d]
-arg1=DOUBLE
-arg2=DOUBLE
-arg3=DOUBLE
-arg4=DOUBLE
+arg1=DOUBLE,red
+arg2=DOUBLE,green
+arg3=DOUBLE,blue
+arg4=DOUBLE,alpha
 
 [call::glColor4f]
-arg1=FLOAT
-arg2=FLOAT
-arg3=FLOAT
-arg4=FLOAT
+arg1=FLOAT,red
+arg2=FLOAT,green
+arg3=FLOAT,blue
+arg4=FLOAT,alpha
 
 [call::glColor4i]
-arg1=INT32
-arg2=INT32
-arg3=INT32
-arg4=INT32
+arg1=INT32,red
+arg2=INT32,green
+arg3=INT32,blue
+arg4=INT32,alpha
 
 [call::glColor4s]
-arg1=INT16
-arg2=INT16
-arg3=INT16
-arg4=INT16
+arg1=INT16,red
+arg2=INT16,green
+arg3=INT16,blue
+arg4=INT16,alpha
 
 [call::glColor4ub]
-arg1=UINT8
-arg2=UINT8
-arg3=UINT8
-arg4=UINT8
+arg1=UINT8,red
+arg2=UINT8,green
+arg3=UINT8,blue
+arg4=UINT8,alpha
 
 [call::glColor4ui]
-arg1=UINT32
-arg2=UINT32
-arg3=UINT32
-arg4=UINT32
+arg1=UINT32,red
+arg2=UINT32,green
+arg3=UINT32,blue
+arg4=UINT32,alpha
 
 [call::glColor4us]
-arg1=UINT16
-arg2=UINT16
-arg3=UINT16
-arg4=UINT16
+arg1=UINT16,red
+arg2=UINT16,green
+arg3=UINT16,blue
+arg4=UINT16,alpha
 
 [call::glColorMaterial]
-arg1=UINT32
-arg2=UINT32
+arg1=UINT32,face
+arg2=UINT32,mode
 
 [call::glDepthFunc]
 arg1=UINT32
