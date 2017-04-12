@@ -99,6 +99,8 @@ typedef enum _GServerVideoCall2f
 typedef enum _GServerVideoCall2i
 {
 	GSERVER_VIDEO_CALL2i_glAttachShader = 0,
+	GSERVER_VIDEO_CALL2i_glBeginQuery,
+	GSERVER_VIDEO_CALL2i_glBindBuffer,
 	GSERVER_VIDEO_CALL2i_glBindTexture,
 	GSERVER_VIDEO_CALL2i_glColorMaterial,
 	GSERVER_VIDEO_CALL2i_glFogi,

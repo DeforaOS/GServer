@@ -540,6 +540,8 @@ GSERVER_PROTO2f(void, glTexCoord2f)
 
 /* proto2i */
 GSERVER_PROTO2i(void, glAttachShader, uint32_t, uint32_t)
+GSERVER_PROTO2i(void, glBeginQuery, uint32_t, uint32_t)
+GSERVER_PROTO2i(void, glBindBuffer, uint32_t, uint32_t)
 GSERVER_PROTO2i(void, glBindTexture, uint32_t, uint32_t)
 GSERVER_PROTO2i(void, glColorMaterial, uint32_t, uint32_t)
 GSERVER_PROTO2i(void, glFogi, uint32_t, int32_t)
