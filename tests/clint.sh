@@ -1,6 +1,6 @@
 #!/bin/sh
 #$Id$
-#Copyright (c) 2016-2017 Pierre Pronchery <khorben@defora.org>
+#Copyright (c) 2016-2018 Pierre Pronchery <khorben@defora.org>
 #
 #Redistribution and use in source and binary forms, with or without
 #modification, are permitted provided that the following conditions are met:
@@ -33,6 +33,7 @@ PROJECTCONF="../project.conf"
 DATE="date"
 DEBUG="_debug"
 FIND="find"
+GREP="grep"
 LINT="lint -g"
 SORT="sort -n"
 TR="tr"
@@ -59,11 +60,17 @@ _clint()
 	done < "$PROJECTCONF"
 	for subdir in $subdirs; do
 		[ -d "../$subdir" ] || continue
-		for filename in $($FIND "../$subdir" -name '*.c' | $SORT); do
-			_clint_file "$filename"
-			if [ $? -eq 0 ]; then
-				echo "$filename:"
-			else
+		for filename in $($FIND "../$subdir" -type f | $SORT); do
+			case "$filename" in
+				*.c)
+					(_clint_lint "$filename" ||
+						_clint_rtrim "$filename")
+					;;
+				*.h)
+					(_clint_rtrim "$filename")
+					;;
+			esac
+			if [ $? -ne 0 ]; then
 				echo "$PROGNAME: $filename: FAIL" 1>&2
 				ret=2
 			fi
@@ -72,10 +79,35 @@ _clint()
 	return $ret
 }
 
-_clint_file()
+_clint_lint()
 {
+	filename="$1"
+
 	echo
 	$DEBUG $LINT $CPPFLAGS $CFLAGS "$filename" 2>&1
+	ret=$?
+	if [ $ret -eq 0 ]; then
+		echo "OK"
+	else
+		echo "FAIL"
+	fi
+	return $ret
+}
+
+_clint_rtrim()
+{
+	filename="$1"
+	regex="[ 	]\\+\$"
+
+	echo
+	$DEBUG $GREP -vq "$regex" "$filename" 2>&1
+	ret=$?
+	if [ $ret -eq 0 ]; then
+		echo "OK"
+	else
+		echo "FAIL"
+	fi
+	return $ret
 }
 
 
@@ -94,7 +126,7 @@ _debug()
 #usage
 _usage()
 {
-	echo "Usage: $PROGNAME [-c] target" 1>&2
+	echo "Usage: $PROGNAME [-c] target..." 1>&2
 	return 1
 }
 
@@ -118,7 +150,7 @@ while getopts "cO:P:" name; do
 			export "${OPTARG%%=*}"="${OPTARG#*=}"
 			;;
 		P)
-			#XXX ignored for compatibility
+			CPPFLAGS="$CPPFLAGS -I$OPTARG/include"
 			;;
 		?)
 			_usage
@@ -127,14 +159,18 @@ while getopts "cO:P:" name; do
 	esac
 done
 shift $((OPTIND - 1))
-if [ $# -ne 1 ]; then
+if [ $# -lt 1 ]; then
 	_usage
 	exit $?
 fi
-target="$1"
 
 #clean
 [ $clean -ne 0 ] && exit 0
 
 exec 3>&1
-_clint > "$target"
+while [ $# -gt 0 ]; do
+	target="$1"
+	shift
+
+	_clint > "$target"					|| exit 2
+done
