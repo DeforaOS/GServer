@@ -20,6 +20,7 @@
 #include <string.h>
 #include <GL/gl.h>
 #include <System.h>
+#include <System/Marshall.h>
 #include "GServer/video.h"
 #include "../data/GServer.h"
 #include "platform.h"
@@ -90,6 +91,7 @@ struct _App
 	int event_own;
 	AppServer * appserver;
 	int loop;
+	MarshallCallback * calls;
 
 	/* plugins */
 	/* video */
@@ -105,98 +107,16 @@ struct _App
 struct _GServerCall
 {
 	GServerVideoCall type;
-	unsigned int func;
-	union
-	{
-		struct
-		{
-			double x;
-		} _1d;
-		struct
-		{
-			float x;
-		} _1f;
-		struct
-		{
-			uint32_t x;
-		} _1i;
-		struct
-		{
-			float x;
-			float y;
-		} _2f;
-		struct
-		{
-			uint32_t x;
-			uint32_t y;
-		} _2i;
-		struct
-		{
-			uint8_t x;
-			uint8_t y;
-			uint8_t z;
-		} _3b;
-		struct
-		{
-			double x;
-			double y;
-			double z;
-		} _3d;
-		struct
-		{
-			float x;
-			float y;
-			float z;
-		} _3f;
-		struct
-		{
-			uint32_t x;
-			uint32_t y;
-			uint32_t z;
-		} _3i;
-		struct
-		{
-			uint16_t x;
-			uint16_t y;
-			uint16_t z;
-		} _3s;
-		struct
-		{
-			uint8_t x;
-			uint8_t y;
-			uint8_t z;
-			uint8_t t;
-		} _4b;
-		struct
-		{
-			double x;
-			double y;
-			double z;
-			double t;
-		} _4d;
-		struct
-		{
-			float x;
-			float y;
-			float z;
-			float t;
-		} _4f;
-		struct
-		{
-			uint32_t x;
-			uint32_t y;
-			uint32_t z;
-			uint32_t t;
-		} _4i;
-		struct
-		{
-			uint16_t x;
-			uint16_t y;
-			uint16_t z;
-			uint16_t t;
-		} _4s;
-	} args;
+	MarshallCallback callback;
+	Variable ** args;
+	size_t args_cnt;
 };
+
+typedef struct _GServerOpenGLCall
+{
+	String const * name;
+	GServerVideoCall type;
+} GServerOpenGLCall;
 
 struct _GServerClient
 {
@@ -206,17 +126,77 @@ struct _GServerClient
 };
 
 
-/* variables */
-static GServer * _gserver = NULL;
+/* constants */
+const GServerOpenGLCall _gserver_calls[] =
+{
+	/* GSERVER_VIDEO_CALL0 */
+	{ "glEnd",		GSERVER_VIDEO_CALL_0	},
+	{ "glEndList",		GSERVER_VIDEO_CALL_0	},
+	{ "glFlush",		GSERVER_VIDEO_CALL_0	},
+	{ "glLoadIdentity",	GSERVER_VIDEO_CALL_0	},
+	{ "SwapBuffers",	GSERVER_VIDEO_CALL_0	},
+	/* GSERVER_VIDEO_CALL1d */
+	{ "glClearDepth",	GSERVER_VIDEO_CALL_1d	},
+	/* GSERVER_VIDEO_CALL1f */
+	{ "glClearIndex",	GSERVER_VIDEO_CALL_1f	},
+	{ "glPointSize",	GSERVER_VIDEO_CALL_1f	},
+	/* GSERVER_VIDEO_CALL1i */
+	{ "glActiveTexture",	GSERVER_VIDEO_CALL_1i	},
+	{ "glArrayElement",	GSERVER_VIDEO_CALL_1i	},
+	{ "glBegin",		GSERVER_VIDEO_CALL_1i	},
+	{ "glBlendEquation",	GSERVER_VIDEO_CALL_1i	},
+	{ "glCallList",		GSERVER_VIDEO_CALL_1i	},
+	{ "glClear",		GSERVER_VIDEO_CALL_1i	},
+	{ "glClearStencil",	GSERVER_VIDEO_CALL_1i	},
+	{ "glClientActiveTexture",GSERVER_VIDEO_CALL_1i	},
+#if 0
+	{ "glCompileShader",	GSERVER_VIDEO_CALL_1i	},
+#endif
+	{ "glDepthFunc",	GSERVER_VIDEO_CALL_1i	},
+	{ "glDisable",		GSERVER_VIDEO_CALL_1i	},
+	{ "glDisableClientState",GSERVER_VIDEO_CALL_1i	},
+	{ "glEnable",		GSERVER_VIDEO_CALL_1i	},
+	{ "glEnableClientState",GSERVER_VIDEO_CALL_1i	},
+	{ "glIsEnabled",	GSERVER_VIDEO_CALL_1i	},
+	{ "glShadeModel",	GSERVER_VIDEO_CALL_1i	},
+	/* GSERVER_VIDEO_CALL2f */
+	{ "glPolygonOffset",	GSERVER_VIDEO_CALL_2f	},
+	{ "glTexCoord2f",	GSERVER_VIDEO_CALL_2f	},
+	/* GSERVER_VIDEO_CALL2i */
+	{ "glAttachShader",	GSERVER_VIDEO_CALL_2i	},
+	{ "glBeginQuery",	GSERVER_VIDEO_CALL_2i	},
+	{ "glBindBuffer",	GSERVER_VIDEO_CALL_2i	},
+	{ "glBindTexture",	GSERVER_VIDEO_CALL_2i	},
+	{ "glBlendEquationSeparate",GSERVER_VIDEO_CALL_2i	},
+#if 0
+	{ "glBindTexture",	GSERVER_VIDEO_CALL_2i	},
+#endif
+	{ "glBlendFunc",	GSERVER_VIDEO_CALL_2i	},
+	{ "glColorMaterial",	GSERVER_VIDEO_CALL_2i	},
+	{ "glFogi",		GSERVER_VIDEO_CALL_2i	},
+	{ "glHint",		GSERVER_VIDEO_CALL_2i	},
+	{ "glLightModeli",	GSERVER_VIDEO_CALL_2i	},
+	{ "glVertex2i",		GSERVER_VIDEO_CALL_2i	},
+#if 0
+	{ "",	GSERVER_VIDEO_CALL_	},
+#endif
+};
 
 
 /* prototypes */
-static void _gserver_client_calls(GServer * gserver, GServerClient * client);
+/* accessors */
 static GServerClient * _gserver_get_client(GServer * gserver, void * id);
+static MarshallCallback _gserver_get_call(GServer * gserver,
+		String const * name);
+
+/* useful */
+static int _gserver_call(GServer * gserver, Variable * ret,
+		char const * name, size_t args_cnt, Variable ** args);
+static void _gserver_client_calls(GServer * gserver, GServerClient * client);
 
 /* queue */
 static int _gserver_queue(GServer * gserver, AppServerClient * asc,
-		GServerVideoCall type, unsigned int func, ...);
+		GServerVideoCall type, char const * name, ...);
 
 
 /* public */
@@ -224,7 +204,8 @@ static int _gserver_queue(GServer * gserver, AppServerClient * asc,
 /* gserver_new */
 static int _new_init(AppServerOptions options, GServer * gserver,
 		Event * event);
-static int _init_video(GServer * gserver);
+static int _new_init_opengl(GServer * gserver);
+static int _new_init_video(GServer * gserver);
 
 GServer * gserver_new(AppServerOptions options, Event * event)
 {
@@ -232,7 +213,6 @@ GServer * gserver_new(AppServerOptions options, Event * event)
 
 	if((gserver = object_new(sizeof(*gserver))) == NULL)
 		return NULL;
-	_gserver = gserver;
 	if(_new_init(options, gserver, event) != 0)
 	{
 		object_delete(gserver);
@@ -258,6 +238,7 @@ static int _new_init(AppServerOptions options, GServer * gserver, Event * event)
 	}
 	else
 		gserver->event_own = 1;
+	gserver->calls = NULL;
 	gserver->video_helper.gserver = gserver;
 	gserver->video_helper.get_event = gserver_get_event;
 	gserver->video_helper.get_platform = gserver_get_platform;
@@ -265,11 +246,14 @@ static int _new_init(AppServerOptions options, GServer * gserver, Event * event)
 	if((gserver->appserver = appserver_new_event(gserver, options,
 					"GServer", NULL, gserver->event))
 			!= NULL
-			&& _init_video(gserver) == 0)
+			&& _new_init_video(gserver) == 0
+			&& _new_init_opengl(gserver) == 0)
 	{
 		gserver->loop = 1;
 		return 0;
 	}
+	if(gserver->calls != NULL)
+		object_delete(gserver->calls);
 	if(gserver->appserver != NULL)
 		appserver_delete(gserver->appserver);
 	if(gserver->event_own != 0)
@@ -278,7 +262,26 @@ static int _new_init(AppServerOptions options, GServer * gserver, Event * event)
 	return -1;
 }
 
-static int _init_video(GServer * gserver)
+static int _new_init_opengl(GServer * gserver)
+{
+	Plugin * plugin;
+	const size_t cnt = sizeof(_gserver_calls) / sizeof(*_gserver_calls);
+	size_t i;
+
+	if((gserver->calls = object_new(cnt * sizeof(*gserver->calls))) == NULL)
+		return -1;
+	if((plugin = plugin_new_self()) == NULL)
+		return -1;
+	for(i = 0; i < cnt; i++)
+		if((gserver->calls[i] = (MarshallCallback)plugin_lookup(
+						plugin, _gserver_calls[i].name))
+				== NULL)
+			break;
+	plugin_delete(plugin);
+	return (i == cnt) ? 0 : -1;
+}
+
+static int _new_init_video(GServer * gserver)
 {
 	String const subsystem[] = "video";
 	GServerPlatform * platform = gserver->platform;
@@ -305,9 +308,9 @@ static void _delete_video(GServer * gserver);
 
 void gserver_delete(GServer * gserver)
 {
-	if(_gserver == gserver)
-		_gserver = NULL;
 	_delete_video(gserver);
+	if(gserver->calls != NULL)
+		object_delete(gserver->calls);
 	if(gserver->appserver != NULL)
 		appserver_delete(gserver->appserver);
 	if(gserver->event != NULL)
@@ -357,19 +360,18 @@ int gserver_loop(GServer * gserver)
 void gserver_refresh(GServer * gserver)
 {
 	size_t i;
+	uint32_t u = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT;
+	Variable * v;
 
 #ifdef DEBUG
 	fprintf(stderr, "DEBUG: %s()\n", __func__);
 #endif
-	gserver->video_plugin->call1i(gserver->video_plugin,
-			GSERVER_VIDEO_CALL1i_glClear,
-			GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	gserver->video_plugin->call0(gserver->video_plugin,
-			GSERVER_VIDEO_CALL0_glLoadIdentity);
+	v = variable_new(VT_UINT32, &u);
+	_gserver_call(gserver, NULL, "glClear", 1, &v);
+	_gserver_call(gserver, NULL, "glLoadIdentity", 0, NULL);
 	for(i = 0; i < gserver->clients_cnt; i++)
 		_gserver_client_calls(gserver, &gserver->clients[i]);
-	gserver->video_plugin->call0(gserver->video_plugin,
-			GSERVER_VIDEO_CALL0_SwapBuffers);
+	_gserver_call(gserver, NULL, "SwapBuffers", 0, NULL);
 }
 
 
@@ -379,7 +381,7 @@ void gserver_refresh(GServer * gserver)
 { \
 	DEBUG_INTERFACE(); \
 	_gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_0, \
-			GSERVER_VIDEO_CALL0_ ## func); \
+			"" # func); \
 }
 #define GSERVER_PROTO1d(type, func) \
 	type GServer_ ## func(GServer * gserver, AppServerClient * asc, \
@@ -387,7 +389,7 @@ void gserver_refresh(GServer * gserver)
 { \
 	DEBUG_INTERFACE(); \
 	_gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_1d, \
-			GSERVER_VIDEO_CALL1d_ ## func, x); \
+			"" # func, x); \
 }
 #define GSERVER_PROTO1f(type, func) \
 	type GServer_ ## func(GServer * gserver, AppServerClient * asc, \
@@ -395,7 +397,7 @@ void gserver_refresh(GServer * gserver)
 { \
 	DEBUG_INTERFACE(); \
 	_gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_1f, \
-			GSERVER_VIDEO_CALL1f_ ## func, x); \
+			"" # func, x); \
 }
 #define GSERVER_PROTO1i(type, func, type1) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, \
@@ -403,7 +405,7 @@ void gserver_refresh(GServer * gserver)
 { \
 	DEBUG_INTERFACE1i(x); \
 	_gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_1i, \
-			GSERVER_VIDEO_CALL1i_ ## func, x); \
+			"" # func, x); \
 }
 #define GSERVER_PROTO2f(type, func) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, \
@@ -411,7 +413,7 @@ void gserver_refresh(GServer * gserver)
 { \
 	DEBUG_INTERFACE2f(x, y); \
 	_gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_2f, \
-			GSERVER_VIDEO_CALL2f_ ## func, x, y); \
+			"" # func, x, y); \
 }
 #define GSERVER_PROTO2i(type, func, type1, type2) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, \
@@ -419,7 +421,7 @@ void gserver_refresh(GServer * gserver)
 { \
 	DEBUG_INTERFACE2i(x, y); \
 	_gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_2i, \
-			GSERVER_VIDEO_CALL2i_ ## func, x, y); \
+			"" # func, x, y); \
 }
 #define GSERVER_PROTO3b(type, func, type1, type2, type3) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, \
@@ -427,7 +429,7 @@ void gserver_refresh(GServer * gserver)
 { \
 	DEBUG_INTERFACE3b(x, y, z); \
 	_gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_3b, \
-			GSERVER_VIDEO_CALL3b_ ## func, x, y, z); \
+			"" # func, x, y, z); \
 }
 #define GSERVER_PROTO3d(type, func) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, \
@@ -435,7 +437,7 @@ void gserver_refresh(GServer * gserver)
 { \
 	DEBUG_INTERFACE3d(x, y, z); \
 	_gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_3d, \
-			GSERVER_VIDEO_CALL3d_ ## func, x, y, z); \
+			"" # func, x, y, z); \
 }
 #define GSERVER_PROTO3f(type, func) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, \
@@ -443,7 +445,7 @@ void gserver_refresh(GServer * gserver)
 { \
 	DEBUG_INTERFACE3f(x, y, z); \
 	_gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_3f, \
-			GSERVER_VIDEO_CALL3f_ ## func, x, y, z); \
+			"" # func, x, y, z); \
 }
 #define GSERVER_PROTO3i(type, func, type1, type2, type3) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, \
@@ -451,7 +453,7 @@ void gserver_refresh(GServer * gserver)
 { \
 	DEBUG_INTERFACE3i(x, y, z); \
 	_gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_3i, \
-			GSERVER_VIDEO_CALL3i_ ## func, x, y, z); \
+			"" # func, x, y, z); \
 }
 #define GSERVER_PROTO3s(type, func, type1, type2, type3) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, \
@@ -459,7 +461,7 @@ void gserver_refresh(GServer * gserver)
 { \
 	DEBUG_INTERFACE3s(x, y, z); \
 	_gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_3s, \
-			GSERVER_VIDEO_CALL3s_ ## func, x, y, z); \
+			"" # func, x, y, z); \
 }
 #define GSERVER_PROTO4b(type, func, type1, type2, type3, type4) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, \
@@ -467,7 +469,7 @@ void gserver_refresh(GServer * gserver)
 { \
 	DEBUG_INTERFACE4b(x, y, z, t); \
 	_gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_4b, \
-			GSERVER_VIDEO_CALL4b_ ## func, x, y, z, t); \
+			"" # func, x, y, z, t); \
 }
 #define GSERVER_PROTO4d(type, func) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, \
@@ -475,7 +477,7 @@ void gserver_refresh(GServer * gserver)
 { \
 	DEBUG_INTERFACE4d(x, y, z, t); \
 	_gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_4d, \
-			GSERVER_VIDEO_CALL4d_ ## func, x, y, z, t); \
+			"" # func, x, y, z, t); \
 }
 #define GSERVER_PROTO4f(type, func) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, \
@@ -483,7 +485,7 @@ void gserver_refresh(GServer * gserver)
 { \
 	DEBUG_INTERFACE4f(x, y, z, t); \
 	_gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_4f, \
-			GSERVER_VIDEO_CALL4f_ ## func, x, y, z, t); \
+			"" # func, x, y, z, t); \
 }
 #define GSERVER_PROTO4i(type, func, type1, type2, type3, type4) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, \
@@ -491,7 +493,7 @@ void gserver_refresh(GServer * gserver)
 { \
 	DEBUG_INTERFACE4i(x, y, z, t); \
 	_gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_4i, \
-			GSERVER_VIDEO_CALL4i_ ## func, x, y, z, t); \
+			"" # func, x, y, z, t); \
 }
 #define GSERVER_PROTO4s(type, func, type1, type2, type3, type4) \
 	type GServer_ ## func (GServer * gserver, AppServerClient * asc, \
@@ -499,7 +501,7 @@ void gserver_refresh(GServer * gserver)
 { \
 	DEBUG_INTERFACE4s(x, y, z, t); \
 	_gserver_queue(gserver, asc, GSERVER_VIDEO_CALL_4s, \
-			GSERVER_VIDEO_CALL4s_ ## func, x, y, z, t); \
+			"" # func, x, y, z, t); \
 }
 
 /* proto0 */
@@ -616,95 +618,18 @@ GSERVER_PROTO4s(void, glColor4us, uint16_t, uint16_t, uint16_t, uint16_t)
 
 /* private */
 /* functions */
-/* gserver_client_calls */
-static void _gserver_client_calls(GServer * gserver, GServerClient * client)
+/* accessors */
+static MarshallCallback _gserver_get_call(GServer * gserver,
+		String const * name)
 {
+	const size_t cnt = sizeof(_gserver_calls) / sizeof(*_gserver_calls);
 	size_t i;
-	GServerCall * call;
-	GServerVideoPlugin * vp = gserver->video_plugin;
 
-	for(i = 0; i < client->calls_cnt; i++)
-	{
-		call = &client->calls[i];
-		switch(call->type)
-		{
-			case GSERVER_VIDEO_CALL_0:
-				vp->call0(vp, call->func);
-				break;
-			case GSERVER_VIDEO_CALL_1d:
-				vp->call1d(vp, call->func, call->args._1d.x);
-				break;
-			case GSERVER_VIDEO_CALL_1f:
-				vp->call1f(vp, call->func, call->args._1f.x);
-				break;
-			case GSERVER_VIDEO_CALL_1i:
-				vp->call1i(vp, call->func, call->args._1i.x);
-				break;
-			case GSERVER_VIDEO_CALL_2f:
-				vp->call2f(vp, call->func, call->args._2f.x,
-						call->args._3f.y);
-				break;
-			case GSERVER_VIDEO_CALL_2i:
-				vp->call2i(vp, call->func, call->args._2i.x,
-						call->args._2i.y);
-				break;
-			case GSERVER_VIDEO_CALL_3b:
-				vp->call3b(vp, call->func, call->args._3b.x,
-						call->args._3b.y,
-						call->args._3b.z);
-				break;
-			case GSERVER_VIDEO_CALL_3d:
-				vp->call3d(vp, call->func, call->args._3d.x,
-						call->args._3d.y,
-						call->args._3d.z);
-				break;
-			case GSERVER_VIDEO_CALL_3f:
-				vp->call3f(vp, call->func, call->args._3f.x,
-						call->args._3f.y,
-						call->args._3f.z);
-				break;
-			case GSERVER_VIDEO_CALL_3i:
-				vp->call3i(vp, call->func, call->args._3i.x,
-						call->args._3i.y,
-						call->args._3i.z);
-				break;
-			case GSERVER_VIDEO_CALL_3s:
-				vp->call3s(vp, call->func, call->args._3s.x,
-						call->args._3s.y,
-						call->args._3s.z);
-				break;
-			case GSERVER_VIDEO_CALL_4b:
-				vp->call4b(vp, call->func, call->args._4b.x,
-						call->args._4b.y,
-						call->args._4b.z,
-						call->args._4b.t);
-				break;
-			case GSERVER_VIDEO_CALL_4d:
-				vp->call4d(vp, call->func, call->args._4d.x,
-						call->args._4d.y,
-						call->args._4d.z,
-						call->args._4d.t);
-				break;
-			case GSERVER_VIDEO_CALL_4f:
-				vp->call4f(vp, call->func, call->args._4f.x,
-						call->args._4f.y,
-						call->args._4f.z,
-						call->args._4f.t);
-				break;
-			case GSERVER_VIDEO_CALL_4i:
-				vp->call4i(vp, call->func, call->args._4i.x,
-						call->args._4i.y,
-						call->args._4i.z,
-						call->args._4i.t);
-				break;
-			case GSERVER_VIDEO_CALL_4s:
-				vp->call4s(vp, call->func, call->args._4s.x,
-						call->args._4s.y,
-						call->args._4s.z,
-						call->args._4s.t);
-				break;
-		}
-	}
+	for(i = 0; i < cnt; i++)
+		if(strcmp(_gserver_calls[i].name, name) == 0)
+			return gserver->calls[i];
+	/* XXX report the error */
+	return NULL;
 }
 
 
@@ -730,17 +655,55 @@ static GServerClient * _gserver_get_client(GServer * gserver,
 }
 
 
+/* useful */
+/* gserver_call */
+static int _gserver_call(GServer * gserver, Variable * ret,
+		char const * name, size_t args_cnt, Variable ** args)
+{
+	MarshallCallback callback;
+
+	if((callback = _gserver_get_call(gserver, name)) != NULL)
+		return marshall_call(ret, callback, args_cnt, args);
+	return -1;
+}
+
+
+/* gserver_client_calls */
+static void _gserver_client_calls(GServer * gserver, GServerClient * client)
+{
+	size_t i;
+	GServerCall * call;
+
+	/* FIXME place the calls in context (windows...) */
+	for(i = 0; i < client->calls_cnt; i++)
+	{
+		call = &client->calls[i];
+		marshall_call(NULL, call->callback, call->args_cnt, call->args);
+	}
+}
+
+
+/* queue */
 /* gserver_queue */
+static int _queue_error(GServerCall * call);
+
 static int _gserver_queue(GServer * gserver, AppServerClient * asc,
-		GServerVideoCall type, unsigned int func, ...)
+		GServerVideoCall type, char const * name, ...)
 {
 	va_list ap;
 	GServerCall * call;
 	GServerClient * gsc;
+	size_t i = 0;
+	Variable * v;
+	bool b;
+	double d;
+	float f;
+	uint16_t u16;
+	uint32_t u32;
 
 #ifdef DEBUG
 	fprintf(stderr, "DEBUG: %s(%p, %u, %u)\n", __func__, (void *)gserver,
-			type, func);
+			type, name);
 #endif
 	if((gsc = _gserver_get_client(gserver, asc)) == NULL)
 		return -1;
@@ -748,91 +711,210 @@ static int _gserver_queue(GServer * gserver, AppServerClient * asc,
 			== NULL)
 		return -1;
 	gsc->calls = call;
-	call = &gsc->calls[gsc->calls_cnt++];
+	call = &gsc->calls[gsc->calls_cnt];
 	call->type = type;
-	call->func = func;
+	call->callback = _gserver_get_call(gserver, name);
 #if 0 /* XXX probably hurts performance without protecting anything */
 	memset(&gsc->args, 0, sizeof(gsc->args));
 #endif
-	va_start(ap, func);
+	va_start(ap, name);
 	switch(type)
 	{
 		case GSERVER_VIDEO_CALL_0:
 			/* FIXME intercept SwapBuffers() and glClear() */
+			call->args_cnt = 0;
+			call->args = NULL;
 			break;
 		case GSERVER_VIDEO_CALL_1d:
-			call->args._1d.x = va_arg(ap, double);
+			call->args_cnt = 1;
+			if((call->args = object_new(sizeof(v) * call->args_cnt))
+					== NULL)
+				return _queue_error(call);
+			d = va_arg(ap, double);
+			call->args[i++] = variable_new(VT_DOUBLE, &d);
 			break;
 		case GSERVER_VIDEO_CALL_1f:
-			call->args._1f.x = va_arg(ap, double);
+			call->args_cnt = 1;
+			if((call->args = object_new(sizeof(v) * call->args_cnt))
+					== NULL)
+				return _queue_error(call);
+			f = va_arg(ap, double);
+			call->args[i++] = variable_new(VT_FLOAT, &f);
 			break;
 		case GSERVER_VIDEO_CALL_1i:
-			call->args._1i.x = va_arg(ap, uint32_t);
+			call->args_cnt = 1;
+			if((call->args = object_new(sizeof(v) * call->args_cnt))
+					== NULL)
+				return _queue_error(call);
+			u32 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_UINT32, &u32);
 			break;
 		case GSERVER_VIDEO_CALL_2f:
-			call->args._2f.x = va_arg(ap, double);
-			call->args._2f.y = va_arg(ap, double);
+			call->args_cnt = 2;
+			if((call->args = object_new(sizeof(v) * call->args_cnt))
+					== NULL)
+				return _queue_error(call);
+			f = va_arg(ap, double);
+			call->args[i++] = variable_new(VT_FLOAT, &f);
+			f = va_arg(ap, double);
+			call->args[i++] = variable_new(VT_FLOAT, &f);
 			break;
 		case GSERVER_VIDEO_CALL_2i:
-			call->args._2i.x = va_arg(ap, uint32_t);
-			call->args._2i.y = va_arg(ap, uint32_t);
+			call->args_cnt = 2;
+			if((call->args = object_new(sizeof(v) * call->args_cnt))
+					== NULL)
+				return _queue_error(call);
+			u32 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_UINT32, &u32);
+			u32 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_UINT32, &u32);
 			break;
 		case GSERVER_VIDEO_CALL_3b:
-			call->args._3b.x = va_arg(ap, uint32_t);
-			call->args._3b.y = va_arg(ap, uint32_t);
-			call->args._3b.z = va_arg(ap, uint32_t);
+			call->args_cnt = 3;
+			if((call->args = object_new(sizeof(v) * call->args_cnt))
+					== NULL)
+				return _queue_error(call);
+			b = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_BOOL, &b);
+			b = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_BOOL, &b);
+			b = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_BOOL, &b);
 			break;
 		case GSERVER_VIDEO_CALL_3d:
-			call->args._3d.x = va_arg(ap, double);
-			call->args._3d.y = va_arg(ap, double);
-			call->args._3d.z = va_arg(ap, double);
+			call->args_cnt = 3;
+			if((call->args = object_new(sizeof(v) * call->args_cnt))
+					== NULL)
+				return _queue_error(call);
+			d = va_arg(ap, double);
+			call->args[i++] = variable_new(VT_DOUBLE, &d);
+			d = va_arg(ap, double);
+			call->args[i++] = variable_new(VT_DOUBLE, &d);
+			d = va_arg(ap, double);
+			call->args[i++] = variable_new(VT_DOUBLE, &d);
 			break;
 		case GSERVER_VIDEO_CALL_3f:
-			call->args._3f.x = va_arg(ap, double);
-			call->args._3f.y = va_arg(ap, double);
-			call->args._3f.z = va_arg(ap, double);
+			call->args_cnt = 3;
+			if((call->args = object_new(sizeof(v) * call->args_cnt))
+					== NULL)
+				return _queue_error(call);
+			f = va_arg(ap, double);
+			call->args[i++] = variable_new(VT_DOUBLE, &f);
+			f = va_arg(ap, double);
+			call->args[i++] = variable_new(VT_DOUBLE, &f);
+			f = va_arg(ap, double);
+			call->args[i++] = variable_new(VT_DOUBLE, &f);
 			break;
 		case GSERVER_VIDEO_CALL_3i:
-			call->args._3i.x = va_arg(ap, uint32_t);
-			call->args._3i.y = va_arg(ap, uint32_t);
-			call->args._3i.z = va_arg(ap, uint32_t);
+			call->args_cnt = 3;
+			if((call->args = object_new(sizeof(v) * call->args_cnt))
+					== NULL)
+				return _queue_error(call);
+			u32 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_UINT32, &u32);
+			u32 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_UINT32, &u32);
+			u32 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_UINT32, &u32);
 			break;
 		case GSERVER_VIDEO_CALL_3s:
-			call->args._3s.x = va_arg(ap, uint32_t);
-			call->args._3s.y = va_arg(ap, uint32_t);
-			call->args._3s.z = va_arg(ap, uint32_t);
+			call->args_cnt = 3;
+			if((call->args = object_new(sizeof(v) * call->args_cnt))
+					== NULL)
+				return _queue_error(call);
+			u16 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_UINT16, &u16);
+			u16 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_UINT16, &u16);
+			u16 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_UINT16, &u16);
 			break;
 		case GSERVER_VIDEO_CALL_4b:
-			call->args._4b.x = va_arg(ap, uint32_t);
-			call->args._4b.y = va_arg(ap, uint32_t);
-			call->args._4b.z = va_arg(ap, uint32_t);
-			call->args._4b.t = va_arg(ap, uint32_t);
+			call->args_cnt = 4;
+			if((call->args = object_new(sizeof(v) * call->args_cnt))
+					== NULL)
+				return _queue_error(call);
+			b = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_BOOL, &b);
+			b = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_BOOL, &b);
+			b = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_BOOL, &b);
+			b = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_BOOL, &b);
 			break;
 		case GSERVER_VIDEO_CALL_4d:
-			call->args._4d.x = va_arg(ap, double);
-			call->args._4d.y = va_arg(ap, double);
-			call->args._4d.z = va_arg(ap, double);
-			call->args._4d.t = va_arg(ap, double);
+			call->args_cnt = 4;
+			if((call->args = object_new(sizeof(v) * call->args_cnt))
+					== NULL)
+				return _queue_error(call);
+			d = va_arg(ap, double);
+			call->args[i++] = variable_new(VT_DOUBLE, &d);
+			d = va_arg(ap, double);
+			call->args[i++] = variable_new(VT_DOUBLE, &d);
+			d = va_arg(ap, double);
+			call->args[i++] = variable_new(VT_DOUBLE, &d);
+			d = va_arg(ap, double);
+			call->args[i++] = variable_new(VT_DOUBLE, &d);
 			break;
 		case GSERVER_VIDEO_CALL_4f:
-			call->args._4f.x = va_arg(ap, double);
-			call->args._4f.y = va_arg(ap, double);
-			call->args._4f.z = va_arg(ap, double);
-			call->args._4f.t = va_arg(ap, double);
+			call->args_cnt = 4;
+			if((call->args = object_new(sizeof(v) * call->args_cnt))
+					== NULL)
+				return _queue_error(call);
+			f = va_arg(ap, double);
+			call->args[i++] = variable_new(VT_DOUBLE, &f);
+			f = va_arg(ap, double);
+			call->args[i++] = variable_new(VT_DOUBLE, &f);
+			f = va_arg(ap, double);
+			call->args[i++] = variable_new(VT_DOUBLE, &f);
+			f = va_arg(ap, double);
+			call->args[i++] = variable_new(VT_DOUBLE, &f);
 			break;
 		case GSERVER_VIDEO_CALL_4i:
-			call->args._4i.x = va_arg(ap, uint32_t);
-			call->args._4i.y = va_arg(ap, uint32_t);
-			call->args._4i.z = va_arg(ap, uint32_t);
-			call->args._4i.t = va_arg(ap, uint32_t);
+			call->args_cnt = 4;
+			if((call->args = object_new(sizeof(v) * call->args_cnt))
+					== NULL)
+				return _queue_error(call);
+			u32 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_UINT32, &u32);
+			u32 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_UINT32, &u32);
+			u32 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_UINT32, &u32);
+			u32 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_UINT32, &u32);
 			break;
 		case GSERVER_VIDEO_CALL_4s:
-			call->args._4s.x = va_arg(ap, uint32_t);
-			call->args._4s.y = va_arg(ap, uint32_t);
-			call->args._4s.z = va_arg(ap, uint32_t);
-			call->args._4s.t = va_arg(ap, uint32_t);
+			call->args_cnt = 4;
+			if((call->args = object_new(sizeof(v) * call->args_cnt))
+					== NULL)
+				return _queue_error(call);
+			u16 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_UINT16, &u16);
+			u16 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_UINT16, &u16);
+			u16 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_UINT16, &u16);
+			u16 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_UINT16, &u16);
 			break;
 	}
 	va_end(ap);
+	for(i = 0; i < call->args_cnt; i++)
+		if(call->args[i] == NULL)
+			return _queue_error(call);
+	gsc->calls_cnt++;
 	return 0;
+}
+
+static int _queue_error(GServerCall * call)
+{
+	size_t i;
+
+	for(i = 0; i < call->args_cnt; i++)
+		if(call->args[i] != NULL)
+			variable_delete(call->args[i]);
+	object_delete(call->args);
+	return -1;
 }

@@ -219,6 +219,11 @@ arg2=UINT32
 ret=BOOL
 arg1=UINT32
 
+#[call::glLightf]
+#arg1=UINT32
+#arg2=UINT32
+#arg3=FLOAT
+
 [call::glLightModeli]
 arg1=UINT32
 arg2=INT32
