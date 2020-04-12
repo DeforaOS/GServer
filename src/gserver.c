@@ -180,6 +180,36 @@ const GServerOpenGLCall _gserver_calls[] =
 	/* GSERVER_VIDEO_CALL_3b */
 	{ "glColor3b",		GSERVER_VIDEO_CALL_3b	},
 	{ "glColor3ub",		GSERVER_VIDEO_CALL_3b	},
+	/* GSERVER_VIDEO_CALL_3d */
+	{ "glColor3d",		GSERVER_VIDEO_CALL_3d	},
+	{ "glTranslate3d",	GSERVER_VIDEO_CALL_3d	},
+	/* GSERVER_VIDEO_CALL_3f */
+	{ "glColor3f",		GSERVER_VIDEO_CALL_3f	},
+	{ "glLightf",		GSERVER_VIDEO_CALL_3f	},
+	{ "glNormal3f",		GSERVER_VIDEO_CALL_3f	},
+	{ "glTranslate3f",	GSERVER_VIDEO_CALL_3f	},
+	{ "glVertex3f",		GSERVER_VIDEO_CALL_3f	},
+	/* GSERVER_VIDEO_CALL_3i */
+	{ "glColor3i",		GSERVER_VIDEO_CALL_3i	},
+	{ "glColor3ui",		GSERVER_VIDEO_CALL_3i	},
+	{ "glDrawArrays",	GSERVER_VIDEO_CALL_3i	},
+	{ "glLighti",		GSERVER_VIDEO_CALL_3i	},
+	{ "glTexGeni",		GSERVER_VIDEO_CALL_3i	},
+	{ "glTexParameteri",	GSERVER_VIDEO_CALL_3i	},
+	{ "glVertex3i",		GSERVER_VIDEO_CALL_3i	},
+	/* GSERVER_VIDEO_CALL_3s */
+	{ "glColor3s",		GSERVER_VIDEO_CALL_3s	},
+	{ "glColor3us",		GSERVER_VIDEO_CALL_3s	},
+	/* GSERVER_VIDEO_CALL_4b */
+	{ "glColor4b",		GSERVER_VIDEO_CALL_4d	},
+	{ "glColor4ub",		GSERVER_VIDEO_CALL_4d	},
+	/* GSERVER_VIDEO_CALL_4d */
+	{ "glColor4d",		GSERVER_VIDEO_CALL_4d	},
+	/* GSERVER_VIDEO_CALL_4f */
+	{ "glClearAccum",	GSERVER_VIDEO_CALL_4f	},
+	{ "glClearColor",	GSERVER_VIDEO_CALL_4f	},
+	{ "glColor4f",		GSERVER_VIDEO_CALL_4f	},
+	{ "glRotatef",		GSERVER_VIDEO_CALL_4f	}
 };
 
 
