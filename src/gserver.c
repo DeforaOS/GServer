@@ -177,9 +177,9 @@ const GServerOpenGLCall _gserver_calls[] =
 	{ "glHint",		GSERVER_VIDEO_CALL_2i	},
 	{ "glLightModeli",	GSERVER_VIDEO_CALL_2i	},
 	{ "glVertex2i",		GSERVER_VIDEO_CALL_2i	},
-#if 0
-	{ "",	GSERVER_VIDEO_CALL_	},
-#endif
+	/* GSERVER_VIDEO_CALL_3b */
+	{ "glColor3b",		GSERVER_VIDEO_CALL_3b	},
+	{ "glColor3ub",		GSERVER_VIDEO_CALL_3b	},
 };
 
 
@@ -695,7 +695,7 @@ static int _gserver_queue(GServer * gserver, AppServerClient * asc,
 	GServerClient * gsc;
 	size_t i = 0;
 	Variable * v;
-	bool b;
+	uint8_t u8;
 	double d;
 	float f;
 	uint16_t u16;
@@ -774,12 +774,12 @@ static int _gserver_queue(GServer * gserver, AppServerClient * asc,
 			if((call->args = object_new(sizeof(v) * call->args_cnt))
 					== NULL)
 				return _queue_error(call);
-			b = va_arg(ap, uint32_t);
-			call->args[i++] = variable_new(VT_BOOL, &b);
-			b = va_arg(ap, uint32_t);
-			call->args[i++] = variable_new(VT_BOOL, &b);
-			b = va_arg(ap, uint32_t);
-			call->args[i++] = variable_new(VT_BOOL, &b);
+			u8 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_BOOL, &u8);
+			u8 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_BOOL, &u8);
+			u8 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_BOOL, &u8);
 			break;
 		case GSERVER_VIDEO_CALL_3d:
 			call->args_cnt = 3;
@@ -834,14 +834,14 @@ static int _gserver_queue(GServer * gserver, AppServerClient * asc,
 			if((call->args = object_new(sizeof(v) * call->args_cnt))
 					== NULL)
 				return _queue_error(call);
-			b = va_arg(ap, uint32_t);
-			call->args[i++] = variable_new(VT_BOOL, &b);
-			b = va_arg(ap, uint32_t);
-			call->args[i++] = variable_new(VT_BOOL, &b);
-			b = va_arg(ap, uint32_t);
-			call->args[i++] = variable_new(VT_BOOL, &b);
-			b = va_arg(ap, uint32_t);
-			call->args[i++] = variable_new(VT_BOOL, &b);
+			u8 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_BOOL, &u8);
+			u8 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_BOOL, &u8);
+			u8 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_BOOL, &u8);
+			u8 = va_arg(ap, uint32_t);
+			call->args[i++] = variable_new(VT_BOOL, &u8);
 			break;
 		case GSERVER_VIDEO_CALL_4d:
 			call->args_cnt = 4;
