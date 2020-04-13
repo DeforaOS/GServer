@@ -91,7 +91,7 @@ struct _App
 	int event_own;
 	AppServer * appserver;
 	int loop;
-	MarshallCallback * calls;
+	MarshallCall * calls;
 
 	/* plugins */
 	/* video */
@@ -107,7 +107,7 @@ struct _App
 struct _GServerCall
 {
 	GServerVideoCall type;
-	MarshallCallback callback;
+	MarshallCall call;
 	Variable ** args;
 	size_t args_cnt;
 };
@@ -216,8 +216,7 @@ const GServerOpenGLCall _gserver_calls[] =
 /* prototypes */
 /* accessors */
 static GServerClient * _gserver_get_client(GServer * gserver, void * id);
-static MarshallCallback _gserver_get_call(GServer * gserver,
-		String const * name);
+static MarshallCall _gserver_get_call(GServer * gserver, String const * name);
 
 /* useful */
 static int _gserver_call(GServer * gserver, Variable * ret,
@@ -303,8 +302,8 @@ static int _new_init_opengl(GServer * gserver)
 	if((plugin = plugin_new_self()) == NULL)
 		return -1;
 	for(i = 0; i < cnt; i++)
-		if((gserver->calls[i] = (MarshallCallback)plugin_lookup(
-						plugin, _gserver_calls[i].name))
+		if((gserver->calls[i] = (MarshallCall)plugin_lookup(plugin,
+						_gserver_calls[i].name))
 				== NULL)
 			break;
 	plugin_delete(plugin);
@@ -649,8 +648,7 @@ GSERVER_PROTO4s(void, glColor4us, uint16_t, uint16_t, uint16_t, uint16_t)
 /* private */
 /* functions */
 /* accessors */
-static MarshallCallback _gserver_get_call(GServer * gserver,
-		String const * name)
+static MarshallCall _gserver_get_call(GServer * gserver, String const * name)
 {
 	const size_t cnt = sizeof(_gserver_calls) / sizeof(*_gserver_calls);
 	size_t i;
@@ -690,10 +688,10 @@ static GServerClient * _gserver_get_client(GServer * gserver,
 static int _gserver_call(GServer * gserver, Variable * ret,
 		char const * name, size_t args_cnt, Variable ** args)
 {
-	MarshallCallback callback;
+	MarshallCall call;
 
-	if((callback = _gserver_get_call(gserver, name)) != NULL)
-		return marshall_call(ret, callback, args_cnt, args);
+	if((call = _gserver_get_call(gserver, name)) != NULL)
+		return marshall_callp(ret, call, args_cnt, args);
 	return -1;
 }
 
@@ -708,7 +706,7 @@ static void _gserver_client_calls(GServer * gserver, GServerClient * client)
 	for(i = 0; i < client->calls_cnt; i++)
 	{
 		call = &client->calls[i];
-		marshall_call(NULL, call->callback, call->args_cnt, call->args);
+		marshall_call(NULL, call->call, call->args_cnt, call->args);
 	}
 }
 
@@ -743,7 +741,7 @@ static int _gserver_queue(GServer * gserver, AppServerClient * asc,
 	gsc->calls = call;
 	call = &gsc->calls[gsc->calls_cnt];
 	call->type = type;
-	call->callback = _gserver_get_call(gserver, name);
+	call->call = _gserver_get_call(gserver, name);
 #if 0 /* XXX probably hurts performance without protecting anything */
 	memset(&gsc->args, 0, sizeof(gsc->args));
 #endif
